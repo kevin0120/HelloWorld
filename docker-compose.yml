@@ -1,0 +1,12 @@
+version: '2.1'
+services:
+  latest:
+    image: "kevin/hello1:0.2.55"
+    ports:
+      - "8888:8888"
+    volumes:
+      - /data/rush/conf:/etc/rush/conf
+      - /data/rush/log:/etc/rush/log
+      - /etc/localtime:/etc/localtime:ro
+    restart: "always"
+
