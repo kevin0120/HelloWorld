@@ -17,5 +17,14 @@ func main() {
 		ctx.Writef("Hello %s %s", firstname, lastname)
 	})
 
+	//只能用127.0.0.1访问
+	//app.Run(iris.Addr("127.0.0.1:8080"))
+
+	//只能用192.168.4.188访问
+	//app.Run(iris.Addr("192.168.4.188:8080"))
+
+	//即能用192.168.4.188访问,也能用127.0.0.1访问,等价与0.0.0.0
+	//app.Run(iris.Addr(":8080"))
+
 	app.Run(iris.Addr(":8080"))
 }

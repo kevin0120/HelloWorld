@@ -16,7 +16,7 @@ func main() {
 	str, _ := reader.ReadString('\n')
 	fmt.Println(str)
 
-	log.Print(0xc2e, 0x0901)
+	log.Print(0x72f, 0x221a)
 	for {
 		fmt.Println("***********")
 		var a string

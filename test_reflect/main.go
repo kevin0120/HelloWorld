@@ -56,11 +56,7 @@ func main() {
 	//pointer = reflect.ValueOf(num1)
 	//newValue = pointer.Elem() // 如果非指针，这里直接panic，“panic: reflect: call of reflect.Value.Elem on float64 Value”
 
-
-
-
 }
-
 
 // 通过接口来获取任意参数，然后一一揭晓
 func DoFiledAndMethod(input interface{}) {

@@ -30,9 +30,12 @@ func echo(conn *net.TCPConn) {
 		}
 	}
 }
+
+//"192.168.4.188"
 func main() {
 	address := net.TCPAddr{
-		IP:   net.ParseIP("192.168.4.228"),
+		IP: net.ParseIP(":"),
+		//等价与0.0.0.0
 		Port: 8000,
 	}
 	listener, err := net.ListenTCP("tcp4", &address)
