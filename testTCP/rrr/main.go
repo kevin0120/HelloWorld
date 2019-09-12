@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"time"
 )
 
 func main() {
@@ -37,13 +38,17 @@ func main() {
 	//fmt.Println(conn)err
 	for {
 		var msr [512]byte
-		_, err = conn.Write([]byte("GGGGGGGGGGGGGG"))
-		checkError(err)
+		/*
+			_, err = conn.Write([]byte("GGGGGGGGGGGGGG"))
+			checkError(err)
+		*/
 		_, err = conn.Read(msr[0:])
 		//result, err := ioutil.ReadAll(conn)
 		checkError(err)
 		fmt.Println(string(msr[0]))
 		//os.Exit(0)
+
+		time.Sleep(10 * time.Second)
 	}
 	//err := conn.Close()
 

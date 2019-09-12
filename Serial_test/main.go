@@ -33,8 +33,8 @@ func main() {
 			file.Write([]byte("ts="))
 			file.WriteString(string(time.Now().Format(RFC3339Milli)))
 
-			time.Sleep(1*time.Second)
-			log.Println("这是一次测试!!!!",time.Now().String())
+			time.Sleep(1 * time.Second)
+			log.Println("这是一次测试!!!!", time.Now().String())
 		}
 		defer file.Close()
 	}()

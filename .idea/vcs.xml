@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gorilla_websocket" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/modbus" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/testFTP/ftp" vcs="Git" />
   </component>
 </project>

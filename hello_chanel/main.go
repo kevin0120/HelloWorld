@@ -18,6 +18,8 @@ func main() {
 		//ch <- 666 //关闭channel后无法再发送数据
 
 		time.Sleep(10 * time.Second)
+		ch <- 111
+		time.Sleep(10 * time.Second)
 		close(ch)
 	}() //别忘了()
 
