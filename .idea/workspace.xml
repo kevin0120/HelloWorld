@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e9e515a-8ff2-4829-a1df-9736e4c31600" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modbus" beforeDir="false" afterPath="$PROJECT_DIR$/modbus" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modbus/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/modbus/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testFTP/ftp" beforeDir="false" afterPath="$PROJECT_DIR$/testFTP/ftp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testFTP/ftp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/testFTP/ftp/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testFTP/ftp/ftp.go" beforeDir="false" afterPath="$PROJECT_DIR$/testFTP/ftp/ftp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/google/gousb" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/google/gousb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/smallfish/ftp" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/smallfish/ftp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/tarm/serial" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/tarm/serial" afterDir="false" />
-    </list>
+    <list default="true" id="0e9e515a-8ff2-4829-a1df-9736e4c31600" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +61,7 @@
   </component>
   <component name="GOROOT" path="$PROJECT_DIR$/../../../go" />
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/testFTP/ftp" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -112,10 +102,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1985" />
-    <option name="y" value="-4" />
-    <option name="width" value="1855" />
-    <option name="height" value="1084" />
+    <option name="x" value="67" />
+    <option name="y" value="24" />
+    <option name="width" value="1853" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -123,6 +113,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -194,7 +185,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,9 +310,9 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1985" y="-4" width="1855" height="1084" extended-state="6" />
+    <frame x="502" y="288" width="1853" height="1048" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26674044" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2703601" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -335,7 +325,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.5972803" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.62173915" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
