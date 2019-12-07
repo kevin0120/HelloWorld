@@ -59,7 +59,7 @@ func mytestHandle() {
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/hello", helloHandler)
+	mux.HandleFunc("/hello/{workcenter:string}", helloHandler)
 	mux.HandleFunc("/home", echoHandler)
 	http.HandleFunc("/api/v1/healthz", Hello)
 	//注册处理函数，用户连接，自动调用指定的处理函数

@@ -20,9 +20,9 @@
 package main
 
 import (
+	pb "HelloWorld/grpc_go/example/helloworld/helloworld"
 	"context"
 	"google.golang.org/grpc"
-	pb "helloWorld/grpc-go/examples/helloworld/helloworld"
 	"log"
 	"os"
 	"time"

@@ -14,8 +14,8 @@ func GenerateID() string {
 }
 
 func main() {
-	for i:=0;i<132 ;i++ {
-		fmt.Println(i+1,".",GenerateID())
+	for i := 0; i < 132; i++ {
+		fmt.Println(i+1, ".", GenerateID())
 		time.Sleep(15 * time.Millisecond)
 	}
 }

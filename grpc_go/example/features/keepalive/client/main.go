@@ -26,9 +26,9 @@ import (
 	"log"
 	"time"
 
+	pb "HelloWorld/grpc_go/example/features/proto/echo"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
-	pb "helloWorld/grpc-go/examples/features/proto/echo"
 )
 
 var addr = flag.String("addr", "localhost:50052", "the address to connect to")
@@ -52,11 +52,14 @@ func main() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Minute)
 	defer cancel()
+
 	fmt.Println("Performing unary request")
-	res, err := c.UnaryEcho(ctx, &pb.EchoRequest{Message: "keepalive demo"})
-	if err != nil {
-		log.Fatalf("unexpected error from UnaryEcho: %v", err)
+	for {
+		res, err := c.UnaryEcho(ctx, &pb.EchoRequest{Message: "keepalive demo"})
+		if err != nil {
+			log.Fatalf("unexpected error from UnaryEcho: %v", err)
+		}
+		fmt.Println("RPC response:", res)
 	}
-	fmt.Println("RPC response:", res)
 	select {} // Block forever; run with GODEBUG=http2debug=2 to observe ping frames and GOAWAYs due to idleness.
 }

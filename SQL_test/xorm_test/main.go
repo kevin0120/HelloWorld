@@ -22,12 +22,25 @@ type User struct {
 
 //`xorm:"varchar(25) notnull unique 'usr_name'"`
 func main() {
-	engine, _ := xorm.NewEngine("postgres", "user=kevin password=kevin dbname=dddd sslmode=disable")
-	//	//则会在控制台打印出生成的SQL语句；
-	//	//engine.ShowSQL(true)
-	//	engine.Sync2(new(User))
+
+	engine, _ := xorm.NewEngine("postgres", "user=odoo password=odoo dbname=test sslmode=disable")
+	//则会在控制台打印出生成的SQL语句；
+	//
+
+	//如果User为大写则不存在，若ｕｓｅｒ为小写则存在．
+	//exist, err := engine.IsTableExist("User")
+	exist, err := engine.IsTableExist("user")
+	if err == nil {
+		if !exist {
+			if err := engine.Sync2(new(User)); err != nil {
+				fmt.Println("you BUG")
+			}
+		}
+	}
+
+	//engine.ShowSQL(true)
 	users1 := User{
-		Id:   6,
+		//Id:   2,
 		Name: "FJLDJFLDFLD",
 		Age:  33,
 	}
@@ -39,5 +52,13 @@ func main() {
 
 	a, _ := engine.DBMetas()
 	fmt.Println(a)
+
+	engine.ShowSQL(true)
+	var users2 []User
+	ss := engine.Alias("r").Where("r.name = ?", "FJLDJFLDFLD")
+
+	ss.Find(&users2)
+
+	fmt.Println(users2)
 
 }

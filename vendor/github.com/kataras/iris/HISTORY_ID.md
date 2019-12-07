@@ -17,9 +17,29 @@ Developers tidak diwajibkan untuk melakukan upgrade apabila mereka tidak membutu
 
 **Cara Upgrade**: Bukan command-line anda dan eksekuis perintah ini: `go get -u github.com/kataras/iris` atau biarkan updater otomatis melakukannya untuk anda.
 
+# Fr, 11 January 2019 | v11.1.1
+
+This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#fr-11-january-2019--v1111) instead.
+
+# Su, 18 November 2018 | v11.1.0
+
+This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#su-18-november-2018--v1110) instead.
+
+# Fr, 09 November 2018 | v11.0.4
+
+This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#fr-09-november-2018--v1104) instead.
+
+# Tu, 30 October 2018 | v11.0.2
+
+This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#tu-30-october-2018--v1102) instead.
+
+# Su, 28 October 2018 | v11.0.1
+
+This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#su-28-october-2018--v1101) instead.
+
 # Su, 21 October 2018 | v11.0.0
 
-This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#su-21-october-2018--v11) instead.
+This history entry is not translated yet to the Indonesian language yet, please refer to the english version of the [HISTORY entry](https://github.com/kataras/iris/blob/master/HISTORY.md#su-21-october-2018--v1100) instead.
 
 # Sat, 11 August 2018 | v10.7.0
 

@@ -12,7 +12,8 @@ type Student struct {
 }
 
 func main() {
-
+	//orderData, _ := ioutil.ReadAll(ctx.Request().Body)
+	//m.service.diag.Debug(fmt.Sprintf("收到下發的工单: %s", string(orderData)))
 	//序列化
 	stu1 := &Student{Name: "wd", Age: 22, Score: 100}
 	res, err := json.Marshal(stu1)

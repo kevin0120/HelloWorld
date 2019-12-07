@@ -48,6 +48,6 @@ func ExampleClient() {
 }
 func main() {
 	ExampleNewClient()
-		ExampleClient()
+	ExampleClient()
 
 }
