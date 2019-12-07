@@ -5,6 +5,8 @@ import (
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
+	"github.com/kataras/iris/websocket"
+	"time"
 )
 
 const (
@@ -60,7 +62,6 @@ func main() {
 	}
 
 	var r Route
-
 	///http://127.0.0.1:8082/rush/v1/hello/3?q=1
 	r = Route{
 		RouteType: ROUTE_TYPE_HTTP,
@@ -75,11 +76,56 @@ func main() {
 	}
 	h.AddRoute(r)
 
+	////websocket
+
+	var ws *websocket.Server
+	ws = websocket.New(websocket.Config{
+		WriteBufferSize: 10000000,
+		ReadBufferSize:  10000000,
+		MaxMessageSize:  int64(10000000),
+		ReadTimeout:     websocket.DefaultWebsocketPongTimeout, //此作为readtimeout, 默认 如果有ping没有发送也成为read time out
+	})
+
+	ws.OnConnection(onConnect) // 注册连接回调函数
+
+	//s.HTTPD.Server.Get(c.Route, s.ws.Handler()) //将websocket 服务注册到get服务中
+
+	r = Route{
+		RouteType:   ROUTE_TYPE_WS,
+		Method:      "GET",
+		Pattern:     "/rush/v1/ws",
+		HandlerFunc: ws.Handler(),
+	}
+	h.AddRoute(r)
+
 	err := server.Run(iris.Addr(IP), iris.WithoutInterruptHandler)
 
 	if err != nil {
 		fmt.Println(err)
 
 	}
+
+}
+
+func onConnect(c websocket.Connection) {
+
+	c.OnMessage(func(data []byte) {
+		fmt.Println("收到数据", string(data))
+		for  {
+			c.EmitMessage([]byte("hello world1!!!!"))
+			time.Sleep(1*time.Second)
+			c.Emit("reply",[]byte("reply"))
+			time.Sleep(1*time.Second)
+		}
+
+	})
+
+	c.OnDisconnect(func() {
+		fmt.Println("一个客户端断开链接")
+	})
+
+	c.OnError(func(err error) {
+		fmt.Println("一个客户端链接错误")
+	})
 
 }

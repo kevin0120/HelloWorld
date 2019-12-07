@@ -2,831 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e9e515a-8ff2-4829-a1df-9736e4c31600" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SQL_test/xorm_test/rush/test/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SQL_test/xorm_test/rush/workorder.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testHTTP/rush/client/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testHTTP/rush/server/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/custom-validation/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/custom/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/dive/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/gin-upgrading-overriding/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/gin-upgrading-overriding/v8_to_v9.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/struct-level/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testValidator/_examples/translations/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/README_ZH.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/apidoc/yaag/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/apidoc/yaag/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/apidoc/yaag/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/basicauth/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/basicauth/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/oauth2/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/oauth2/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/oauth2/templates/user.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/cache/client-side/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/cache/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/from-configuration-structure/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/from-toml-file/configs/iris.tml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/from-toml-file/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/from-yaml-file/configs/iris.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/from-yaml-file/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/from-yaml-file/shared-configuration/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/configuration/functional/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/convert-handlers/negroni-like/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/convert-handlers/nethttp/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/convert-handlers/real-usecase-raven/wrapping-the-router/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/convert-handlers/real-usecase-raven/writing-middleware/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/cookies/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/cookies/basic/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/cookies/securecookie/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/cookies/securecookie/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/middleware/casbinmodel.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/middleware/casbinpolicy.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/middleware/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/middleware/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/wrapper/casbinmodel.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/wrapper/casbinpolicy.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/wrapper/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/wrapper/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cloudwatch/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cors/simple/client/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cors/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/csrf/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/csrf/views/user/signup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/jwt/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/newrelic/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/prometheus/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/secure/simple/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/tollboothic/limit-handler/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/app2/app22/just_a_text_no_index.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/app2/app2app3/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/app2/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/css/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/assets/js/jquery-2.1.1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/basic/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-files-into-app/assets/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-files-into-app/assets/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-files-into-app/assets/js/jquery-2.1.1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-files-into-app/bindata.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-files-into-app/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-files-into-app/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-gziped-files-into-app/assets/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-gziped-files-into-app/assets/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-gziped-files-into-app/assets/js/jquery-2.1.1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-gziped-files-into-app/bindata_gzip.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-gziped-files-into-app/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/embedding-gziped-files-into-app/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/favicon/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/favicon/static/favicons/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/send-files/files/first.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/send-files/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/basic/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/basic/public/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/basic/public/css/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/basic/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application-with-other-routes/bindata.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application-with-other-routes/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application-with-other-routes/public/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application-with-other-routes/public/css/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application-with-other-routes/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/bindata.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/public/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/public/app2/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/public/css/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/file-server/single-page-application/embedded-single-page-application/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hello-world/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/basic/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/datamodels/movie.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/datasource/movies.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/repositories/movie_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/services/movie_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/web/middleware/basicauth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/web/routes/hello.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/web/routes/movies.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/web/views/hello/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/web/views/hello/name.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/sessions/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/sessions/routes/index.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/smart-contract/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-httpserver/easy-way/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-httpserver/multi/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-httpserver/std-way/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-listener/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-listener/unix-reuseport/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-listener/unix-reuseport/main_windows.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/graceful-shutdown/custom-notifier/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/graceful-shutdown/default-notifier/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/http3-quic/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/http3-quic/localhost.cert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/http3-quic/localhost.key" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/http3-quic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/iris-configurator-and-host-configurator/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-addr-public/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-addr-public/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-addr-public/tunneling_screenshot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-addr/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-addr/omit-server-errors/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-addr/omit-server-errors/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-letsencrypt/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-tls/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-tls/mycert.cert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-tls/mykey.key" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/listen-unix/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/notify-on-shutdown/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/extract-referer/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-custom-per-type/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-custom-per-type/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-custom-via-unmarshaler/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-custom-via-unmarshaler/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-form/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-form/templates/form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-json-struct-validation/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-json/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-many/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-query/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-xml/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-xml/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-yaml/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-yaml/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/request-logger/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/request-logger/request-logger-file-json/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/request-logger/request-logger-file/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/upload-file/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/upload-file/templates/upload_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/upload-file/uploads/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/upload-files/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/upload-files/templates/upload_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/upload-files/uploads/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/content-negotiation/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/content-negotiation/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/app.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/index.html.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/user.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/user.html.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/userlist.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/userlist.html.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/userlistwriter.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/herotemplate/template/userlistwriter.html.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/controllers/execute_template.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/controllers/hello.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/controllers/index.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/models/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/templates/base.qtpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/templates/base.qtpl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/templates/hello.qtpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/templates/hello.qtpl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/templates/index.qtpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/quicktemplate/templates/index.qtpl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/sse-third-party/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/sse/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/sse/optional.sse.mini.js.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/stream-writer/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/transactions/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/write-gzip/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_responsewriter/write-rest/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/file-logger/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_el-GR.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_en-US.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_multi_first_el-GR.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_multi_first_en-US.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_multi_second_el-GR.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_multi_second_en-US.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/locales/locale_zh-CN.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/i18n/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/pprof/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/recaptcha/custom_form/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/recaptcha/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/miscellaneous/recover/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/error-handler/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/hello-world/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/hello-world/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/datamodels/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/datasource/users.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/folder_structure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/repositories/user_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/services/user_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/controllers/user_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/controllers/users_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/middleware/basicauth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/public/css/site.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/viewmodels/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/views/shared/error.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/views/shared/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/views/user/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/views/user/me.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/views/user/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/middleware/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/middleware/per-method/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/middleware/without-ctx-next/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/datamodels/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/datamodels/movie.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/datasource/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/datasource/movies.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/folder_structure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/models/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/repositories/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/repositories/movie_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/services/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/services/movie_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/web/controllers/hello_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/web/controllers/movie_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/web/middleware/basicauth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/web/viewmodels/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/web/views/hello/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/web/views/hello/name.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/regexp/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/session-controller/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/session-controller/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/singleton/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/websocket/browser/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/websocket/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/orm/gorm/REAMDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/orm/gorm/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/orm/xorm/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/overview/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/overview/views/user/create_verification.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/overview/views/user/profile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/basic/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/conditional-chain/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-context/method-overriding/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-context/method-overriding/view/hi.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-context/new-implementation/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-context/new-implementation/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-high-level-router/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-wrapper/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-wrapper/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-wrapper/public/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-wrapper/public/css/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/custom-wrapper/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/dynamic-path/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/dynamic-path/root-wildcard/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/http-errors/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/macros/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/overview/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/overview/public/images/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/reverse/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/route-state/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/writing-a-middleware/globally/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/routing/writing-a-middleware/per-route/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/database/badger/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/database/boltdb/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/database/redis/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/flash-messages/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/middleware/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/overview/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/securecookie/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/securecookie/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/bootstrap/bootstrapper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/folder_structure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/middleware/identity/identity.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/routes/follower.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/routes/following.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/routes/index.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/routes/like.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/routes/routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/views/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/views/shared/error.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/bootstrap/views/shared/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/folder_structure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/public/css/site.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/user/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/user/controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/user/datasource.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/user/model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/views/shared/error.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/views/shared/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/views/user/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/views/user/me.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/views/user/notfound.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc-single-responsibility-package/views/user/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/login-mvc/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/structuring/mvc-plus-repository-and-service-layers/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/multi/hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/multi/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/multi/public/assets/images/test.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/multi/public/upload_resources/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/redirect/hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/redirect/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/redirect/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/single/hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/single/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/wildcard/hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/wildcard/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/www/hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/www/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/subdomains/www/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/testing/httptest/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/testing/httptest/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/0_docs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/1_create_topic.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/2_list_topics.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/3_store_to_topic.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/4_retrieve_from_topic_real_time.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/api-for-apache-kafka/src/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/caddy/Caddyfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/caddy/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/caddy/server1/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/caddy/server1/views/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/caddy/server1/views/shared/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/caddy/server2/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/README_PART2.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/folder_structure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/meta.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/no_files.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/src/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/src/public/css/dropzone.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/src/public/js/dropzone.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/src/views/upload.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/dropzonejs/with_files.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/0_create_movie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/1_update_movie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/2_get_all_movies.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/3_get_movie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/4_delete_movie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/api/store/movie.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/env/env.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/httputil/error.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/mongodb/store/movie.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/online-visitors/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/online-visitors/static/assets/js/visitors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/online-visitors/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/online-visitors/templates/other.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/factory.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/resources/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/store.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/url-shortener/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/screen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/todo/item.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/todo/service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/web/controllers/todo_controller.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/web/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/web/public/css/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/web/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/web/public/js/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/tutorial/vuejs-todo-mvc/src/web/public/js/lib/vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/versioning/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/context-view-data/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/context-view-data/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/context-view-data/templates/layouts/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/bindata.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/templates/layouts/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/templates/layouts/mylayout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/templates/page1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/templates/partials/page1_partial1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/overview/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/overview/templates/hi.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_django_0/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_django_0/templates/hi.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_0/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_0/templates/hi.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_1/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_1/templates/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_1/templates/mypage.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_2/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_2/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_2/templates/layouts/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_2/templates/layouts/mylayout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_2/templates/page1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_2/templates/partials/page1_partial1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_3/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_3/templates/page.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_4/hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_4/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_4/templates/page.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_5/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_5/views/about.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_5/views/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_5/views/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_html_5/views/user/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_0/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_0/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_0/views/layouts/application.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_0/views/todos/index.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_0/views/todos/show.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/bindata.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/views/includes/_partial.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/views/includes/blocks.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/views/index.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_jet_1_embedded/views/layouts/application.jet" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_0/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_0/templates/index.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_1/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_1/templates/index.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_2/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_2/templates/footer.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_2/templates/header.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_2/templates/index.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_3/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_3/templates/index.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/template_pug_3/templates/layout.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/write-to/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/write-to/views/email/simple.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/write-to/views/shared/email.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/webassembly/basic/client/go-wasm-runtime.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/webassembly/basic/client/hello.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/webassembly/basic/client/hello_go111.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/webassembly/basic/client/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/webassembly/basic/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/browser/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/browserify/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/browserify/bundle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/browserify/client.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/browserify/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/go-client/client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/nodejs-client/client.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/nodejs-client/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/overview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/basic/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/native-messages/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/native-messages/static/js/chat.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/native-messages/templates/client.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_iris/example/_examples/websocket/secure/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/.drone.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/CONTRIBUTING.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/README_CN.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/cache_lru.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/cache_memory_store.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/context_cache.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/convert.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/dialect_mssql.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/dialect_mysql.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/dialect_oracle.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/dialect_postgres.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/dialect_sqlite3.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/doc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/engine.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/engine_cond.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/engine_context.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/engine_group.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/engine_group_policy.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/engine_table.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/error.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/gen_reserved.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/helpers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/helpler_time.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/interface.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/json.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/logger.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/pg_reserved.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/processors.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/rows.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_cols.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_cond.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_context.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_convert.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_delete.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_exist.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_find.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_get.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_insert.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_iterate.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_query.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_raw.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_schema.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_stats.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_tx.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/session_update.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/statement.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/syslogger.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/tag.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_mssql.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_mssql_cache.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_mymysql.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_mymysql_cache.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_mysql.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_mysql_cache.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_postgres.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_postgres_cache.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_sqlite.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_sqlite_cache.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/test_tidb.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/transaction.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/types.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/go-xorm/xorm/xorm.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/cache.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/converter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/decoder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/doc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/encoder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/block.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/esc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/html.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/inline.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/markdown.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/node.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/smartypants.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/github.com/iris-contrib/formBinder/formbinder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/.drone.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder_delete.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder_insert.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder_limit.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder_select.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder_union.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/builder_update.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_and.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_between.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_compare.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_eq.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_expr.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_if.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_in.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_like.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_neq.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_not.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_notin.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_null.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/cond_or.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/doc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/error.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/sql.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/builder/string_builder.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/.drone.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/benchmark.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/cache.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/column.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/converstion.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/db.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/dialect.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/driver.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/error.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/filter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/ilogger.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/index.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/mapper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/pk.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/rows.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/scan.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/stmt.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/table.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/tx.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/xorm.io/core/type.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQL_test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/SQL_test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQL_test/xorm_test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/SQL_test/xorm_test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Uuid/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Uuid/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fileHandle/xml_json_Handle/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/fileHandle/xml_json_Handle/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grpc_go/example/features/keepalive/client/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/grpc_go/example/features/keepalive/client/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grpc_go/example/features/keepalive/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/grpc_go/example/features/keepalive/server/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grpc_go/example/helloworld/greeter_client/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/grpc_go/example/helloworld/greeter_client/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grpc_go/example/helloworld/greeter_server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/grpc_go/example/helloworld/greeter_server/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grpc_go/example/helloworld/helloworld/helloworld.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ioread" beforeDir="false" afterPath="$PROJECT_DIR$/ioread" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redis/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/redis/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testHTTP/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testHTTP/server/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_iris/_examples/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/_examples/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/LICENSE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/config_string.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/config_string.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/jade_lex.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/jade_lex.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/jade_node.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/jade_node.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/jade_parse.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/jade_parse.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/lex.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/lex.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/node.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/node.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/parse.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/parse.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/Joker/jade/template.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/Joker/jade/template.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/iris-contrib/formBinder/binder.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/iris-contrib/formBinder/errors.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/iris-contrib/formBinder/utils.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/AUTHORS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/HISTORY.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/HISTORY.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/doc.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/doc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/golog.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/golog.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/integration.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/integration.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/level.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/level.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/log.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/logger.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/golog/screen.png" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/golog/screen.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/AUTHORS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/CODE_OF_CONDUCT.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/CODE_OF_CONDUCT.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/CONTRIBUTING.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/CONTRIBUTING.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/FAQ.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/FAQ.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/Gopkg.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/Gopkg.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY_GR.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY_GR.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY_ID.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY_ID.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY_ZH.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/HISTORY_ZH.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_GR.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_GR.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_ID.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_ID.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_JPN.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_JPN.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_PT_BR.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_PT_BR.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_RU.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_RU.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_ZH.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/README_ZH.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/VERSION" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/VERSION" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/_benchmarks/netcore-mvc-templates/wwwroot/lib/bootstrap/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/_benchmarks/netcore-mvc-templates/wwwroot/lib/jquery-validation/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/_benchmarks/netcore-mvc-templates/wwwroot/lib/jquery/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/AUTHORS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/browser.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/browser.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/cfg/cfg.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/cfg/cfg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/chained.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/chained.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/conditional.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/conditional.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/header.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/header.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/not_satisfied.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/not_satisfied.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/rule.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/rule.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/satisfied.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/satisfied.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/validator.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/rule/validator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/ruleset.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/client/ruleset.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/entry/entry.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/entry/entry.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/entry/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/entry/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/entry/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/entry/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/ruleset/ruleset.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/ruleset/ruleset.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/uri/uribuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/cache/uri/uribuilder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/configuration.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/configuration.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/application.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/configuration.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/configuration.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/context.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/context.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/gzip_response_writer.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/gzip_response_writer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/pool.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/pool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/request_params.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/request_params.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/response_recorder.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/response_recorder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/response_writer.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/response_writer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/context/transaction.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/errors/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/errors/errors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/errors/reporter.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/errors/reporter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/handlerconv/from_std.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/handlerconv/from_std.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/interrupt.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/interrupt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/proxy.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/proxy.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/supervisor.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/supervisor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/host/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/memstore/gob.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/memstore/gob.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/memstore/memstore.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/memstore/memstore.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/addr.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/addr.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/tcp.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/netutil/tcp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/api_builder.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/api_builder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/fs.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/fs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/handler_execution_rules.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/handler_execution_rules.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/mime.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/mime.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/party.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/party.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/path.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/path.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/router_subdomain_redirect_wrapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/router_subdomain_redirect_wrapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/spa.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/spa.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/status.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/status.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/trie.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/trie.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/doc.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/doc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/go19.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/go19.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/hero/AUTHORS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/hero/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/iris.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/iris.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/AUTHORS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/handler/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/ast/ast.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/ast/ast.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/lexer/lexer.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/lexer/lexer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/parser/parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/parser/parser.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/token/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/interpreter/token/token.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/macro.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/macro.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/macros.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/macros.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/template.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/macro/template.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/logger/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/logger/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/logger/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/logger/logger.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/recover/recover.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/recover/recover.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/mvc/AUTHORS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/mvc/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/sessions/AUTHORS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/sessions/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/gorilla/schema/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/typescript/AUTHORS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/typescript/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/amber.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/amber.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/django.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/django.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/engine.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/engine.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/funcs.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/funcs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/handlebars.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/handlebars.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/html.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/html.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/pug.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/pug.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/view.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/view/view.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/AUTHORS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/connection.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/emitter.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/emitter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/message.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/websocket.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/websocket.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/AUTHORS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/adapter.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/adapter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/color.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/color.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/hijacker.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/hijacker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/marshaler.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/marshaler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/nop.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/nop.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/pio.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/pio.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/printer.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/printer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/registry.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/registry.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_appengine.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_appengine.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_bsd.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_bsd.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_linux.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_linux.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_notwindows.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_notwindows.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_solaris.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_solaris.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_windows.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/github.com/kataras/pio/terminal/terminal_windows.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testHTTP/rush/client/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testHTTP/rush/client/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testHTTP/rush/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testHTTP/rush/server/main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -837,22 +14,40 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testHTTP/rush/server/main.go">
+        <entry file="file://$PROJECT_DIR$/testHTTP/rush/client/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="-26">
+              <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+              <folding>
+                <element signature="e#14#60#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/testHTTP/rush/client/main.go">
+        <entry file="file://$PROJECT_DIR$/testHTTP/rush/server/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-              <folding>
-                <element signature="e#14#53#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1665">
+              <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="774">
+              <caret line="71" column="17" lean-forward="true" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_server/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="25" selection-start-line="25" selection-end-line="29" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -878,8 +73,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/testExcel/main'.go" />
-        <option value="$PROJECT_DIR$/testExcel/main.go" />
         <option value="$PROJECT_DIR$/testTCP/rrr/main.go" />
         <option value="$PROJECT_DIR$/vendor/github.com/go-redis/redis/options.go" />
         <option value="$PROJECT_DIR$/vendor/github.com/go-redis/redis/pipeline.go" />
@@ -915,7 +108,6 @@
         <option value="$PROJECT_DIR$/test_iris/_examples/main.go" />
         <option value="$PROJECT_DIR$/test_iris/example/_examples/hero/basic/main.go" />
         <option value="$PROJECT_DIR$/test_iris/example/_examples/hello-world/main.go" />
-        <option value="$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go" />
         <option value="$PROJECT_DIR$/testTime/main.go" />
         <option value="$PROJECT_DIR$/fileHandle/xml_json_Handle/main.go" />
         <option value="$PROJECT_DIR$/SQL_test/xorm_test/rush/shiwu/main.go" />
@@ -927,14 +119,17 @@
         <option value="$PROJECT_DIR$/www/main.go" />
         <option value="$PROJECT_DIR$/SQL_test/xorm_test/main.go" />
         <option value="$PROJECT_DIR$/testValidator/_examples/simple/main.go" />
-        <option value="$PROJECT_DIR$/testHTTP/rush/server/main.go" />
+        <option value="$PROJECT_DIR$/test1/a_test/main.go" />
+        <option value="$PROJECT_DIR$/test1/atest/b_test.go" />
+        <option value="$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go" />
         <option value="$PROJECT_DIR$/testHTTP/rush/client/main.go" />
+        <option value="$PROJECT_DIR$/testHTTP/rush/server/main.go" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-3" />
-    <option name="y" value="368" />
+    <option name="x" value="-352" />
+    <option name="y" value="114" />
     <option name="width" value="1853" />
     <option name="height" value="1048" />
   </component>
@@ -955,13 +150,27 @@
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="test_iris" type="462c0819:PsiDirectoryNode" />
+              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="test_iris" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
+              <item name="testWebsocket" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
+              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
+              <item name="testWebsocket" type="462c0819:PsiDirectoryNode" />
+              <item name="testws_client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
+              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
+              <item name="testWebsocket" type="462c0819:PsiDirectoryNode" />
+              <item name="testws_server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
@@ -1072,20 +281,20 @@
     </option>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go (5)">
-    <configuration name="go build main.go (2)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/testValidator/main.go" />
+      <filePath value="$PROJECT_DIR$/test1/a_test/main.go" />
       <package value="HelloWorld" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="go build main.go (3)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build main.go (2)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/SQL_test/xorm_test/main.go" />
+      <filePath value="$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go" />
       <package value="HelloWorld" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
@@ -1118,19 +327,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build main.go (2)" />
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Build.go build main.go (3)" />
       <item itemvalue="Go Build.go build main.go (4)" />
       <item itemvalue="Go Build.go build main.go (5)" />
+      <item itemvalue="Go Build.go build main.go (1)" />
+      <item itemvalue="Go Build.go build main.go (2)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build main.go (5)" />
         <item itemvalue="Go Build.go build main.go (4)" />
-        <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="Go Build.go build main.go (3)" />
+        <item itemvalue="Go Build.go build main.go (5)" />
         <item itemvalue="Go Build.go build main.go (2)" />
+        <item itemvalue="Go Build.go build main.go (1)" />
+        <item itemvalue="Go Build.go build main.go" />
       </list>
     </recent_temporary>
   </component>
@@ -1176,23 +385,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
+    <frame x="688" y="76" width="1853" height="1048" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3032651" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30360112" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.26576018" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.69009405" visible="true" weight="0.30125523" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.9214167" weight="0.17456897" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.69009405" visible="true" weight="0.24347825" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.9214167" weight="0.10978261" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.2910902" weight="0.3410042" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4986165" weight="0.3294979" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4997233" weight="0.27092052" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4997233" weight="0.6956067" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.30990592" side_tool="true" weight="0.37238494" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1237,48 +445,16 @@
           <line>37</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go</url>
+          <line>27</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fileHandle/xml_json_Handle/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="23" column="40" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../go/src/os/file_unix.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1387">
-          <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../go/src/syscall/syscall_unix.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../go/src/fmt/print.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3325">
-          <caret line="182" selection-start-line="182" selection-end-line="182" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../go/src/os/file.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="65" column="1" selection-start-line="65" selection-start-column="1" selection-end-line="65" selection-end-column="1" />
-          <folding>
-            <element signature="e#1443#1536#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../go/src/time/time.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2917">
@@ -1357,13 +533,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2451">
           <caret line="136" column="24" selection-start-line="136" selection-start-column="24" selection-end-line="136" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2375">
-          <caret line="136" column="18" selection-start-line="136" selection-start-column="18" selection-end-line="136" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -1490,23 +659,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/main.go" />
-    <entry file="file://$PROJECT_DIR$/test1/a_test/b_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/context/context.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="35" column="6" lean-forward="true" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
-          <folding>
-            <element signature="e#17#557#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/github.com/gorilla/schema/doc.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1574,27 +726,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/party.go">
+    <entry file="file://$PROJECT_DIR$/test1/main.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test1/atest/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
+        <state relative-caret-position="209">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testHTTP/rush/server/main.go">
+    <entry file="file://$PROJECT_DIR$/test1/atest/b_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+        <state relative-caret-position="68">
+          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../go/src/net/url/url.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="741" column="47" lean-forward="true" selection-start-line="741" selection-start-column="47" selection-end-line="741" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/context/context.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3615">
+          <caret line="267" column="4" selection-start-line="267" selection-start-column="4" selection-end-line="267" selection-end-column="4" />
+          <folding>
+            <element signature="e#17#557#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/core/router/party.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="104" column="4" selection-start-line="104" selection-start-column="4" selection-end-line="104" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/websocket/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="89" column="17" selection-start-line="89" selection-start-column="17" selection-end-line="89" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_server/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="25" selection-start-line="25" selection-end-line="29" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testHTTP/rush/client/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+        <state relative-caret-position="-26">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
           <folding>
-            <element signature="e#14#53#0" expanded="true" />
+            <element signature="e#14#60#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="71" column="17" lean-forward="true" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testHTTP/rush/server/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1665">
+          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
         </state>
       </provider>
     </entry>
