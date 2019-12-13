@@ -22,8 +22,8 @@ func main() {
 	go httpclient()
 	go websocketclient()
 
-	for{
-		time.Sleep(1*time.Second)
+	for {
+		time.Sleep(1 * time.Second)
 	}
 }
 
@@ -94,7 +94,7 @@ func websocketclient() {
 	}`
 	_ = c.WriteMessage(websocket.TextMessage, []byte(reg))
 
-	for   {
+	for {
 		time.Sleep(time.Second)
 	}
 }

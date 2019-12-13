@@ -111,11 +111,11 @@ func onConnect(c websocket.Connection) {
 
 	c.OnMessage(func(data []byte) {
 		fmt.Println("收到数据", string(data))
-		for  {
+		for {
 			c.EmitMessage([]byte("hello world1!!!!"))
-			time.Sleep(1*time.Second)
-			c.Emit("reply",[]byte("reply"))
-			time.Sleep(1*time.Second)
+			time.Sleep(1 * time.Second)
+			c.Emit("reply", []byte("reply"))
+			time.Sleep(1 * time.Second)
 		}
 
 	})
