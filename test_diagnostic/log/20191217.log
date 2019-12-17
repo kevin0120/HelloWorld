@@ -1,0 +1,20 @@
+ts=2019-12-17T16:54:02.370+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:02.370+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:54:02.370+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:02.370+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:54:02.370+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:54:02.895+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:02.895+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:54:02.895+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:02.895+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:54:02.895+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:54:34.187+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:34.187+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:54:34.187+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:34.187+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:54:34.187+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:54:55.583+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:55.583+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:54:55.583+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:54:55.583+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:54:55.583+08:00 lvl=debug msg="hello debug" service=tightening_device
