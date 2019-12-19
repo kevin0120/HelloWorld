@@ -18,3 +18,73 @@ ts=2019-12-17T16:54:55.583+08:00 lvl=error msg="error closing service" source=sr
 ts=2019-12-17T16:54:55.583+08:00 lvl=info msg="opening service" source=srv service=main.Service
 ts=2019-12-17T16:54:55.583+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
 ts=2019-12-17T16:54:55.583+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:59:17.748+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:17.748+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:59:17.748+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:17.748+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:59:17.748+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:59:21.202+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:21.202+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:59:21.202+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:21.202+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:59:21.202+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:59:24.419+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:24.419+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:59:24.419+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:24.419+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:59:24.419+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T16:59:26.888+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:26.888+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T16:59:26.888+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T16:59:26.888+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T16:59:26.888+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:03:42.600+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:03:42.600+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:03:42.600+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:03:42.600+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:03:42.600+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:03.693+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:03.693+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:03.693+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:03.693+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:03.693+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:46.065+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:46.066+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:46.066+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:46.066+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:46.066+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:47.958+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:47.958+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:47.958+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:47.958+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:47.958+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:48.938+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:48.938+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:48.938+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:48.938+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:48.938+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:49.484+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:49.484+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:49.484+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:49.484+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:49.484+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:49.811+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:49.811+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:49.811+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:49.811+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:49.811+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:22:50.280+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:50.280+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:22:50.280+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:22:50.280+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:22:50.280+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:41:19.863+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:41:19.863+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:41:19.863+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:41:19.863+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:41:19.863+08:00 lvl=debug msg="hello debug" service=tightening_device
+ts=2019-12-17T17:41:58.943+08:00 lvl=debug msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:41:58.943+08:00 lvl=error msg="error closing service" source=srv err="hello err!" service=main.Service
+ts=2019-12-17T17:41:58.943+08:00 lvl=info msg="opening service" source=srv service=main.Service
+ts=2019-12-17T17:41:58.943+08:00 lvl=error msg="Create Controller Failed" service=tightening_device err="hello err!"
+ts=2019-12-17T17:41:58.943+08:00 lvl=debug msg="hello debug" service=tightening_device

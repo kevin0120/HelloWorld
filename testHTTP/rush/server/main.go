@@ -53,7 +53,6 @@ func main() {
 	})
 
 	p := server.Party(BasePath, crs).AllowMethods(iris.MethodOptions)
-
 	party := &p
 
 	h := &Handler{

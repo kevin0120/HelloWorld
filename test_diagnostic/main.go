@@ -17,20 +17,38 @@ var (
 
 type Service struct {
 	Tag string
+	//Deprecated
+	Abandon string
 }
 
+type Service1 struct {
+	Tag string
+	//Deprecated
+	Abandon string
+}
+
+//Deprecated
+func (s Service) say() {
+	fmt.Println(s)
+}
 func main() {
 
 	c := diagnostic.Config{
-		//File:   "STDOUT",
-		File:   "/home/kevin/Downloads/gopath/src/HelloWorld/test_diagnostic/log/%Y%m%d.log",
+		File:   "STDOUT",
+		//File:   "/home/kevin/Downloads/gopath/src/HelloWorld/test_diagnostic/log/%Y%m%d.log",
 		Level:  "DEBUG",
 		MaxAge: time.Duration(3000 * time.Hour),
 		Rotate: time.Duration(24 * time.Hour),
 	}
+
+
 	s := Service{
-		Tag: "hello service",
+		Tag:     "hello service",
+		Abandon: "ssss",
 	}
+
+	s.say()
+
 
 	fmt.Println("############################", "diaService")
 	diagService := diagnostic.NewService(c, os.Stdout, os.Stderr)

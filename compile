@@ -1,2 +1,21 @@
- CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build 
+ CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
+
+// 在linux上编译windows版本
+// 1. 安装mingw-w64： apt-get install mingw-w64
+// 2. 添加编译参数：---从windows上copy一个库文件
+//3.配置go 编译参数CC=x86_64-w64-mingw32-gcc;CGO_LDFLAGS=-L/home/kevin/Downloads -lusb-1.0;GOOS=windows;CGO_ENABLED=1
+
+ windows编译c代码.exe
+ 1安装gcc编译器
+ 2讲动态dll文件或者静态链接库加载到相应目录下
+ 3编译
+
+
+ linux 编译c代码 ubuntu执行文件
+ 1.系统自带c编译器
+ 2.apt-get 相应的库会自动加载
+ 3.在调用前加 #cgo LDFLAGS: -lusb-1.0   或者 配置go 编译参数CC=x86_64-w64-mingw32-gcc;CGO_LDFLAGS=-L/home/kevin/Downloads -lusb-1.0;CGO_ENABLE=1
+
+
+
 
