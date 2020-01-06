@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e9e515a-8ff2-4829-a1df-9736e4c31600" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compile" beforeDir="false" afterPath="$PROJECT_DIR$/compile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testHTTP/rush/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testHTTP/rush/server/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_diagnostic/log/20191217.log" beforeDir="false" afterPath="$PROJECT_DIR$/test_diagnostic/log/20191217.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testHTTP/server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testHTTP/server/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_diagnostic/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_diagnostic/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testautomicAndlock/atomic.go" beforeDir="false" afterPath="$PROJECT_DIR$/testautomicAndlock/atomic.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,49 +21,91 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_diagnostic/main.go">
+        <entry file="file://$PROJECT_DIR$/testHTTP/server/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
+            <state relative-caret-position="1311">
+              <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compile">
+        <entry file="file://$PROJECT_DIR$/testHTTP/client/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testHTTP/rush/server/main.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/context/context.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="725">
-              <caret line="1207" selection-start-line="1207" selection-end-line="1207" />
+            <state>
               <folding>
-                <element signature="e#17#557#0" expanded="true" />
+                <element signature="e#14#43#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testHTTP/rush/client/main.go">
+        <entry file="file://$PROJECT_DIR$/testHTTP/client/post/main.go">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testHTTP/server/Aiis_httpd/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+            <state relative-caret-position="741">
+              <caret line="75" selection-start-line="75" selection-end-line="75" />
+              <folding>
+                <element signature="e#14#119#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testautomicAndlock/atomic.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="70" column="65" lean-forward="true" selection-start-line="70" selection-start-column="65" selection-end-line="70" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_CGO/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grpc_go/example/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="855">
+                <caret line="45" column="119" selection-start-line="45" selection-start-column="94" selection-end-line="45" selection-end-column="119" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DECODE/ascii/ascii.go">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DECODE/ascii/ascii_test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="551">
+              <caret line="33" column="18" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DECODE/decode_reflect/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -89,9 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/vendor/github.com/go-redis/redis/cluster.go" />
-        <option value="$PROJECT_DIR$/vendor/github.com/go-redis/redis/command.go" />
-        <option value="$PROJECT_DIR$/vendor/github.com/go-redis/redis/commands.go" />
         <option value="$PROJECT_DIR$/vendor/github.com/go-redis/redis/pubsub.go" />
         <option value="$PROJECT_DIR$/redis/readme" />
         <option value="$PROJECT_DIR$/redis/main.go" />
@@ -106,7 +146,6 @@
         <option value="$PROJECT_DIR$/grpc_go/example/helloworld/greeter_client/main.go" />
         <option value="$PROJECT_DIR$/grpc_go/example/features/keepalive/server/main.go" />
         <option value="$PROJECT_DIR$/grpc_go/example/features/keepalive/client/main.go" />
-        <option value="$PROJECT_DIR$/testHTTP/server/main.go" />
         <option value="$PROJECT_DIR$/SQL_test/gorm_test/main.go" />
         <option value="$PROJECT_DIR$/SQL_test/gorm_test/json/main.go" />
         <option value="$PROJECT_DIR$/SQL_test/gorm_test/json/workorder.json" />
@@ -140,14 +179,18 @@
         <option value="$PROJECT_DIR$/test_diagnostic/main.go" />
         <option value="$PROJECT_DIR$/testHTTP/rush/client/main.go" />
         <option value="$PROJECT_DIR$/compile" />
+        <option value="$PROJECT_DIR$/test_JSON/main.go" />
+        <option value="$PROJECT_DIR$/testHTTP/server/main.go" />
+        <option value="$PROJECT_DIR$/testHTTP/server/Aiis_httpd/main.go" />
+        <option value="$PROJECT_DIR$/testautomicAndlock/atomic.go" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1987" />
-    <option name="y" value="60" />
-    <option name="width" value="1853" />
-    <option name="height" value="1020" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="65" />
+    <option name="y" value="-4" />
+    <option name="width" value="1855" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -155,7 +198,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -166,62 +208,62 @@
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
+              <item name="test_CGO" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
-              <item name="testWebsocket" type="462c0819:PsiDirectoryNode" />
+              <item name="testautomicAndlock" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
-              <item name="testWebsocket" type="462c0819:PsiDirectoryNode" />
-              <item name="testws_client" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="gorilla_websocket" type="462c0819:PsiDirectoryNode" />
-              <item name="testWebsocket" type="462c0819:PsiDirectoryNode" />
-              <item name="testws_server" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="test_diagnostic" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="iris-contrib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="test_reflect" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="iris-contrib" type="462c0819:PsiDirectoryNode" />
+              <item name="middleware" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="testHTTP" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="iris-contrib" type="462c0819:PsiDirectoryNode" />
+              <item name="middleware" type="462c0819:PsiDirectoryNode" />
+              <item name="cors" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="testHTTP" type="462c0819:PsiDirectoryNode" />
-              <item name="rush" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="kataras" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
               <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="testHTTP" type="462c0819:PsiDirectoryNode" />
-              <item name="rush" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
-              <item name="HelloWorld" type="462c0819:PsiDirectoryNode" />
-              <item name="testHTTP" type="462c0819:PsiDirectoryNode" />
-              <item name="rush" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="kataras" type="462c0819:PsiDirectoryNode" />
+              <item name="iris" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HelloWorld" type="b2602c69:ProjectViewProjectNode" />
@@ -253,6 +295,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -293,12 +336,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build main.go">
+  <component name="RunManager" selected="Go Build.go build main.go (2)">
+    <configuration name="go build atomic.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="HelloWorld" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/testautomicAndlock/atomic.go" />
+      <package value="HelloWorld" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/testslice/main.go" />
+      <filePath value="$PROJECT_DIR$/testHTTP/server/main.go" />
       <package value="HelloWorld" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
@@ -307,25 +359,16 @@
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/gorilla_websocket/testWebsocket/testws_client/main.go" />
+      <filePath value="$PROJECT_DIR$/test_CGO/main.go" />
       <package value="HelloWorld" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="go build main.go (3)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build main.go (4)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/testHTTP/rush/server/main.go" />
-      <package value="HelloWorld" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build main.go (5)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_diagnostic/main.go" />
+      <filePath value="$PROJECT_DIR$/test_JSON/main.go" />
       <package value="HelloWorld" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
@@ -340,19 +383,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build main.go (2)" />
-      <item itemvalue="Go Build.go build main.go (1)" />
-      <item itemvalue="Go Build.go build main.go (5)" />
-      <item itemvalue="Go Build.go build main.go (3)" />
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Build.go build main.go (4)" />
+      <item itemvalue="Go Build.go build main.go (1)" />
+      <item itemvalue="Go Build.go build atomic.go" />
+      <item itemvalue="Go Build.go build main.go (2)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="Go Build.go build main.go (3)" />
-        <item itemvalue="Go Build.go build main.go (5)" />
         <item itemvalue="Go Build.go build main.go (2)" />
+        <item itemvalue="Go Build.go build atomic.go" />
         <item itemvalue="Go Build.go build main.go (1)" />
+        <item itemvalue="Go Build.go build main.go (4)" />
+        <item itemvalue="Go Build.go build main.go" />
       </list>
     </recent_temporary>
   </component>
@@ -398,23 +441,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1987" y="60" width="1853" height="1020" extended-state="0" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14958449" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16989486" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.26576018" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.69009405" weight="0.40358743" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.9214167" visible="true" weight="0.41367713" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.69009405" visible="true" weight="0.3253138" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.9214167" weight="0.41367713" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.2910902" weight="0.3410042" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4986165" visible="true" weight="0.08632287" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4997233" weight="0.3713389" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4986165" weight="0.086129755" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4997233" weight="0.19874477" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.30990592" side_tool="true" weight="0.37238494" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -445,6 +488,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../github.com/kataras/iris/websocket/client.js" />
+      </list>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -469,66 +517,16 @@
           <line>2</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/testautomicAndlock/atomic.go</url>
+          <line>17</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/testValidator/_examples/simple/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
-          <folding>
-            <element signature="e#14#71#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/iris-contrib/middleware/cors/cors.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/iris-contrib/blackfriday/esc.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="23" column="13" lean-forward="true" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/main.go" />
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/gorilla/schema/doc.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/iris-contrib/formBinder/binder.go" />
-    <entry file="file://$PROJECT_DIR$/go.mod">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/iris-contrib/formBinder/formbinder.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding>
-            <element signature="e#20#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/middleware/logger/config.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/pio/nop.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/github.com/Joker/jade/template.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
@@ -606,13 +604,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_CGO/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fileHandle/myFile1">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -669,9 +660,6 @@
           <caret line="87" column="66" selection-start-line="87" selection-start-column="66" selection-end-line="87" selection-end-column="66" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testHTTP/client/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/test_diagnostic/diagnostic/service.go">
       <provider selected="true" editor-type-id="text-editor">
@@ -749,41 +737,131 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_diagnostic/main.go">
+    <entry file="file://$PROJECT_DIR$/compile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
+        <state relative-caret-position="57">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testHTTP/rush/client/main.go">
+    <entry file="file://$PROJECT_DIR$/test_JSON/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        <state relative-caret-position="874">
+          <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
+          <folding>
+            <element signature="e#14#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/go.mod">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_diagnostic/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testHTTP/rush/server/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compile">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
-          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+          <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+          <folding>
+            <element signature="e#14#181#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/github.com/kataras/iris/context/context.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="1207" selection-start-line="1207" selection-end-line="1207" />
+        <state relative-caret-position="637">
+          <caret line="1201" column="12" selection-start-line="1201" selection-start-column="12" selection-end-line="1201" selection-end-column="12" />
           <folding>
             <element signature="e#17#557#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testHTTP/rush/client/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="15" column="53" selection-start-line="15" selection-start-column="53" selection-end-line="15" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testHTTP/server/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1311">
+          <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testHTTP/client/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#14#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testHTTP/client/post/main.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grpc_go/example/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="855">
+            <caret line="45" column="119" selection-start-line="45" selection-start-column="94" selection-end-line="45" selection-end-column="119" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DECODE/ascii/ascii.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DECODE/ascii/ascii_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DECODE/decode_reflect/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testHTTP/server/Aiis_httpd/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="741">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+          <folding>
+            <element signature="e#14#119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testautomicAndlock/atomic.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="70" column="65" lean-forward="true" selection-start-line="70" selection-start-column="65" selection-end-line="70" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_CGO/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
         </state>
       </provider>
     </entry>

@@ -1,0 +1,92 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+var hh = `{
+  "product": {
+    "url": "string",
+    "code": "string"
+  },
+  "code": "MO0001",
+  "track_code": "XM205Z03",
+  "environments": [
+    {
+      "text": "string",
+      "test_type": "text",
+      "code": "1111",
+      "desc": "string",
+      "sequence": 1
+    }
+  ],
+  "operation": {
+    "code": "G0C",
+    "resources": {
+      "equipments": [
+        "xx0011"
+      ],
+      "users": [
+        "112233"
+      ]
+    },
+    "desc": "测试工艺作业"
+  },
+  "product_code": "M000001780589",
+  "date_planned_complete": "2019-10-17T12:20:30+08:00",
+  "date_planned_start": "2019-10-16T11:20:30+08:00",
+  "worksheet": {
+    "url": "http://baidu.com",
+    "name": "工艺指导书1",
+    "revision": "v1"
+  },
+  "workcenter": "TA2-26L-01",
+  "steps": [
+    [
+      {
+        "code": "T0001",
+        "sequence": 1,
+        "text": "测试文本工步",
+        "test_type": "text",
+        "failure_msg": "测试文本工步失败消息",
+        "desc": "测试文本工步描述"
+      },
+      {
+        "code": "T0002",
+        "tightening_total": 4,
+        "sequence": 2,
+        "test_type": "tightening",
+        "failure_msg": "测试拧紧工步失败消息",
+        "desc": "测试拧紧工步描述"
+      }
+    ]
+  ],
+  "components": [
+    {
+      "is_key": true,
+      "code": "1111"
+    }
+  ]
+}`
+
+type Foo struct {
+	Code       string `json:"code"`
+	Track_code string `json:"track_code"`
+
+	Payload map[string]interface{} `json:??? `
+}
+
+func main() {
+
+	foo := Foo{}
+	err := json.Unmarshal([]byte(hh), &foo)
+
+	if err != nil {
+
+		fmt.Println(err)
+	}
+
+	fmt.Println(foo)
+
+}

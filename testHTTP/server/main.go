@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"time"
+
+	_ "net/http/pprof"
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
@@ -65,9 +68,15 @@ func main() {
 	//注册处理函数，用户连接，自动调用指定的处理函数
 	http.HandleFunc("/api/v1/workcenter", HandConn)
 	go mytestHandle()
-	go http.ListenAndServe(":8069", nil)
+	go func() {
+		log.Println(http.ListenAndServe("0.0.0.0:8068", nil))
+	}()
 	fmt.Println("ldfdl")
 	//
+	//http://127.0.0.1:8070/debug/pprof/   可以查看攜程信息...
+	go func() {
+		log.Println(http.ListenAndServe("0.0.0.0:8070", nil))
+	}()
 	http.ListenAndServe(":12345", mux)
 
 }

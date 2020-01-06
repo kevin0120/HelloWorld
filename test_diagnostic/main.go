@@ -34,13 +34,12 @@ func (s Service) say() {
 func main() {
 
 	c := diagnostic.Config{
-		File:   "STDOUT",
+		File: "STDOUT",
 		//File:   "/home/kevin/Downloads/gopath/src/HelloWorld/test_diagnostic/log/%Y%m%d.log",
 		Level:  "DEBUG",
 		MaxAge: time.Duration(3000 * time.Hour),
 		Rotate: time.Duration(24 * time.Hour),
 	}
-
 
 	s := Service{
 		Tag:     "hello service",
@@ -48,7 +47,6 @@ func main() {
 	}
 
 	s.say()
-
 
 	fmt.Println("############################", "diaService")
 	diagService := diagnostic.NewService(c, os.Stdout, os.Stderr)

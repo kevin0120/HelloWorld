@@ -49,9 +49,25 @@ func main() {
 	但是其后面的CAS操作仍然是有必要的。因为，那条赋值语句和if语句并不会被原子的执行。
 	在它们被执行期间，CPU仍然可能进行其它的针对value的值的读或写操作。也就是说，
 	value的值仍然有可能被并发的改变。*/
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		fmt.Println("222222222222222222222222")
+		fmt.Println(value1)
+		atomic.AddInt32(&value1, 1)
+		fmt.Println(value1)
+	}()
+
+	fmt.Println(time.Now())
+	fmt.Println(time.Now().UTC())
+	fmt.Println(time.Now().UnixNano())
+
 	func(delta int32) {
 		for {
+			fmt.Println("1111111111111111111111111111")
 			v := atomic.LoadInt32(&value1)
+			fmt.Println(v)
+			time.Sleep(3 * time.Second)
 			if atomic.CompareAndSwapInt32(&value1, v, (v + delta)) {
 				break
 			}

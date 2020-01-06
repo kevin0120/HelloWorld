@@ -1,7 +1,7 @@
 package ascii
 
 import (
-	"github.com/masami10/rush/services/ascii"
+	"github.com/masami10/rush/utils/ascii"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
