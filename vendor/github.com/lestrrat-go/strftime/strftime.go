@@ -3,83 +3,45 @@ package strftime
 import (
 	"io"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
 )
 
-var directives = map[byte]appender{
-	'A': timefmt("Monday"),
-	'a': timefmt("Mon"),
-	'B': timefmt("January"),
-	'b': timefmt("Jan"),
-	'C': &century{},
-	'c': timefmt("Mon Jan _2 15:04:05 2006"),
-	'D': timefmt("01/02/06"),
-	'd': timefmt("02"),
-	'e': timefmt("_2"),
-	'F': timefmt("2006-01-02"),
-	'H': timefmt("15"),
-	'h': timefmt("Jan"), // same as 'b'
-	'I': timefmt("3"),
-	'j': &dayofyear{},
-	'k': hourwblank(false),
-	'l': hourwblank(true),
-	'M': timefmt("04"),
-	'm': timefmt("01"),
-	'n': verbatim("\n"),
-	'p': timefmt("PM"),
-	'R': timefmt("15:04"),
-	'r': timefmt("3:04:05 PM"),
-	'S': timefmt("05"),
-	'T': timefmt("15:04:05"),
-	't': verbatim("\t"),
-	'U': weeknumberOffset(0), // week number of the year, Sunday first
-	'u': weekday(1),
-	'V': &weeknumber{},
-	'v': timefmt("_2-Jan-2006"),
-	'W': weeknumberOffset(1), // week number of the year, Monday first
-	'w': weekday(0),
-	'X': timefmt("15:04:05"), // national representation of the time XXX is this correct?
-	'x': timefmt("01/02/06"), // national representation of the date XXX is this correct?
-	'Y': timefmt("2006"),     // year with century
-	'y': timefmt("06"),       // year w/o century
-	'Z': timefmt("MST"),      // time zone name
-	'z': timefmt("-0700"),    // time zone ofset from UTC
-	'%': verbatim("%"),
+type compileHandler interface {
+	handle(Appender)
 }
 
-type combiningAppend struct {
-	list           appenderList
-	prev           appender
-	prevCanCombine bool
+// compile, and create an appender list
+type appenderListBuilder struct {
+	list *combiningAppend
 }
 
-func (ca *combiningAppend) Append(w appender) {
-	if ca.prevCanCombine {
-		if wc, ok := w.(combiner); ok && wc.canCombine() {
-			ca.prev = ca.prev.(combiner).combine(wc)
-			ca.list[len(ca.list)-1] = ca.prev
-			return
-		}
-	}
-
-	ca.list = append(ca.list, w)
-	ca.prev = w
-	ca.prevCanCombine = false
-	if comb, ok := w.(combiner); ok {
-		if comb.canCombine() {
-			ca.prevCanCombine = true
-		}
-	}
+func (alb *appenderListBuilder) handle(a Appender) {
+	alb.list.Append(a)
 }
 
-func compile(wl *appenderList, p string) error {
-	var ca combiningAppend
+// compile, and execute the appenders on the fly
+type appenderExecutor struct {
+	t   time.Time
+	dst []byte
+}
+
+func (ae *appenderExecutor) handle(a Appender) {
+	ae.dst = a.Append(ae.dst, ae.t)
+}
+
+func compile(handler compileHandler, p string, ds SpecificationSet) error {
 	for l := len(p); l > 0; l = len(p) {
+		// This is a really tight loop, so we don't even calls to
+		// Verbatim() to cuase extra stuff
+		var verbatim verbatimw
+
 		i := strings.IndexByte(p, '%')
 		if i < 0 {
-			ca.Append(verbatim(p))
+			verbatim.s = p
+			handler.handle(&verbatim)
 			// this is silly, but I don't trust break keywords when there's a
 			// possibility of this piece of code being rearranged
 			p = p[l:]
@@ -93,21 +55,65 @@ func compile(wl *appenderList, p string) error {
 		// we already know that i < l - 1
 		// everything up to the i is verbatim
 		if i > 0 {
-			ca.Append(verbatim(p[:i]))
+			verbatim.s = p[:i]
+			handler.handle(&verbatim)
 			p = p[i:]
 		}
 
-		directive, ok := directives[p[1]]
-		if !ok {
-			return errors.Errorf(`unknown time format specification '%c'`, p[1])
+		specification, err := ds.Lookup(p[1])
+		if err != nil {
+			return errors.Wrap(err, `pattern compilation failed`)
 		}
-		ca.Append(directive)
+
+		handler.handle(specification)
 		p = p[2:]
 	}
-
-	*wl = ca.list
-
 	return nil
+}
+
+func getSpecificationSetFor(options ...Option) (SpecificationSet, error) {
+	var ds SpecificationSet = defaultSpecificationSet
+	var extraSpecifications []*optSpecificationPair
+	for _, option := range options {
+		switch option.Name() {
+		case optSpecificationSet:
+			ds = option.Value().(SpecificationSet)
+		case optSpecification:
+			extraSpecifications = append(extraSpecifications, option.Value().(*optSpecificationPair))
+		}
+	}
+
+	if len(extraSpecifications) > 0 {
+		// If ds is immutable, we're going to need to create a new
+		// one. oh what a waste!
+		if raw, ok := ds.(*specificationSet); ok && !raw.mutable {
+			ds = NewSpecificationSet()
+		}
+		for _, v := range extraSpecifications {
+			if err := ds.Set(v.name, v.appender); err != nil {
+				return nil, err
+			}
+		}
+	}
+	return ds, nil
+}
+
+var fmtAppendExecutorPool = sync.Pool{
+	New: func() interface{} {
+		var h appenderExecutor
+		h.dst = make([]byte, 0, 32)
+		return &h
+	},
+}
+
+func getFmtAppendExecutor() *appenderExecutor {
+	return fmtAppendExecutorPool.Get().(*appenderExecutor)
+}
+
+func releasdeFmtAppendExecutor(v *appenderExecutor) {
+	// TODO: should we discard the buffer if it's too long?
+	v.dst = v.dst[:0]
+	fmtAppendExecutorPool.Put(v)
 }
 
 // Format takes the format `s` and the time `t` to produce the
@@ -117,41 +123,21 @@ func compile(wl *appenderList, p string) error {
 // If you know beforehand that you will be reusing the pattern
 // within your application, consider creating a `Strftime` object
 // and reusing it.
-func Format(p string, t time.Time) (string, error) {
-	var dst []byte
-	// TODO: optimize for 64 byte strings
-	dst = make([]byte, 0, len(p)+10)
-	// Compile, but execute as we go
-	for l := len(p); l > 0; l = len(p) {
-		i := strings.IndexByte(p, '%')
-		if i < 0 {
-			dst = append(dst, p...)
-			// this is silly, but I don't trust break keywords when there's a
-			// possibility of this piece of code being rearranged
-			p = p[l:]
-			continue
-		}
-		if i == l-1 {
-			return "", errors.New(`stray % at the end of pattern`)
-		}
+func Format(p string, t time.Time, options ...Option) (string, error) {
+	// TODO: this may be premature optimization
+	ds, err := getSpecificationSetFor(options...)
+	if err != nil {
+		return "", errors.Wrap(err, `failed to get specification set`)
+	}
+	h := getFmtAppendExecutor()
+	defer releasdeFmtAppendExecutor(h)
 
-		// we found a '%'. we need the next byte to decide what to do next
-		// we already know that i < l - 1
-		// everything up to the i is verbatim
-		if i > 0 {
-			dst = append(dst, p[:i]...)
-			p = p[i:]
-		}
-
-		directive, ok := directives[p[1]]
-		if !ok {
-			return "", errors.Errorf(`unknown time format specification '%c'`, p[1])
-		}
-		dst = directive.Append(dst, t)
-		p = p[2:]
+	h.t = t
+	if err := compile(h, p, ds); err != nil {
+		return "", errors.Wrap(err, `failed to compile format`)
 	}
 
-	return string(dst), nil
+	return string(h.dst), nil
 }
 
 // Strftime is the object that represents a compiled strftime pattern
@@ -162,14 +148,23 @@ type Strftime struct {
 
 // New creates a new Strftime object. If the compilation fails, then
 // an error is returned in the second argument.
-func New(f string) (*Strftime, error) {
-	var wl appenderList
-	if err := compile(&wl, f); err != nil {
+func New(p string, options ...Option) (*Strftime, error) {
+	// TODO: this may be premature optimization
+	ds, err := getSpecificationSetFor(options...)
+	if err != nil {
+		return nil, errors.Wrap(err, `failed to get specification set`)
+	}
+
+	var h appenderListBuilder
+	h.list = &combiningAppend{}
+
+	if err := compile(&h, p, ds); err != nil {
 		return nil, errors.Wrap(err, `failed to compile format`)
 	}
+
 	return &Strftime{
-		pattern:  f,
-		compiled: wl,
+		pattern:  p,
+		compiled: h.list.list,
 	}, nil
 }
 
@@ -194,6 +189,13 @@ func (f *Strftime) Format(dst io.Writer, t time.Time) error {
 		return err
 	}
 	return nil
+}
+
+// Dump outputs the internal structure of the formatter, for debugging purposes.
+// Please do NOT assume the output format to be fixed: it is expected to change
+// in the future.
+func (f *Strftime) Dump(out io.Writer) {
+	f.compiled.dump(out)
 }
 
 func (f *Strftime) format(b []byte, t time.Time) []byte {

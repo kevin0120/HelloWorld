@@ -1,7 +1,7 @@
 package ascii
 
 import (
-	"github.com/masami10/rush/utils/ascii"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -40,17 +40,15 @@ func Test_Ascii(t *testing.T) {
 		C:      false,
 		Header: Header{TOOL: "sn001", Sn: 666},
 	}
-
+	fmt.Println(fmt.Sprintf("Test Data: %# 20X", TEST_STRINGS))
 	var testop OpenProtocol
-	err := ascii.Unmarshal(TEST_STRINGS, &testop)
+	err := Unmarshal(TEST_STRINGS, &testop)
 	assert.Nil(t, err)
 	//fmt.Printf("%+v\n", testop)
 	if assert.NotNil(t, testop) {
 		// now we know that object isn't nil, we are safe to make
 		// further assertions without causing any errors
 		assert.Equal(t, assertdata, testop)
-
 	}
-
 	//	fmt.Println(assertdata)
 }

@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"os"
 	"time"
-
-	"github.com/masami10/rush/keyvalue"
 )
 
 var (
@@ -57,10 +55,10 @@ func main() {
 
 	fmt.Println("##############################3", "server")
 	sever_Diag := diagService.NewServerHandler()
-	sever_Diag.Debug("opening service", keyvalue.KV("service", fmt.Sprintf("%T", s)))
+	sever_Diag.Debug("opening service", diagnostic.KV("service", fmt.Sprintf("%T", s)))
 	err := fmt.Errorf("%s", "hello err!")
-	sever_Diag.Error("error closing service", err, keyvalue.KV("service", fmt.Sprintf("%T", s)))
-	sever_Diag.Info("opening service", keyvalue.KV("service", fmt.Sprintf("%T", s)))
+	sever_Diag.Error("error closing service", err, diagnostic.KV("service", fmt.Sprintf("%T", s)))
+	sever_Diag.Info("opening service", diagnostic.KV("service", fmt.Sprintf("%T", s)))
 
 	fmt.Println("##############################3", "diatightening")
 	tightening_Diag := diagService.NewTighteningDeviceHandler()

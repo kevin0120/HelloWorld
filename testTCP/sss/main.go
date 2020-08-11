@@ -8,6 +8,11 @@ import (
 )
 
 func echo(conn *net.TCPConn) {
+	//for{
+	//fmt.Println("远程地址:", conn.RemoteAddr())
+	//
+	//time.Sleep(3*time.Second)
+	//}
 	//tick := time.Tick(5 * time.Second)
 	for {
 		//n,err:=conn.Write([]byte(now.String()))

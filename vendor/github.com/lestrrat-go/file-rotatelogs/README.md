@@ -1,7 +1,7 @@
 file-rotatelogs
 ==================
 
-Periodically rotates log files from within the application. Port of [File::RotateLogs](https://metacpan.org/release/File-RotateLogs) from Perl to Go.
+Provide an `io.Writer` that periodically rotates log files from within the application. Port of [File::RotateLogs](https://metacpan.org/release/File-RotateLogs) from Perl to Go.
 
 [![Build Status](https://travis-ci.org/lestrrat-go/file-rotatelogs.png?branch=master)](https://travis-ci.org/lestrrat-go/file-rotatelogs)
 
@@ -34,7 +34,10 @@ func main() {
     return
   }
 
-  http.ListenAndServe(":8080", apachelog.Wrap(mux, logf))
+  // Now you must write to logf. apache-logformat library can create
+  // a http.Handler that only writes the approriate logs for the request
+  // to the given handle
+  http.ListenAndServe(":8080", apachelog.CombinedLog.Wrap(mux, logf))
 }
 ```
 
@@ -161,6 +164,49 @@ Note: MaxAge should be disabled by specifing `WithMaxAge(-1)` explicitly.
     "/var/log/myapp/log.%Y%m%d",
     rotatelogs.WithMaxAge(-1),
     rotatelogs.WithRotationCount(7),
+  )
+```
+
+## Handler (default: nil)
+
+Sets the event handler to receive event notifications from the RotateLogs
+object. Currently only supported event type is FiledRotated
+
+```go
+  rotatelogs.New(
+    "/var/log/myapp/log.%Y%m%d",
+    rotatelogs.Handler(rotatelogs.HandlerFunc(func(e Event) {
+      if e.Type() != rotatelogs.FileRotatedEventType {
+        return
+      }
+
+      // Do what you want with the data. This is just an idea:
+      storeLogFileToRemoteStorage(e.(*FileRotatedEvent).PreviousFile())
+    })),
+  )
+```
+
+## ForceNewFile
+
+Ensure a new file is created every time New() is called. If the base file name
+already exists, an implicit rotation is performed.
+
+```go
+  rotatelogs.New(
+    "/var/log/myapp/log.%Y%m%d",
+    rotatelogs.ForceNewFile(),
+  )
+```
+
+## ForceNewFile
+
+Ensure a new file is created every time New() is called. If the base file name
+already exists, an implicit rotation is performed.
+
+```go
+  rotatelogs.New(
+    "/var/log/myapp/log.%Y%m%d",
+    rotatelogs.ForceNewFile(),
   )
 ```
 

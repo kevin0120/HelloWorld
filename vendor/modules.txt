@@ -1,0 +1,374 @@
+# cloud.google.com/go v0.37.4
+cloud.google.com/go/compute/metadata
+# github.com/BurntSushi/toml v0.3.1
+github.com/BurntSushi/toml
+# github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53
+github.com/CloudyKit/fastprinter
+# github.com/CloudyKit/jet/v4 v4.1.0
+github.com/CloudyKit/jet/v4
+# github.com/Joker/jade v1.0.0
+github.com/Joker/jade
+# github.com/Shopify/goreferrer v0.0.0-20181106222321-ec9c9a553398
+github.com/Shopify/goreferrer
+# github.com/andybalholm/brotli v1.0.1-0.20200619015827-c3da72aa01ed
+github.com/andybalholm/brotli
+# github.com/aymerick/douceur v0.2.0
+github.com/aymerick/douceur/css
+# github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible
+github.com/aymerick/raymond
+github.com/aymerick/raymond/ast
+github.com/aymerick/raymond/lexer
+github.com/aymerick/raymond/parser
+# github.com/bep/debounce v1.2.0
+github.com/bep/debounce
+# github.com/chris-ramon/douceur v0.2.0
+github.com/chris-ramon/douceur/parser
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
+# github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385
+github.com/eknkc/amber
+github.com/eknkc/amber/parser
+# github.com/fatih/structs v1.1.0
+github.com/fatih/structs
+# github.com/flosch/pongo2 v0.0.0-20200805083417-63c99409991d
+github.com/flosch/pongo2
+# github.com/go-playground/locales v0.13.0
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+# github.com/go-playground/universal-translator v0.17.0
+github.com/go-playground/universal-translator
+# github.com/go-playground/validator v9.31.0+incompatible
+github.com/go-playground/validator
+# github.com/go-redis/redis v6.15.9+incompatible
+github.com/go-redis/redis
+github.com/go-redis/redis/internal
+github.com/go-redis/redis/internal/consistenthash
+github.com/go-redis/redis/internal/hashtag
+github.com/go-redis/redis/internal/pool
+github.com/go-redis/redis/internal/proto
+github.com/go-redis/redis/internal/util
+# github.com/go-xorm/xorm v0.7.9
+github.com/go-xorm/xorm
+# github.com/goburrow/modbus v0.1.0
+github.com/goburrow/modbus
+# github.com/goburrow/serial v0.1.0
+github.com/goburrow/serial
+# github.com/golang/protobuf v1.4.2
+github.com/golang/protobuf/proto
+github.com/golang/protobuf/protoc-gen-go/descriptor
+github.com/golang/protobuf/ptypes
+github.com/golang/protobuf/ptypes/any
+github.com/golang/protobuf/ptypes/duration
+github.com/golang/protobuf/ptypes/timestamp
+github.com/golang/protobuf/ptypes/wrappers
+# github.com/google/uuid v1.1.2-0.20200519141726-cb32006e483f
+github.com/google/uuid
+# github.com/gorilla/css v1.0.0
+github.com/gorilla/css/scanner
+# github.com/gorilla/schema v1.1.0
+github.com/gorilla/schema
+# github.com/gorilla/websocket v1.4.2
+github.com/gorilla/websocket
+# github.com/iris-contrib/blackfriday v2.0.0+incompatible
+github.com/iris-contrib/blackfriday
+# github.com/iris-contrib/formBinder v5.0.0+incompatible
+github.com/iris-contrib/formBinder
+# github.com/iris-contrib/go.uuid v2.0.0+incompatible
+github.com/iris-contrib/go.uuid
+# github.com/iris-contrib/jade v1.1.4
+github.com/iris-contrib/jade
+# github.com/iris-contrib/middleware/cors v0.0.0-20200810001613-32cf668f999f
+github.com/iris-contrib/middleware/cors
+# github.com/iris-contrib/pongo2 v0.0.1
+github.com/iris-contrib/pongo2
+# github.com/iris-contrib/schema v0.0.2
+github.com/iris-contrib/schema
+# github.com/jinzhu/gorm v1.9.15
+github.com/jinzhu/gorm
+github.com/jinzhu/gorm/dialects/postgres
+# github.com/jinzhu/inflection v1.0.0
+github.com/jinzhu/inflection
+# github.com/json-iterator/go v1.1.10
+github.com/json-iterator/go
+# github.com/kataras/blocks v0.0.2
+github.com/kataras/blocks
+# github.com/kataras/golog v0.0.18
+github.com/kataras/golog
+# github.com/kataras/iris v11.1.1+incompatible
+github.com/kataras/iris
+github.com/kataras/iris/cache
+github.com/kataras/iris/cache/cfg
+github.com/kataras/iris/cache/client
+github.com/kataras/iris/cache/client/rule
+github.com/kataras/iris/cache/entry
+github.com/kataras/iris/cache/ruleset
+github.com/kataras/iris/cache/uri
+github.com/kataras/iris/context
+github.com/kataras/iris/core/errors
+github.com/kataras/iris/core/handlerconv
+github.com/kataras/iris/core/host
+github.com/kataras/iris/core/memstore
+github.com/kataras/iris/core/netutil
+github.com/kataras/iris/core/router
+github.com/kataras/iris/macro
+github.com/kataras/iris/macro/handler
+github.com/kataras/iris/macro/interpreter/ast
+github.com/kataras/iris/macro/interpreter/lexer
+github.com/kataras/iris/macro/interpreter/parser
+github.com/kataras/iris/macro/interpreter/token
+github.com/kataras/iris/middleware/logger
+github.com/kataras/iris/middleware/recover
+github.com/kataras/iris/view
+github.com/kataras/iris/websocket
+# github.com/kataras/iris/v12 v12.1.9-0.20200809192844-da029d6f3722
+github.com/kataras/iris/v12
+github.com/kataras/iris/v12/cache
+github.com/kataras/iris/v12/cache/cfg
+github.com/kataras/iris/v12/cache/client
+github.com/kataras/iris/v12/cache/client/rule
+github.com/kataras/iris/v12/cache/entry
+github.com/kataras/iris/v12/cache/ruleset
+github.com/kataras/iris/v12/cache/uri
+github.com/kataras/iris/v12/context
+github.com/kataras/iris/v12/core/errgroup
+github.com/kataras/iris/v12/core/handlerconv
+github.com/kataras/iris/v12/core/host
+github.com/kataras/iris/v12/core/memstore
+github.com/kataras/iris/v12/core/netutil
+github.com/kataras/iris/v12/core/router
+github.com/kataras/iris/v12/hero
+github.com/kataras/iris/v12/i18n
+github.com/kataras/iris/v12/macro
+github.com/kataras/iris/v12/macro/handler
+github.com/kataras/iris/v12/macro/interpreter/ast
+github.com/kataras/iris/v12/macro/interpreter/lexer
+github.com/kataras/iris/v12/macro/interpreter/parser
+github.com/kataras/iris/v12/macro/interpreter/token
+github.com/kataras/iris/v12/middleware/logger
+github.com/kataras/iris/v12/middleware/recover
+github.com/kataras/iris/v12/sessions
+github.com/kataras/iris/v12/view
+# github.com/kataras/pio v0.0.8
+github.com/kataras/pio
+github.com/kataras/pio/terminal
+# github.com/kataras/sitemap v0.0.5
+github.com/kataras/sitemap
+# github.com/kataras/tunnel v0.0.1
+github.com/kataras/tunnel
+# github.com/klauspost/compress v1.10.10
+github.com/klauspost/compress/flate
+github.com/klauspost/compress/gzip
+github.com/klauspost/compress/s2
+github.com/klauspost/compress/snappy
+# github.com/leodido/go-urn v1.2.0
+github.com/leodido/go-urn
+# github.com/lestrrat-go/file-rotatelogs v2.3.0+incompatible
+github.com/lestrrat-go/file-rotatelogs
+github.com/lestrrat-go/file-rotatelogs/internal/option
+# github.com/lestrrat-go/strftime v1.0.3
+github.com/lestrrat-go/strftime
+# github.com/lib/pq v1.8.0
+github.com/lib/pq
+github.com/lib/pq/hstore
+github.com/lib/pq/oid
+github.com/lib/pq/scram
+# github.com/microcosm-cc/bluemonday v1.0.3
+github.com/microcosm-cc/bluemonday
+# github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
+github.com/modern-go/reflect2
+# github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481
+github.com/nozzle/throttler
+# github.com/pkg/errors v0.9.1
+github.com/pkg/errors
+# github.com/pmezard/go-difflib v1.0.0
+github.com/pmezard/go-difflib/difflib
+# github.com/russross/blackfriday/v2 v2.0.1
+github.com/russross/blackfriday/v2
+# github.com/ryanuber/columnize v2.1.0+incompatible
+github.com/ryanuber/columnize
+# github.com/satori/go.uuid v1.2.0
+github.com/satori/go.uuid
+# github.com/schollz/closestmatch v2.1.0+incompatible
+github.com/schollz/closestmatch
+# github.com/shurcooL/sanitized_anchor_name v1.0.0
+github.com/shurcooL/sanitized_anchor_name
+# github.com/smallfish/ftp v0.0.0-20160801035311-6d094f003ac5
+github.com/smallfish/ftp
+# github.com/stretchr/testify v1.6.1
+github.com/stretchr/testify/assert
+# github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
+github.com/tarm/serial
+# github.com/tealeg/xlsx v1.0.5
+github.com/tealeg/xlsx
+# github.com/valyala/bytebufferpool v1.0.0
+github.com/valyala/bytebufferpool
+# github.com/vmihailenco/msgpack/v5 v5.0.0-beta.1
+github.com/vmihailenco/msgpack/v5
+github.com/vmihailenco/msgpack/v5/codes
+# github.com/vmihailenco/tagparser v0.1.1
+github.com/vmihailenco/tagparser
+github.com/vmihailenco/tagparser/internal
+github.com/vmihailenco/tagparser/internal/parser
+# github.com/yosssi/ace v0.0.5
+github.com/yosssi/ace
+# golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+golang.org/x/crypto/acme
+golang.org/x/crypto/acme/autocert
+# golang.org/x/net v0.0.0-20200707034311-ab3426394381
+golang.org/x/net/context
+golang.org/x/net/context/ctxhttp
+golang.org/x/net/html
+golang.org/x/net/html/atom
+golang.org/x/net/http/httpguts
+golang.org/x/net/http2
+golang.org/x/net/http2/hpack
+golang.org/x/net/idna
+golang.org/x/net/internal/timeseries
+golang.org/x/net/publicsuffix
+golang.org/x/net/trace
+# golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
+golang.org/x/oauth2
+golang.org/x/oauth2/google
+golang.org/x/oauth2/internal
+golang.org/x/oauth2/jws
+golang.org/x/oauth2/jwt
+# golang.org/x/sys v0.0.0-20200802091954-4b90ce9b60b3
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# golang.org/x/text v0.3.3
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
+golang.org/x/text/internal/tag
+golang.org/x/text/language
+golang.org/x/text/secure/bidirule
+golang.org/x/text/transform
+golang.org/x/text/unicode/bidi
+golang.org/x/text/unicode/norm
+# golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e
+golang.org/x/time/rate
+# google.golang.org/appengine v1.6.5
+google.golang.org/appengine
+google.golang.org/appengine/datastore
+google.golang.org/appengine/datastore/internal/cloudkey
+google.golang.org/appengine/datastore/internal/cloudpb
+google.golang.org/appengine/internal
+google.golang.org/appengine/internal/app_identity
+google.golang.org/appengine/internal/base
+google.golang.org/appengine/internal/datastore
+google.golang.org/appengine/internal/log
+google.golang.org/appengine/internal/modules
+google.golang.org/appengine/internal/remote_api
+google.golang.org/appengine/internal/urlfetch
+google.golang.org/appengine/urlfetch
+# google.golang.org/genproto v0.0.0-20200808173500-a06252235341
+google.golang.org/genproto/googleapis/rpc/errdetails
+google.golang.org/genproto/googleapis/rpc/status
+# google.golang.org/grpc v1.31.0
+google.golang.org/grpc
+google.golang.org/grpc/attributes
+google.golang.org/grpc/backoff
+google.golang.org/grpc/balancer
+google.golang.org/grpc/balancer/base
+google.golang.org/grpc/balancer/grpclb/state
+google.golang.org/grpc/balancer/roundrobin
+google.golang.org/grpc/binarylog/grpc_binarylog_v1
+google.golang.org/grpc/channelz/grpc_channelz_v1
+google.golang.org/grpc/channelz/service
+google.golang.org/grpc/codes
+google.golang.org/grpc/connectivity
+google.golang.org/grpc/credentials
+google.golang.org/grpc/credentials/alts
+google.golang.org/grpc/credentials/alts/internal
+google.golang.org/grpc/credentials/alts/internal/authinfo
+google.golang.org/grpc/credentials/alts/internal/conn
+google.golang.org/grpc/credentials/alts/internal/handshaker
+google.golang.org/grpc/credentials/alts/internal/handshaker/service
+google.golang.org/grpc/credentials/alts/internal/proto/grpc_gcp
+google.golang.org/grpc/credentials/internal
+google.golang.org/grpc/credentials/oauth
+google.golang.org/grpc/encoding
+google.golang.org/grpc/encoding/gzip
+google.golang.org/grpc/encoding/proto
+google.golang.org/grpc/grpclog
+google.golang.org/grpc/internal
+google.golang.org/grpc/internal/backoff
+google.golang.org/grpc/internal/balancerload
+google.golang.org/grpc/internal/binarylog
+google.golang.org/grpc/internal/buffer
+google.golang.org/grpc/internal/channelz
+google.golang.org/grpc/internal/credentials
+google.golang.org/grpc/internal/envconfig
+google.golang.org/grpc/internal/grpclog
+google.golang.org/grpc/internal/grpcrand
+google.golang.org/grpc/internal/grpcsync
+google.golang.org/grpc/internal/grpcutil
+google.golang.org/grpc/internal/resolver/dns
+google.golang.org/grpc/internal/resolver/passthrough
+google.golang.org/grpc/internal/serviceconfig
+google.golang.org/grpc/internal/status
+google.golang.org/grpc/internal/syscall
+google.golang.org/grpc/internal/transport
+google.golang.org/grpc/keepalive
+google.golang.org/grpc/metadata
+google.golang.org/grpc/peer
+google.golang.org/grpc/reflection
+google.golang.org/grpc/reflection/grpc_reflection_v1alpha
+google.golang.org/grpc/resolver
+google.golang.org/grpc/resolver/manual
+google.golang.org/grpc/serviceconfig
+google.golang.org/grpc/stats
+google.golang.org/grpc/status
+google.golang.org/grpc/tap
+google.golang.org/grpc/testdata
+# google.golang.org/grpc/examples v0.0.0-20200810225334-2983360ff4e7
+google.golang.org/grpc/examples/features/proto/echo
+google.golang.org/grpc/examples/helloworld/helloworld
+# google.golang.org/protobuf v1.25.0
+google.golang.org/protobuf/encoding/protojson
+google.golang.org/protobuf/encoding/prototext
+google.golang.org/protobuf/encoding/protowire
+google.golang.org/protobuf/internal/descfmt
+google.golang.org/protobuf/internal/descopts
+google.golang.org/protobuf/internal/detrand
+google.golang.org/protobuf/internal/encoding/defval
+google.golang.org/protobuf/internal/encoding/json
+google.golang.org/protobuf/internal/encoding/messageset
+google.golang.org/protobuf/internal/encoding/tag
+google.golang.org/protobuf/internal/encoding/text
+google.golang.org/protobuf/internal/errors
+google.golang.org/protobuf/internal/fieldsort
+google.golang.org/protobuf/internal/filedesc
+google.golang.org/protobuf/internal/filetype
+google.golang.org/protobuf/internal/flags
+google.golang.org/protobuf/internal/genid
+google.golang.org/protobuf/internal/impl
+google.golang.org/protobuf/internal/mapsort
+google.golang.org/protobuf/internal/pragma
+google.golang.org/protobuf/internal/set
+google.golang.org/protobuf/internal/strs
+google.golang.org/protobuf/internal/version
+google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protoreflect
+google.golang.org/protobuf/reflect/protoregistry
+google.golang.org/protobuf/runtime/protoiface
+google.golang.org/protobuf/runtime/protoimpl
+google.golang.org/protobuf/types/descriptorpb
+google.golang.org/protobuf/types/known/anypb
+google.golang.org/protobuf/types/known/durationpb
+google.golang.org/protobuf/types/known/timestamppb
+google.golang.org/protobuf/types/known/wrapperspb
+# gopkg.in/ini.v1 v1.57.0
+gopkg.in/ini.v1
+# gopkg.in/resty.v1 v1.12.0
+gopkg.in/resty.v1
+# gopkg.in/yaml.v2 v2.2.4
+gopkg.in/yaml.v2
+# gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
+gopkg.in/yaml.v3
+# xorm.io/builder v0.3.6
+xorm.io/builder
+# xorm.io/core v0.7.2-0.20190928055935-90aeac8d08eb
+xorm.io/core

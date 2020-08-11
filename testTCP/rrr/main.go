@@ -22,11 +22,11 @@ func main() {
 			fmt.Println("IP:",addr.String())
 		}
 	*/
-	if len(os.Args) != 2 {
-		fmt.Fprintf(os.Stderr, "用法:%s ip地址\n", os.Args[0])
-		os.Exit(1)
-	}
-	service := os.Args[1]
+	//if len(os.Args) != 2 {
+	//	fmt.Fprintf(os.Stderr, "用法:%s ip地址\n", os.Args[0])
+	//	os.Exit(1)
+	//}
+	service := "127.0.0.1:8068"
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err)
 

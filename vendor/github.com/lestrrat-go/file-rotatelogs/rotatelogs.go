@@ -40,6 +40,8 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 	var rotationCount uint
 	var linkName string
 	var maxAge time.Duration
+	var handler Handler
+	var forceNewFile bool
 
 	for _, o := range options {
 		switch o.Name() {
@@ -59,6 +61,10 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 			}
 		case optkeyRotationCount:
 			rotationCount = o.Value().(uint)
+		case optkeyHandler:
+			handler = o.Value().(Handler)
+		case optkeyForceNewFile:
+			forceNewFile = true
 		}
 	}
 
@@ -73,12 +79,14 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 
 	return &RotateLogs{
 		clock:         clock,
+		eventHandler:  handler,
 		globPattern:   globPattern,
 		linkName:      linkName,
 		maxAge:        maxAge,
 		pattern:       pattern,
 		rotationTime:  rotationTime,
 		rotationCount: rotationCount,
+		forceNewFile:  forceNewFile,
 	}, nil
 }
 
@@ -126,31 +134,51 @@ func (rl *RotateLogs) Write(p []byte) (n int, err error) {
 // must be locked during this operation
 func (rl *RotateLogs) getWriter_nolock(bailOnRotateFail, useGenerationalNames bool) (io.Writer, error) {
 	generation := rl.generation
-
+	previousFn := rl.curFn
 	// This filename contains the name of the "NEW" filename
 	// to log to, which may be newer than rl.currentFilename
-	filename := rl.genFilename()
-	if rl.curFn != filename {
+	baseFn := rl.genFilename()
+	filename := baseFn
+	var forceNewFile bool
+	if baseFn != rl.curBaseFn {
 		generation = 0
+		// even though this is the first write after calling New(),
+		// check if a new file needs to be created
+		if rl.forceNewFile {
+			forceNewFile = true
+		}
 	} else {
 		if !useGenerationalNames {
 			// nothing to do
 			return rl.outFh, nil
 		}
-		// This is used when we *REALLY* want to rotate a log.
-		// instead of just using the regular strftime pattern, we
-		// create a new file name using generational names such as
-		// "foo.1", "foo.2", "foo.3", etc
+		forceNewFile = true
+		generation++
+	}
+	if forceNewFile {
+		// A new file has been requested. Instead of just using the
+		// regular strftime pattern, we create a new file name using
+		// generational names such as "foo.1", "foo.2", "foo.3", etc
+		var name string
 		for {
-			generation++
-			name := fmt.Sprintf("%s.%d", filename, generation)
+			if generation == 0 {
+				name = filename
+			} else {
+				name = fmt.Sprintf("%s.%d", filename, generation)
+			}
 			if _, err := os.Stat(name); err != nil {
 				filename = name
 				break
 			}
+			generation++
 		}
 	}
-
+	// make sure the dir is existed, eg:
+	// ./foo/bar/baz/hello.log must make sure ./foo/bar/baz is existed
+	dirname := filepath.Dir(filename)
+	if err := os.MkdirAll(dirname, 0755); err != nil {
+		return nil, errors.Wrapf(err, "failed to create directory %s", dirname)
+	}
 	// if we got here, then we need to create a file
 	fh, err := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
@@ -163,7 +191,13 @@ func (rl *RotateLogs) getWriter_nolock(bailOnRotateFail, useGenerationalNames bo
 			// Failure to rotate is a problem, but it's really not a great
 			// idea to stop your application just because you couldn't rename
 			// your log.
-			// We only return this error when explicitly needed.
+			//
+			// We only return this error when explicitly needed (as specified by bailOnRotateFail)
+			//
+			// However, we *NEED* to close `fh` here
+			if fh != nil { // probably can't happen, but being paranoid
+				fh.Close()
+			}
 			return nil, err
 		}
 		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
@@ -171,9 +205,16 @@ func (rl *RotateLogs) getWriter_nolock(bailOnRotateFail, useGenerationalNames bo
 
 	rl.outFh.Close()
 	rl.outFh = fh
+	rl.curBaseFn = baseFn
 	rl.curFn = filename
 	rl.generation = generation
 
+	if h := rl.eventHandler; h != nil {
+		go h.Handle(&FileRotatedEvent{
+			prev:    previousFn,
+			current: filename,
+		})
+	}
 	return fh, nil
 }
 

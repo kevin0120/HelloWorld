@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/bep/throttle"
+	"github.com/nozzle/throttler"
 	"sync/atomic"
 	"time"
 )
@@ -15,11 +15,11 @@ func main() {
 		//	fmt.Println(a, b)
 	}
 
-	throttled := throttle.New(10 * time.Millisecond)
-
+	throttled := throttler.New(15,5)
+	fmt.Println(throttled, f)
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 100; j++ {
-			throttled(f)
+			//throttled(f)
 			//	a, b = i, j
 			time.Sleep(5 * time.Millisecond)
 		}

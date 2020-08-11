@@ -31,7 +31,7 @@ func testStruct() (ret string, err error) {
 		err = fmt.Errorf("json.marshal failed, err:", err)
 		return
 	}
-
+	fmt.Println(data)
 	ret = string(data)
 	fmt.Println(ret)
 	return
@@ -39,7 +39,7 @@ func testStruct() (ret string, err error) {
 
 func test() {
 	data, err := testStruct()
-	fmt.Printf("Field%v\n", []byte(data))
+	fmt.Printf("Field%s\n", []byte(data))
 	fmt.Println(data[0:5])
 	if err != nil {
 		fmt.Println("test struct failed, ", err)
@@ -67,7 +67,7 @@ func test() {
 		A:=user2.(User)
 		fmt.Println(A)
 	*/
-	json.Marshal()
+	//json.Marshal()
 	fmt.Println(user2["nickname"])
 
 }

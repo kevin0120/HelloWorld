@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"helloWorld/myticker/testmyticker"
+	"HelloWorld/myticker/testmyticker"
 	"time"
 )
 

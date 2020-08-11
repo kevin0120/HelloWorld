@@ -15,7 +15,7 @@ func main() {
 	app.Get("/getRequest", func(context context.Context) {
 		path := context.Path()
 		app.Logger().Info(path)
-		context.WriteString("helloworld")
+		context.WriteString("HelloWorld")
 		context.Params().GetInt("id")
 		})
 	//url: http://localhost:/user/info //type：POST请求

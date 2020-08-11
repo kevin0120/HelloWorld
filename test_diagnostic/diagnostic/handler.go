@@ -3,7 +3,6 @@ package diagnostic
 import (
 	"errors"
 	"fmt"
-	"github.com/masami10/rush/keyvalue"
 	"log"
 	"runtime"
 	"time"
@@ -38,7 +37,7 @@ func (h *StaticLevelHandler) Write(buf []byte) (int, error) {
 	return len(buf), nil
 }
 
-func Err(l Logger, msg string, err error, ctx []keyvalue.T) {
+func Err(l Logger, msg string, err error, ctx []T) {
 	if len(ctx) == 0 {
 		l.Error(msg, Error(err))
 		return
@@ -68,7 +67,7 @@ func Err(l Logger, msg string, err error, ctx []keyvalue.T) {
 	l.Error(msg, fields...)
 }
 
-func Info(l Logger, msg string, ctx []keyvalue.T) {
+func Info(l Logger, msg string, ctx []T) {
 	if len(ctx) == 0 {
 		l.Info(msg)
 		return
@@ -96,7 +95,7 @@ func Info(l Logger, msg string, ctx []keyvalue.T) {
 	l.Info(msg, fields...)
 }
 
-func Debug(l Logger, msg string, ctx []keyvalue.T) {
+func Debug(l Logger, msg string, ctx []T) {
 	if len(ctx) == 0 {
 		l.Debug(msg)
 		return
@@ -150,15 +149,15 @@ type ServerHandler struct {
 	l Logger
 }
 
-func (h *ServerHandler) Error(msg string, err error, ctx ...keyvalue.T) {
+func (h *ServerHandler) Error(msg string, err error, ctx ...T) {
 	Err(h.l, msg, err, ctx)
 }
 
-func (h *ServerHandler) Info(msg string, ctx ...keyvalue.T) {
+func (h *ServerHandler) Info(msg string, ctx ...T) {
 	Info(h.l, msg, ctx)
 }
 
-func (h *ServerHandler) Debug(msg string, ctx ...keyvalue.T) {
+func (h *ServerHandler) Debug(msg string, ctx ...T) {
 	Debug(h.l, msg, ctx)
 }
 

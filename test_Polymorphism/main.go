@@ -12,6 +12,10 @@ type Animal struct {
 	MaxAge int
 }
 
+func (this *Animal) Sleep() {
+	fmt.Println("Animal need sleep")
+}
+
 type Dog struct {
 	Animal Animal
 }

@@ -4,6 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gorilla_websocket" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/modbus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/nats.go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/testFTP/ftp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/traefik" vcs="Git" />
   </component>

@@ -105,11 +105,11 @@ func (m *HelloReply) GetMessage() string {
 }
 
 func init() {
-	proto.RegisterType((*HelloRequest)(nil), "helloworld.HelloRequest")
-	proto.RegisterType((*HelloReply)(nil), "helloworld.HelloReply")
+	proto.RegisterType((*HelloRequest)(nil), "HelloWorld.HelloRequest")
+	proto.RegisterType((*HelloReply)(nil), "HelloWorld.HelloReply")
 }
 
-func init() { proto.RegisterFile("helloworld.proto", fileDescriptor_17b8c58d586b62f2) }
+func init() { proto.RegisterFile("HelloWorld.proto", fileDescriptor_17b8c58d586b62f2) }
 
 var fileDescriptor_17b8c58d586b62f2 = []byte{
 	// 175 bytes of a gzipped FileDescriptorProto
@@ -196,7 +196,7 @@ func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(in
 }
 
 var _Greeter_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "helloworld.Greeter",
+	ServiceName: "HelloWorld.Greeter",
 	HandlerType: (*GreeterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -205,5 +205,5 @@ var _Greeter_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld.proto",
+	Metadata: "HelloWorld.proto",
 }
