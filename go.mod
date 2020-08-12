@@ -13,8 +13,6 @@ require (
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-xorm/xorm v0.7.9
-	github.com/goburrow/modbus v0.1.0
-	github.com/goburrow/serial v0.1.0
 	github.com/golang/protobuf v1.4.2
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/gorilla/websocket v1.4.2

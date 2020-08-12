@@ -49,10 +49,6 @@ github.com/go-redis/redis/internal/proto
 github.com/go-redis/redis/internal/util
 # github.com/go-xorm/xorm v0.7.9
 github.com/go-xorm/xorm
-# github.com/goburrow/modbus v0.1.0
-github.com/goburrow/modbus
-# github.com/goburrow/serial v0.1.0
-github.com/goburrow/serial
 # github.com/golang/protobuf v1.4.2
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
