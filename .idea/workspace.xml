@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e9e515a-8ff2-4829-a1df-9736e4c31600" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test_pointer/mappointer.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_pointer/structpointer.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_basego/base_package.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_basego/base_package.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_pointer/mappointer.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_pointer/mappointer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,12 +64,30 @@
       <recent name="$PROJECT_DIR$/SQL_test/xorm_test/rush" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build HelloWorld/test_pointer (3)">
-    <configuration name="go build HelloWorld/test_basego (4)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Build.go build HelloWorld/testTime">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="HelloWorld" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build HelloWorld/testTime" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="HelloWorld" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/testTime/main.go" />
+      <package value="HelloWorld/testTime" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build HelloWorld/test_basego" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_basego/base_data.go" />
+      <filePath value="$PROJECT_DIR$/test_basego/base_package.go" />
       <package value="HelloWorld/test_basego" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
@@ -101,29 +119,30 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="go build HelloWorld/test_pointer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_pointer/main.go" />
-      <package value="HelloWorld/test_pointer" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="DIRECTORY" />
       <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build HelloWorld/test_basego (4)" />
-      <item itemvalue="Go Build.go build HelloWorld/test_pointer" />
       <item itemvalue="Go Build.go build HelloWorld/test_pointer (1)" />
       <item itemvalue="Go Build.go build HelloWorld/test_pointer (2)" />
       <item itemvalue="Go Build.go build HelloWorld/test_pointer (3)" />
+      <item itemvalue="Go Build.go build HelloWorld/test_basego" />
+      <item itemvalue="Go Build.go build HelloWorld/testTime" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build HelloWorld/test_pointer (3)" />
+        <item itemvalue="Go Build.go build HelloWorld/testTime" />
+        <item itemvalue="Go Build.go build HelloWorld/test_basego" />
         <item itemvalue="Go Build.go build HelloWorld/test_pointer (2)" />
+        <item itemvalue="Go Build.go build HelloWorld/test_pointer (3)" />
         <item itemvalue="Go Build.go build HelloWorld/test_pointer (1)" />
-        <item itemvalue="Go Build.go build HelloWorld/test_pointer" />
-        <item itemvalue="Go Build.go build HelloWorld/test_basego (4)" />
       </list>
     </recent_temporary>
   </component>
@@ -154,9 +173,10 @@
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state x="656" y="124" key="#go_build_HelloWorld/gorilla_websocket/examples/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597212036194" />
-    <state x="2576" y="144" key="#go_build_HelloWorld/test_basego" timestamp="1597286257374">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="656" y="144" key="#go_build_HelloWorld/test_basego" timestamp="1597393211871">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="656" y="144" key="#go_build_HelloWorld/test_basego/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1597393211871" />
     <state x="2576" y="144" key="#go_build_HelloWorld/test_basego/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597286257374" />
     <state x="2576" y="144" key="#go_build_HelloWorld/test_basego_(1)" timestamp="1597286291791">
       <screen x="1920" y="0" width="1920" height="1040" />
@@ -190,54 +210,62 @@
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state x="656" y="124" key="#go_build_HelloWorld/test_pointer_(3)/0.0.1920.999@0.0.1920.999" timestamp="1597331913054" />
-    <state x="2641" y="297" key="FileChooserDialogImpl" timestamp="1597136154763">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="721" y="275" key="FileChooserDialogImpl" timestamp="1597861438109">
+      <screen x="0" y="0" width="1920" height="999" />
     </state>
+    <state x="721" y="286" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1597413447048" />
+    <state x="721" y="275" key="FileChooserDialogImpl/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597713723599" />
+    <state x="2641" y="286" key="FileChooserDialogImpl/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597806005835" />
+    <state x="721" y="275" key="FileChooserDialogImpl/0.0.1920.999@0.0.1920.999" timestamp="1597861438109" />
     <state x="2641" y="297" key="FileChooserDialogImpl/65.24.1855.1056/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597136154763" />
-    <state width="1877" height="363" key="GridCell.Tab.0.bottom" timestamp="1597333414296">
+    <state width="989" height="141" key="GridCell.Tab.0.bottom" timestamp="1597988378713">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="230" key="GridCell.Tab.0.bottom/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458960" />
     <state width="1877" height="293" key="GridCell.Tab.0.bottom/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340034" />
-    <state width="1877" height="363" key="GridCell.Tab.0.bottom/0.0.1920.999@0.0.1920.999" timestamp="1597333414296" />
+    <state width="989" height="141" key="GridCell.Tab.0.bottom/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.bottom/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709717" />
-    <state width="1877" height="363" key="GridCell.Tab.0.center" timestamp="1597333414295">
+    <state width="989" height="141" key="GridCell.Tab.0.center" timestamp="1597988378713">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="230" key="GridCell.Tab.0.center/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458960" />
     <state width="1877" height="293" key="GridCell.Tab.0.center/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340033" />
-    <state width="1877" height="363" key="GridCell.Tab.0.center/0.0.1920.999@0.0.1920.999" timestamp="1597333414295" />
+    <state width="989" height="141" key="GridCell.Tab.0.center/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.center/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709714" />
-    <state width="1877" height="363" key="GridCell.Tab.0.left" timestamp="1597333414295">
+    <state width="989" height="141" key="GridCell.Tab.0.left" timestamp="1597988378713">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="230" key="GridCell.Tab.0.left/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458959" />
     <state width="1877" height="293" key="GridCell.Tab.0.left/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340033" />
-    <state width="1877" height="363" key="GridCell.Tab.0.left/0.0.1920.999@0.0.1920.999" timestamp="1597333414295" />
+    <state width="989" height="141" key="GridCell.Tab.0.left/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.left/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709713" />
-    <state width="1877" height="363" key="GridCell.Tab.0.right" timestamp="1597333414295">
+    <state width="989" height="141" key="GridCell.Tab.0.right" timestamp="1597988378713">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="230" key="GridCell.Tab.0.right/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458960" />
     <state width="1877" height="293" key="GridCell.Tab.0.right/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340034" />
-    <state width="1877" height="363" key="GridCell.Tab.0.right/0.0.1920.999@0.0.1920.999" timestamp="1597333414295" />
+    <state width="989" height="141" key="GridCell.Tab.0.right/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.right/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709715" />
-    <state width="1877" height="375" key="GridCell.Tab.1.bottom" timestamp="1597222653826">
+    <state width="1877" height="261" key="GridCell.Tab.1.bottom" timestamp="1597334140904">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="375" key="GridCell.Tab.1.bottom/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
-    <state width="1877" height="375" key="GridCell.Tab.1.center" timestamp="1597222653826">
+    <state width="1877" height="261" key="GridCell.Tab.1.bottom/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
+    <state width="1877" height="261" key="GridCell.Tab.1.center" timestamp="1597334140904">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="375" key="GridCell.Tab.1.center/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
-    <state width="1877" height="375" key="GridCell.Tab.1.left" timestamp="1597222653826">
+    <state width="1877" height="261" key="GridCell.Tab.1.center/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
+    <state width="1877" height="261" key="GridCell.Tab.1.left" timestamp="1597334140904">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="375" key="GridCell.Tab.1.left/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
-    <state width="1877" height="375" key="GridCell.Tab.1.right" timestamp="1597222653826">
+    <state width="1877" height="261" key="GridCell.Tab.1.left/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
+    <state width="1877" height="261" key="GridCell.Tab.1.right" timestamp="1597334140904">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state width="1877" height="375" key="GridCell.Tab.1.right/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
+    <state width="1877" height="261" key="GridCell.Tab.1.right/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
     <state x="563" y="194" key="SettingsEditor" timestamp="1597149159280">
       <screen x="65" y="24" width="1855" height="1056" />
     </state>

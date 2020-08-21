@@ -16,10 +16,12 @@ func main() {
 
 	m["janpan"] = "dingjing"
 	ch <- m
-
+	ch <- m
 	go func() {
 		for num := range ch {
 			fmt.Println(num)
+			num["test"] ="hello"
+
 		}
 
 	}()
