@@ -31,7 +31,7 @@ type UserController struct {
 	// is binded from the main application.
 	Service services.UserService
 
-	// Session, binded using dependency injection from the main.go.
+	// Session, binded using dependency injection from the main_test.go.
 	Session *sessions.Session
 }
 

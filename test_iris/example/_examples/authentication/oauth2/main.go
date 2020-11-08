@@ -15,7 +15,7 @@ package main
 // Example of securecookie can be found at "sessions/securecookie" example folder.
 
 // Notes:
-// The whole example is converted by markbates/goth/example/main.go.
+// The whole example is converted by markbates/goth/example/main_test.go.
 // It's tested with my own TWITTER application and it worked, even for localhost.
 // I guess that everything else works as expected, all bugs reported by goth library's community
 // are fixed in the time I wrote that example, have fun!

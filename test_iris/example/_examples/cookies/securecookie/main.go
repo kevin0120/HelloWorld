@@ -3,7 +3,7 @@ package main
 // developers can use any library to add a custom cookie encoder/decoder.
 // At this example we use the gorilla's securecookie package:
 // $ go get github.com/gorilla/securecookie
-// $ go run main.go
+// $ go run main_test.go
 
 import (
 	"github.com/kataras/iris/v12"

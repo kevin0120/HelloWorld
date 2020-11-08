@@ -20,7 +20,7 @@ import (
 )
 
 // $ go get github.com/valyala/tcplisten
-// $ go run main.go
+// $ go run main_test.go
 
 func main() {
 	app := iris.New()

@@ -8,7 +8,7 @@ import (
 )
 
 // $ go get github.com/casbin/casbin
-// $ go run main.go
+// $ go run main_test.go
 
 // Enforcer maps the model and the policy for the casbin service, we use this variable on the main_test too.
 var Enforcer, _ = casbin.NewEnforcer("casbinmodel.conf", "casbinpolicy.csv")

@@ -8,7 +8,7 @@ import (
 )
 
 // $ go get github.com/didip/tollbooth
-// $ go run main.go
+// $ go run main_test.go
 
 func main() {
 	app := iris.New()

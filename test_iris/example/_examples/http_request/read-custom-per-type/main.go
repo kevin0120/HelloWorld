@@ -48,7 +48,7 @@ func handler(ctx iris.Context) {
 	// Note:
 	// second parameter is nil because our &c implements the `context#BodyDecoder`
 	// which has a priority over the context#Unmarshaler (which can be a more global option for reading request's body)
-	// see the `http_request/read-custom-via-unmarshaler/main.go` example to learn how to use the context#Unmarshaler too.
+	// see the `http_request/read-custom-via-unmarshaler/main_test.go` example to learn how to use the context#Unmarshaler too.
 	//
 	// Note 2:
 	// If you need to read the body again for any reason

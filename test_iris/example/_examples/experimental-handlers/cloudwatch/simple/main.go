@@ -11,7 +11,7 @@ import (
 )
 
 // $ go get github.com/aws/aws-sdk-go/...
-// $ go run main.go
+// $ go run main_test.go
 
 func main() {
 	app := iris.New()

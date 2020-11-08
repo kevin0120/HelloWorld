@@ -1,4 +1,4 @@
-// file: main.go
+// file: main_test.go
 
 package main
 

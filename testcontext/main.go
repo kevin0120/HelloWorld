@@ -19,6 +19,9 @@ func test(is_first *bool, prev_map map[string]string) {
 			(prev_map)["a"] = "2"
 		}
 		time.Sleep(time.Duration(rand.Intn(3)) * time.Second)
+
+		//time.Sleep(2000 * time.Millisecond)
+
 		ch <- true
 	}()
 

@@ -57,6 +57,6 @@ func main() {
 }
 
 // Note for new Gophers:
-// `go build` is used instead of `go run main.go` as the example comments says
+// `go build` is used instead of `go run main_test.go` as the example comments says
 // otherwise you will get compile errors, this is a Go thing;
 // because you have multiple files in the `package main`.

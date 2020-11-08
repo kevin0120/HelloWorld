@@ -3,8 +3,25 @@
   <component name="ChangeListManager">
     <list default="true" id="0e9e515a-8ff2-4829-a1df-9736e4c31600" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_basego/base_package.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_basego/base_package.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_pointer/mappointer.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_pointer/mappointer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/authentication/oauth2/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/authentication/oauth2/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/cookies/securecookie/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/cookies/securecookie/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/middleware/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/middleware/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/wrapper/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/casbin/wrapper/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cloudwatch/simple/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cloudwatch/simple/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cors/simple/client/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/cors/simple/client/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/tollboothic/limit-handler/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/experimental-handlers/tollboothic/limit-handler/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/hero/overview/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-listener/unix-reuseport/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/http-listening/custom-listener/unix-reuseport/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-custom-per-type/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/http_request/read-custom-per-type/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/controllers/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/controllers/user_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/controllers/users_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/login/web/controllers/users_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/mvc/overview/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/sessions/securecookie/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/sessions/securecookie/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_iris/example/_examples/view/embedding-templates-into-app/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcontext/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testcontext/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +35,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="$PROJECT_DIR$/../../../go" />
+  <component name="GOROOT" path="D:\Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -36,26 +53,28 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
+    <property name="configurable.Module.GOPATH.is.expanded" value="false" />
+    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../rush" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="go.vgo" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/test_Polymorphism" />
-      <recent name="$PROJECT_DIR$/test_diagnostic" />
-      <recent name="$PROJECT_DIR$/vendor/github.com" />
-      <recent name="$PROJECT_DIR$/vendor/github.com/gorilla" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Code\GO\HelloWorld\gorilla_websocket\examples" />
       <recent name="D:\Code\GO\HelloWorld\gorilla_websocket\examples\server" />
@@ -63,90 +82,84 @@
       <recent name="$PROJECT_DIR$/test_iris/example" />
       <recent name="$PROJECT_DIR$/SQL_test/xorm_test/rush" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/test_Polymorphism" />
+      <recent name="$PROJECT_DIR$/test_diagnostic" />
+      <recent name="$PROJECT_DIR$/vendor/github.com" />
+      <recent name="$PROJECT_DIR$/vendor/github.com/gorilla" />
+    </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build HelloWorld/testTime">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build HelloWorld/testTime" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.Test_suanfa2 in HelloWorld/Leetcode/suanfa">
+    <configuration name="go build HelloWorld/JikeBang/2" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$/testTime/main.go" />
-      <package value="HelloWorld/testTime" />
+      <filePath value="$PROJECT_DIR$/JikeBang/2/main.go" />
+      <package value="HelloWorld/JikeBang/2" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="go build HelloWorld/test_basego" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build HelloWorld/testcontext" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
       <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_basego/base_package.go" />
-      <package value="HelloWorld/test_basego" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/testcontext/main.go" />
+      <package value="HelloWorld/testcontext" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="go build HelloWorld/test_pointer (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Test_1 in HelloWorld/JikeBang/2" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_pointer/intpointer.go" />
-      <package value="HelloWorld/test_pointer" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build HelloWorld/test_pointer (2)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_pointer/mappointer.go" />
-      <package value="HelloWorld/test_pointer" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build HelloWorld/test_pointer (3)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/test_pointer/structpointer.go" />
-      <package value="HelloWorld/test_pointer" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="HelloWorld" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
+      <working_directory value="$PROJECT_DIR$/JikeBang/2" />
       <framework value="gotest" />
-      <kind value="DIRECTORY" />
+      <kind value="PACKAGE" />
+      <package value="HelloWorld/JikeBang/2" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Test_1$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_suanfa in HelloWorld/Leetcode/suanfa" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="HelloWorld" />
+      <working_directory value="$PROJECT_DIR$/Leetcode/suanfa" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="HelloWorld/Leetcode/suanfa" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Test_suanfa$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_suanfa2 in HelloWorld/Leetcode/suanfa" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="HelloWorld" />
+      <working_directory value="$PROJECT_DIR$/Leetcode/suanfa" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="HelloWorld/Leetcode/suanfa" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Test_suanfa2$" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build HelloWorld/test_pointer (1)" />
-      <item itemvalue="Go Build.go build HelloWorld/test_pointer (2)" />
-      <item itemvalue="Go Build.go build HelloWorld/test_pointer (3)" />
-      <item itemvalue="Go Build.go build HelloWorld/test_basego" />
-      <item itemvalue="Go Build.go build HelloWorld/testTime" />
+      <item itemvalue="Go Test.Test_suanfa in HelloWorld/Leetcode/suanfa" />
+      <item itemvalue="Go Build.go build HelloWorld/testcontext" />
+      <item itemvalue="Go Test.Test_1 in HelloWorld/JikeBang/2" />
+      <item itemvalue="Go Build.go build HelloWorld/JikeBang/2" />
+      <item itemvalue="Go Test.Test_suanfa2 in HelloWorld/Leetcode/suanfa" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build HelloWorld/testTime" />
-        <item itemvalue="Go Build.go build HelloWorld/test_basego" />
-        <item itemvalue="Go Build.go build HelloWorld/test_pointer (2)" />
-        <item itemvalue="Go Build.go build HelloWorld/test_pointer (3)" />
-        <item itemvalue="Go Build.go build HelloWorld/test_pointer (1)" />
+        <item itemvalue="Go Test.Test_suanfa2 in HelloWorld/Leetcode/suanfa" />
+        <item itemvalue="Go Build.go build HelloWorld/JikeBang/2" />
+        <item itemvalue="Go Test.Test_1 in HelloWorld/JikeBang/2" />
+        <item itemvalue="Go Build.go build HelloWorld/testcontext" />
+        <item itemvalue="Go Test.Test_suanfa in HelloWorld/Leetcode/suanfa" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
@@ -164,15 +177,24 @@
     <auto-vendoring-mode>false</auto-vendoring-mode>
   </component>
   <component name="WindowStateProjectService">
-    <state x="2377" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597286338054">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="343" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604670078071">
+      <screen x="0" y="0" width="1440" height="920" />
     </state>
+    <state x="343" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604670078071" />
     <state x="2377" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597286338054" />
     <state x="2377" y="197" key="#com.intellij.execution.impl.EditConfigurationsDialog/65.24.1855.1056/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597136117258" />
+    <state x="2869" y="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604673658075">
+      <screen x="2160" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2869" y="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604673658075" />
     <state x="656" y="124" key="#go_build_HelloWorld/gorilla_websocket/examples" timestamp="1597212036194">
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state x="656" y="124" key="#go_build_HelloWorld/gorilla_websocket/examples/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597212036194" />
+    <state x="420" y="85" key="#go_build_HelloWorld/test_CGO" timestamp="1604670069851">
+      <screen x="0" y="0" width="1440" height="920" />
+    </state>
+    <state x="420" y="85" key="#go_build_HelloWorld/test_CGO/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604670069851" />
     <state x="656" y="144" key="#go_build_HelloWorld/test_basego" timestamp="1597393211871">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -210,65 +232,79 @@
       <screen x="0" y="0" width="1920" height="999" />
     </state>
     <state x="656" y="124" key="#go_build_HelloWorld/test_pointer_(3)/0.0.1920.999@0.0.1920.999" timestamp="1597331913054" />
-    <state x="721" y="275" key="FileChooserDialogImpl" timestamp="1597861438109">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state x="2881" y="286" key="FileChooserDialogImpl" timestamp="1604759642198">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state x="2881" y="286" key="FileChooserDialogImpl/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604759642198" />
     <state x="721" y="286" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1597413447048" />
     <state x="721" y="275" key="FileChooserDialogImpl/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597713723599" />
     <state x="2641" y="286" key="FileChooserDialogImpl/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597806005835" />
     <state x="721" y="275" key="FileChooserDialogImpl/0.0.1920.999@0.0.1920.999" timestamp="1597861438109" />
     <state x="2641" y="297" key="FileChooserDialogImpl/65.24.1855.1056/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597136154763" />
-    <state width="989" height="141" key="GridCell.Tab.0.bottom" timestamp="1597988378713">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom" timestamp="1604842167692">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1397" height="296" key="GridCell.Tab.0.bottom/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604717697339" />
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604842167692" />
     <state width="1877" height="230" key="GridCell.Tab.0.bottom/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458960" />
     <state width="1877" height="293" key="GridCell.Tab.0.bottom/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340034" />
     <state width="989" height="141" key="GridCell.Tab.0.bottom/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.bottom/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709717" />
-    <state width="989" height="141" key="GridCell.Tab.0.center" timestamp="1597988378713">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="274" key="GridCell.Tab.0.center" timestamp="1604842167692">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1397" height="296" key="GridCell.Tab.0.center/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604717697339" />
+    <state width="1877" height="274" key="GridCell.Tab.0.center/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604842167692" />
     <state width="1877" height="230" key="GridCell.Tab.0.center/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458960" />
     <state width="1877" height="293" key="GridCell.Tab.0.center/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340033" />
     <state width="989" height="141" key="GridCell.Tab.0.center/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.center/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709714" />
-    <state width="989" height="141" key="GridCell.Tab.0.left" timestamp="1597988378713">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="274" key="GridCell.Tab.0.left" timestamp="1604842167692">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1397" height="296" key="GridCell.Tab.0.left/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604717697338" />
+    <state width="1877" height="274" key="GridCell.Tab.0.left/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604842167692" />
     <state width="1877" height="230" key="GridCell.Tab.0.left/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458959" />
     <state width="1877" height="293" key="GridCell.Tab.0.left/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340033" />
     <state width="989" height="141" key="GridCell.Tab.0.left/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.left/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709713" />
-    <state width="989" height="141" key="GridCell.Tab.0.right" timestamp="1597988378713">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="274" key="GridCell.Tab.0.right" timestamp="1604842167692">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1397" height="296" key="GridCell.Tab.0.right/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604717697339" />
+    <state width="1877" height="274" key="GridCell.Tab.0.right/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604842167692" />
     <state width="1877" height="230" key="GridCell.Tab.0.right/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597311458960" />
     <state width="1877" height="293" key="GridCell.Tab.0.right/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597297340034" />
     <state width="989" height="141" key="GridCell.Tab.0.right/0.0.1920.999@0.0.1920.999" timestamp="1597988378713" />
     <state width="1624" height="447" key="GridCell.Tab.0.right/65.24.1855.1056@65.24.1855.1056" timestamp="1597149709715" />
-    <state width="1877" height="261" key="GridCell.Tab.1.bottom" timestamp="1597334140904">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="264" key="GridCell.Tab.1.bottom" timestamp="1604758693186">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="264" key="GridCell.Tab.1.bottom/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604758693186" />
     <state width="1877" height="375" key="GridCell.Tab.1.bottom/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
     <state width="1877" height="261" key="GridCell.Tab.1.bottom/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
-    <state width="1877" height="261" key="GridCell.Tab.1.center" timestamp="1597334140904">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="264" key="GridCell.Tab.1.center" timestamp="1604758693186">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="264" key="GridCell.Tab.1.center/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604758693186" />
     <state width="1877" height="375" key="GridCell.Tab.1.center/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
     <state width="1877" height="261" key="GridCell.Tab.1.center/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
-    <state width="1877" height="261" key="GridCell.Tab.1.left" timestamp="1597334140904">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="264" key="GridCell.Tab.1.left" timestamp="1604758693185">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="264" key="GridCell.Tab.1.left/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604758693185" />
     <state width="1877" height="375" key="GridCell.Tab.1.left/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
     <state width="1877" height="261" key="GridCell.Tab.1.left/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
-    <state width="1877" height="261" key="GridCell.Tab.1.right" timestamp="1597334140904">
-      <screen x="0" y="0" width="1920" height="999" />
+    <state width="1877" height="264" key="GridCell.Tab.1.right" timestamp="1604758693186">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="264" key="GridCell.Tab.1.right/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604758693186" />
     <state width="1877" height="375" key="GridCell.Tab.1.right/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597222653826" />
     <state width="1877" height="261" key="GridCell.Tab.1.right/0.0.1920.999@0.0.1920.999" timestamp="1597334140904" />
-    <state x="563" y="194" key="SettingsEditor" timestamp="1597149159280">
-      <screen x="65" y="24" width="1855" height="1056" />
+    <state x="387" y="148" key="SettingsEditor" timestamp="1604717614013">
+      <screen x="0" y="0" width="1440" height="920" />
     </state>
+    <state x="387" y="148" key="SettingsEditor/0.0.1440.920/2160.0.1920.1040@0.0.1440.920" timestamp="1604717614013" />
     <state x="2435" y="174" key="SettingsEditor/65.24.1855.1056/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597136022443" />
     <state x="563" y="194" key="SettingsEditor/65.24.1855.1056@65.24.1855.1056" timestamp="1597149159280" />
     <state x="1146" y="274" width="703" height="623" key="find.popup" timestamp="1597220891711">
@@ -276,9 +312,10 @@
     </state>
     <state x="1146" y="274" width="703" height="623" key="find.popup/0.0.1920.999/1920.0.1920.1040@0.0.1920.999" timestamp="1597220891711" />
     <state x="1172" y="314" width="679" height="658" key="find.popup/65.24.1855.1056@65.24.1855.1056" timestamp="1597150269932" />
-    <state x="2536" y="173" width="672" height="676" key="search.everywhere.popup" timestamp="1597288026983">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="2776" y="173" width="672" height="676" key="search.everywhere.popup" timestamp="1604839753647">
+      <screen x="2160" y="0" width="1920" height="1040" />
     </state>
+    <state x="2776" y="173" width="672" height="676" key="search.everywhere.popup/0.0.1440.920/2160.0.1920.1040@2160.0.1920.1040" timestamp="1604839753647" />
     <state x="2536" y="173" width="672" height="676" key="search.everywhere.popup/0.0.1920.999/1920.0.1920.1040@1920.0.1920.1040" timestamp="1597288026983" />
   </component>
   <component name="XDebuggerManager">
