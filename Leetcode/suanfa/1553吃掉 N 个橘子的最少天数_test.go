@@ -18,14 +18,14 @@ func minDays(n int) int {
 	if n == 3 {
 		return 2
 	}
-	if n >2000000000{
+	if n > 2000000000 {
 		return 0
 	}
 	var i, j int
 
-	i = minDays(n/2) + n%2+1
+	i = minDays(n/2) + n%2 + 1
 
-	j = minDays(n/3) + n%3+1
+	j = minDays(n/3) + n%3 + 1
 
 	return min(i, j)
 }

@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"fmt"
 	"testing"
@@ -25,7 +24,7 @@ func Test_1(t *testing.T) {
 		fmt.Println("1")
 		fmt.Println("2")
 		fmt.Println("3")
-		for  {
+		for {
 			fmt.Println("yjw")
 			//time.Sleep(1*time.Second)
 		}

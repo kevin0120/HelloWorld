@@ -22,7 +22,7 @@ func main() {
 	}
 
 	go func() {
-		time.Sleep(1*time.Second)
+		time.Sleep(1 * time.Second)
 		wg.Done()
 	}()
 

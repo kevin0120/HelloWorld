@@ -20,7 +20,7 @@ func main() {
 	go func() {
 		for num := range ch {
 			fmt.Println(num)
-			num["test"] ="hello"
+			num["test"] = "hello"
 
 		}
 

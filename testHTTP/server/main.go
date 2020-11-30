@@ -22,8 +22,8 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 func echoHandler(w http.ResponseWriter, r *http.Request) {
 
-//http://127.0.0.1:12345/home?id=2222e
-	r.ParseForm();
+	//http://127.0.0.1:12345/home?id=2222e
+	r.ParseForm()
 	fmt.Println(r.Form.Get("id"))
 
 	io.WriteString(w, "Hello, world!\n")

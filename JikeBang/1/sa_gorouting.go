@@ -69,16 +69,13 @@ var a = []int{1, 2, 3}
 var b = map[int]string{1: "aa",
 	2: "bb"}
 
-var c =make(map[int]string)
-var d = make([]string,10)
+var c = make(map[int]string)
+var d = make([]string, 10)
 
-var e =[]int{4,5,6}
+var e = []int{4, 5, 6}
 
 func main() {
 	f := append(a, e...)
-
-
-
 
 	var c = make(chan int)
 	go func() {

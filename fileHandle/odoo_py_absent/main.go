@@ -46,7 +46,6 @@ func removePathPyFile(paths string) {
 
 }
 
-
 func isValueInList(value string, list []string) bool {
 	for _, v := range list {
 		if v == value {

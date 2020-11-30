@@ -25,7 +25,7 @@ func (this *Dog) Sleep() {
 }
 
 type Cat struct {
-	 Animal
+	Animal
 }
 
 func (this *Cat) Sleep() {
