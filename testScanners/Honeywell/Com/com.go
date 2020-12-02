@@ -13,10 +13,33 @@ import (
 //
 //　　sudo usermod -aG　dialout wsh
 
+//windows下需要在官网上下载驱动
+
+
 
 type Com struct {
 	Name string
 	port    *serial.Port
+}
+
+func (s1 *Com) Connect() {
+
+	//设置串口编号
+	c := &serial.Config{Name: s1.Name, Baud: 115200}
+
+	//打开串口
+	for {
+		s, err := serial.OpenPort(c)
+		if err != nil {
+			log.Fatal(err)
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		s1.port = s
+		break
+	}
+
+	fmt.Printf("%s 连接成功\n", s1.Name)
 }
 
 func (s1 *Com) Read() (string, error) {
@@ -31,23 +54,4 @@ func (s1 *Com) Read() (string, error) {
 	//	fmt.Printf("buf[%d]=%c\r\n", i, buf[i])
 	//}
 	return string(buf[0:n]), nil
-}
-
-func (s1 *Com) Connect() {
-
-	//设置串口编号
-	c := &serial.Config{Name: s1.Name, Baud: 115200}
-
-	//打开串口
-	for {
-		s, err := serial.OpenPort(c)
-		if err != nil {
-			log.Fatal(err)
-			time.Sleep(1 * time.Second)
-		}
-		s1.port = s
-		break
-	}
-
-	fmt.Printf("%s 连接成功\n", s1.Name)
 }

@@ -7,6 +7,11 @@ type Stand struct {
 
 }
 
+
+func (s1 *Stand)Connect(){
+fmt.Printf("%s 连接成功\n",s1.Name)
+}
+
 //扫码枪一定要有回车，且光标要移动到命令窗口相应位置
 func (s1 *Stand)Read() (string, error) {
 	var s string
@@ -15,9 +20,4 @@ func (s1 *Stand)Read() (string, error) {
 		return "", err
 	}
 	return s, nil
-}
-
-
-func (s1 *Stand)Connect(){
-fmt.Printf("%s 连接成功\n",s1.Name)
 }

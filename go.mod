@@ -14,6 +14,7 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-xorm/xorm v0.7.9
 	github.com/golang/protobuf v1.4.2
+	github.com/google/gousb v1.1.1
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/gorilla/websocket v1.4.2
 	github.com/iris-contrib/blackfriday v2.0.0+incompatible // indirect
