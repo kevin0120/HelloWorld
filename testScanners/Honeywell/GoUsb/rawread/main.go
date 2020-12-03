@@ -29,7 +29,7 @@ import (
 )
 
 var (
-	vidPID    = flag.String("vidpid", "3118:2305", "VID:PID of the device to which to connect. Exclusive with busaddr flag.")
+	vidPID    = flag.String("vidpid", "0c2e:0901", "VID:PID of the device to which to connect. Exclusive with busaddr flag.")
 	busAddr   = flag.String("busaddr", "", "Bus:address of the device to which to connect. Exclusive with vidpid flag.")
 	config    = flag.Int("config", 1, "Configuration number to use with the device.")
 	iface     = flag.Int("interface", 0, "Interface to use on the device.")

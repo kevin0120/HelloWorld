@@ -13,6 +13,12 @@ type GoUsb struct {
 	Name string
 }
 
+//sudo chmod 777 /dev/bus/usb/001/008
+//修改权限为可读可写可执行，但是这种设置电脑重启后，又会出现这种问题，还要重新设置．因此查询资料，可以用下面这条指令：
+//
+//　　sudo usermod -aG　dialout kevin
+
+
 func (s1 *GoUsb) search() error {
 	ctx := gousb.NewContext()
 	defer ctx.Close()
