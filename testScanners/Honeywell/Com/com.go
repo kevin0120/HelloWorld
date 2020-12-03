@@ -7,21 +7,19 @@ import (
 	"time"
 )
 
+
+//　　demesg find com,　sudo chmod 777 /dev/ttyACM0
+//修改权限为可读可写可执行，但是这种设置电脑重启后，又会出现这种问题，还要重新设置．因此查询资料，可以用下面这条指令：
+//
+//　　sudo usermod -aG　dialout wsh
+
+
 type Com struct {
 	Name string
 	port    *serial.Port
 }
 
 func (s1 *Com) Read() (string, error) {
-	//// 写入字符串“012345”
-	//n, err := s.Write([]byte("012345"))
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//
-	////延时100
-	//time.Sleep(100)
-
 	buf := make([]byte, 128)
 	n, err := s1.port.Read(buf)
 	if err != nil {

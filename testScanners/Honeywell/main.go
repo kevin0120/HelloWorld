@@ -3,16 +3,20 @@ package main
 import (
 	"HelloWorld/testScanners/Honeywell/Com"
 	"fmt"
+	"runtime"
 )
-
-
-
 
 
 func main()  {
 	//var scanner=&StandardKey.Stand{
 	//}
-    var scanner=&Com.Com{Name: "Com3"}
+
+	//demesg find com
+	//sudo usermod -aG　dialout kevin  -----get power
+    var scanner=&Com.Com{Name: "/dev/ttyACM0"}
+	if runtime.GOOS == "windows" {
+		scanner=&Com.Com{Name: "COM3"}
+	}
     scanner.Connect()
 	fmt.Println("请使用扫码枪进行扫码")
 	for {
