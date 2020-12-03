@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/kataras/iris/v12"
+	"net/http"
 )
 
 /*
@@ -14,10 +15,10 @@ func main() {
 
 	// we could serve your assets like this the shake of the example,
 	// never include the .go files there in production.
-	app.HandleDir("/", "./client")
+	app.HandleDir("/", http.Dir("./client"))
 
 	app.Get("/", func(ctx iris.Context) {
-		ctx.ServeFile("./client/hello.html", false) // true for gzip.
+		ctx.ServeFile("./client/hello.html") // true for gzip.
 	})
 
 	// visit http://localhost:8080

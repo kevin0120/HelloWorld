@@ -8,7 +8,7 @@ func main() {
 	app := iris.New()
 
 	// This will serve the ./static/favicons/favicon.ico to: localhost:8080/favicon.ico
-	app.Favicon("./static/favicons/favicon.ico")
+	app.Favicon("./test_iris/example/_examples/file-server/favicon/static/favicons/favicon.ico")
 
 	// app.Favicon("./static/favicons/favicon.\\.ico", "/favicon_16_16.ico")
 	// This will serve the ./static/favicons/favicon.ico to: localhost:8080/favicon_16_16.ico

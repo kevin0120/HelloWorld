@@ -17,10 +17,10 @@ func main() {
 		//close(ch)
 		//ch <- 666 //关闭channel后无法再发送数据
 
-		time.Sleep(10 * time.Second)
+		time.Sleep(1 * time.Second)
 		ch <- 111
-		time.Sleep(10 * time.Second)
-		//close(ch)
+		time.Sleep(1 * time.Second)
+		close(ch)
 	}() //别忘了()
 
 	for num := range ch {

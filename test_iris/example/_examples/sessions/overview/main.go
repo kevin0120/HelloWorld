@@ -12,8 +12,11 @@ var (
 )
 
 func secret(ctx iris.Context) {
+
+	//ctx.SetCookieKV("mycookie1","hello world12")
 	// Check if user is authenticated
-	if auth, _ := sess.Start(ctx).GetBoolean("authenticated"); !auth {
+	session := sess.Start(ctx)
+	if auth, _ := session.GetBoolean("authenticated"); !auth {
 		ctx.StatusCode(iris.StatusForbidden)
 		return
 	}
@@ -23,6 +26,7 @@ func secret(ctx iris.Context) {
 }
 
 func login(ctx iris.Context) {
+	//ctx.RemoveCookie("session_id")
 	session := sess.Start(ctx)
 
 	// Authentication goes here

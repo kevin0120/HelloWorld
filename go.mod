@@ -25,6 +25,7 @@ require (
 	github.com/jonboulle/clockwork v0.2.0 // indirect
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris v11.1.1+incompatible
+	github.com/kataras/iris/v12 v12.1.9-0.20200809192844-da029d6f3722
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.3.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.3 // indirect

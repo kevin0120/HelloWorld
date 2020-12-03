@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kataras/iris"
 
 	"github.com/kataras/iris/middleware/logger"
@@ -26,6 +27,9 @@ func main() {
 	// Method:   GET
 	// Resource: http://localhost:8080/ping
 	app.Get("/ping", func(ctx iris.Context) {
+		fmt.Println(ctx.GetCookie("session_id"))
+		fmt.Println(ctx.GetCookie("mycookie"))
+		ctx.SetCookieKV("mycookie","hello world")
 		ctx.WriteString("pong")
 	})
 
