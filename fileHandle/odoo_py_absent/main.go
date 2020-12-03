@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path"
-	_ "path"
 	"path/filepath"
 	"strings"
 )

@@ -20,9 +20,9 @@ type Dog struct {
 	Animal
 }
 
-func (this *Dog) Sleep() {
-	fmt.Println("Dog need sleep")
-}
+//func (this *Dog) Sleep() {
+//	fmt.Println("Dog need sleep")
+//}
 
 type Cat struct {
 	 Animal
