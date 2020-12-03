@@ -5,29 +5,26 @@ import (
 	"testing"
 )
 
-var price =[]int{7,6,4,3,1}
-
-
-
+var price = []int{7, 6, 4, 3, 1}
 
 func maxProfit(prices []int) int {
-	if len(prices)<2{
+	if len(prices) < 2 {
 		return 0
 	}
-	if len(prices)==2 && prices[0]>=prices[1]{
+	if len(prices) == 2 && prices[0] >= prices[1] {
 		return 0
 	}
 
-	if prices[0]<prices[1]{
-		return prices[1]-prices[0]+maxProfit(prices[1:])
-	}else {
+	if prices[0] < prices[1] {
+		return prices[1] - prices[0] + maxProfit(prices[1:])
+	} else {
 		return maxProfit(prices[1:])
 	}
 }
 
 func Test_suanfa2(t *testing.T) {
 	//
-	fmt.Println(fmt.Sprintf("最多可以赚 %d 元", 	maxProfit(price)))
+	fmt.Println(fmt.Sprintf("最多可以赚 %d 元", maxProfit(price)))
 }
 
 //
@@ -38,7 +35,7 @@ func Test_suanfa2(t *testing.T) {
 //
 //注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
 //
-// 
+//
 //
 //来源：力扣（LeetCode）
 //链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii

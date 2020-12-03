@@ -15,7 +15,7 @@ func main() {
 		//	fmt.Println(a, b)
 	}
 
-	throttled := throttler.New(15,5)
+	throttled := throttler.New(15, 5)
 	fmt.Println(throttled, f)
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 100; j++ {

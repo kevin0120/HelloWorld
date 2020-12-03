@@ -8,20 +8,18 @@ func testMap(m map[string]string) {
 
 }
 
-
-
 type HashMap struct {
-	key string
-	value string
+	key      string
+	value    string
 	hashCode int
-	next *HashMap
+	next     *HashMap
 }
 
 var table [16]*HashMap
 
 func initTable() {
-	for i := range table{
-		table[i] = &HashMap{"","",i,nil}
+	for i := range table {
+		table[i] = &HashMap{"", "", i, nil}
 	}
 }
 
@@ -32,8 +30,8 @@ func getInstance() [16]*HashMap {
 	return table
 }
 
-func genHashCode(k string) int{
-	if len(k) == 0{
+func genHashCode(k string) int {
+	if len(k) == 0 {
 		return 0
 	}
 	var hashCode int = 0
@@ -43,27 +41,27 @@ func genHashCode(k string) int{
 			hashCode += int(k[i])
 			break
 		}
-		hashCode += (hashCode + int(k[i]))*31
+		hashCode += (hashCode + int(k[i])) * 31
 	}
 	return hashCode
 }
 
-func indexTable(hashCode int) int{
-	return hashCode%16
+func indexTable(hashCode int) int {
+	return hashCode % 16
 }
 
 func indexNode(hashCode int) int {
-	return hashCode>>4
+	return hashCode >> 4
 }
 
 func put(k string, v string) string {
 	var hashCode = genHashCode(k)
-	var thisNode = HashMap{k,v,hashCode,nil}
+	var thisNode = HashMap{k, v, hashCode, nil}
 
 	var tableIndex = indexTable(hashCode)
 	var nodeIndex = indexNode(hashCode)
 
-	var headPtr  = getInstance()
+	var headPtr = getInstance()
 	var headNode = headPtr[tableIndex]
 
 	if (*headNode).key == "" {
@@ -74,7 +72,7 @@ func put(k string, v string) string {
 	var lastNode = headNode
 	var nextNode = (*headNode).next
 
-	for nextNode != nil && (indexNode((*nextNode).hashCode) < nodeIndex){
+	for nextNode != nil && (indexNode((*nextNode).hashCode) < nodeIndex) {
 		lastNode = nextNode
 		nextNode = (*nextNode).next
 	}
@@ -99,7 +97,7 @@ func get(k string) string {
 	var headPtr = getInstance()
 	var node = headPtr[tableIndex]
 
-	if (*node).key == k{
+	if (*node).key == k {
 		return (*node).value
 	}
 
@@ -112,20 +110,18 @@ func get(k string) string {
 	return ""
 }
 
-
-
-func myMap(){
+func myMap() {
 	getInstance()
-	put("a","a_put")
-	put("b","b_put")
+	put("a", "a_put")
+	put("b", "b_put")
 	fmt.Println(get("a"))
 	fmt.Println(get("b"))
-	put("p","p_put")
+	put("p", "p_put")
 	fmt.Println(get("p"))
 }
 func main() {
 	//此处的长度没有什么实际意义 内存分配控件
-	v := make(map[string]string,1)
+	v := make(map[string]string, 1)
 	fmt.Println(len(v))
 	v["Franch"] = "巴黎"
 	testMap(v)

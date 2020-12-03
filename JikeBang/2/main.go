@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main()  {
+func main() {
 	c := make(chan struct{})
 	go func() {
 		sum := 0
