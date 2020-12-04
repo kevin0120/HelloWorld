@@ -8,10 +8,10 @@ import (
 )
 
 
-//　　demesg find com,　sudo chmod 777 /dev/ttyACM0
+//　　dmesg find com,　sudo chmod 777 /dev/ttyACM0
 //修改权限为可读可写可执行，但是这种设置电脑重启后，又会出现这种问题，还要重新设置．因此查询资料，可以用下面这条指令：
 //
-//　　sudo usermod -aG　dialout wsh
+//　　sudo usermod -aG　dialout kevin
 
 //windows下需要在官网上下载驱动
 

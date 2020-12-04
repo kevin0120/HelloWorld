@@ -59,6 +59,7 @@ github.com/golang/protobuf/ptypes/timestamp
 github.com/golang/protobuf/ptypes/wrappers
 # github.com/google/gousb v1.1.1
 github.com/google/gousb
+github.com/google/gousb/usbid
 # github.com/google/uuid v1.1.2-0.20200519141726-cb32006e483f
 github.com/google/uuid
 # github.com/gorilla/css v1.0.0
