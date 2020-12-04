@@ -5,6 +5,7 @@ import (
 	"HelloWorld/testScanners/Honeywell/GoUsb"
 	"HelloWorld/testScanners/Honeywell/StandardKey"
 	"fmt"
+	"log"
 	"runtime"
 )
 
@@ -22,7 +23,7 @@ const (
 	GousbIn  = "gousb in"
 )
 func init() {
-	Env=GousbIn
+	Env=ComIn
 }
 
 func main()  {
@@ -37,6 +38,7 @@ func main()  {
 		scanner=&Com.Com{Name: "/dev/ttyACM0"}
 	case GousbIn:
 		if runtime.GOOS == "windows" {
+			log.Fatal("霍尼韦尔的libusb方式暂时不可用")
 			break
 		}
 		scanner=&GoUsb.GoUsb{Name: "3118:2305"}

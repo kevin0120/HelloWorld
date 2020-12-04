@@ -53,27 +53,27 @@ func (s1 *GoUsb) search() error {
 	vid, _ = strconv.ParseInt(ls[0], 10, 16)
 	pid, _ = strconv.ParseInt(ls[1], 10, 16)
 
-	//dev, err := ctx.OpenDeviceWithVIDPID(gousb.ID(vid), gousb.ID(pid))
+	dev, err := ctx.OpenDeviceWithVIDPID(gousb.ID(vid), gousb.ID(pid))
 
-	devs, err := ctx.OpenDevices(func(desc *gousb.DeviceDesc) bool {
-		switch {
-		case gousb.ID(vid) == desc.Vendor && gousb.ID(pid) == desc.Product:
-			return true
-		}
-		return false
-	})
-
-	switch {
-	case len(devs) == 0:
-		log.Fatal("No matching devices found.")
-	case len(devs) > 1:
-		log.Printf("Warning: multiple devices found. Using bus %d, addr %d.", devs[0].Desc.Bus, devs[0].Desc.Address)
-		for _, d := range devs[1:] {
-			d.Close()
-		}
-		devs = devs[:1]
-	}
-	dev := devs[0]
+	//devs, err := ctx.OpenDevices(func(desc *gousb.DeviceDesc) bool {
+	//	switch {
+	//	case gousb.ID(vid) == desc.Vendor && gousb.ID(pid) == desc.Product:
+	//		return true
+	//	}
+	//	return false
+	//})
+	//
+	//switch {
+	//case len(devs) == 0:
+	//	log.Fatal("No matching devices found.")
+	//case len(devs) > 1:
+	//	log.Printf("Warning: multiple devices found. Using bus %d, addr %d.", devs[0].Desc.Bus, devs[0].Desc.Address)
+	//	for _, d := range devs[1:] {
+	//		d.Close()
+	//	}
+	//	devs = devs[:1]
+	//}
+	//dev := devs[0]
 
 	if err == nil && dev != nil {
 
