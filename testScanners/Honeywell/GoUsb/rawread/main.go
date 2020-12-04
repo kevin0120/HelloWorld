@@ -21,10 +21,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 
+	"HelloWorld/testScanners/Honeywell/GoUsb"
 	"github.com/google/gousb"
 )
 
@@ -34,7 +34,7 @@ var (
 	config    = flag.Int("config", 1, "Configuration number to use with the device.")
 	iface     = flag.Int("interface", 0, "Interface to use on the device.")
 	alternate = flag.Int("alternate", 0, "Alternate setting to use on the interface.")
-	endpoint  = flag.Int("endpoint", 1, "Endpoint number to which to connect (without the leading 0x8).")
+	endpoint  = flag.Int("endpoint", 4, "Endpoint number to which to connect (without the leading 0x8).")
 	debug     = flag.Int("debug", 3, "Debug level for libusb.")
 	size      = flag.Int("read_size", 1024, "Number of bytes of data to read in a single transaction.")
 	bufSize   = flag.Int("buffer_size", 0, "Number of buffer transfers, for data prefetching.")
@@ -165,30 +165,47 @@ func main() {
 		log.Fatalf("dev.InEndpoint(): %s", err)
 	}
 	log.Printf("Found endpoint: %s", ep)
-	var rdr contextReader = ep
-	if *bufSize > 1 {
-		log.Print("Creating buffer...")
-		s, err := ep.NewStream(*size, *bufSize)
-		if err != nil {
-			log.Fatalf("ep.NewStream(): %v", err)
-		}
-		defer s.Close()
-		rdr = s
-	}
-
-	opCtx := context.Background()
-	if *timeout > 0 {
-		var done func()
-		opCtx, done = context.WithTimeout(opCtx, *timeout)
-		defer done()
-	}
+	//var rdr contextReader = ep
+	//if *bufSize > 1 {
+	//	log.Print("Creating buffer...")
+	//	s, err := ep.NewStream(*size, *bufSize)
+	//	if err != nil {
+	//		log.Fatalf("ep.NewStream(): %v", err)
+	//	}
+	//	defer s.Close()
+	//	rdr = s
+	//}
+	//
+	//opCtx := context.Background()
+	//if *timeout > 0 {
+	//	var done func()
+	//	opCtx, done = context.WithTimeout(opCtx, *timeout)
+	//	defer done()
+	//}
 	buf := make([]byte, *size)
 	log.Print("Reading...")
+	strRecv := ""
+	var scanner = &GoUsb.GoUsb{Name: "3118:2305"}
 	for i := 0; *num == 0 || i < *num; i++ {
-		num, err := rdr.ReadContext(opCtx, buf)
+		num, err := ep.Read(buf)
 		if err != nil {
 			log.Fatalf("Reading from device failed: %v", err)
 		}
-		os.Stdout.Write(buf[:num])
+		if num > 0 {
+			scanner.TriggerDebounce()
+			s, e := GoUsb.CommonParse(buf[:num])
+			if e == nil {
+				strRecv += s
+			}
+
+			scanner.Debounced(func() {
+				if strRecv != "" {
+					fmt.Printf("receive:%s\n", strRecv)
+					scanner.ResetDebounce()
+					strRecv = ""
+				}
+			})
+		}
+		//os.Stdout.Write(buf[:num])
 	}
 }
