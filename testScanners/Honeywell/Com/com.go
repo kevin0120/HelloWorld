@@ -16,7 +16,6 @@ import (
 //windows下需要在官网上下载驱动
 
 
-
 type Com struct {
 	Name string
 	port    *serial.Port
