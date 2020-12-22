@@ -22,7 +22,7 @@ func main() {
 		time.Sleep(1 * time.Second)
 		close(ch)
 	}() //别忘了()
-
+	time.Sleep(10 * time.Second)
 	for num := range ch {
 		fmt.Println("num = ", num)
 	}
