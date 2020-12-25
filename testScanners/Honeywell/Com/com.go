@@ -48,7 +48,7 @@ func (s1 *Com) Read() (string, error) {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Read %d Bytes\r\n", n)
+	//fmt.Printf("Read %d Bytes\r\n", n)
 	//for i := 0; i < n; i++ {
 	//	fmt.Printf("buf[%d]=%c\r\n", i, buf[i])
 	//}
