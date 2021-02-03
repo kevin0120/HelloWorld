@@ -42,12 +42,13 @@ func main() {
 			_, err = conn.Write([]byte("GGGGGGGGGGGGGG"))
 			checkError(err)
 		*/
-		_, err = conn.Read(msr[0:])
 		//result, err := ioutil.ReadAll(conn)
-		checkError(err)
-		fmt.Println(string(msr[0]))
+		//fmt.Println(string(msr[0]))
 		//os.Exit(0)
 		_, err = conn.Write([]byte("hello"))
+
+		_, err = conn.Read(msr[0:])
+		fmt.Println("recieve :", string(msr[0:]))
 		time.Sleep(10 * time.Second)
 	}
 	//err := conn.Close()
