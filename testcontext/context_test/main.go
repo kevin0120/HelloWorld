@@ -17,6 +17,7 @@ func main() {
 		time.Sleep(10 * time.Second)
 		ch <- 1
 	}()
+	close(ch)
 
 	select {
 	case <-ch:

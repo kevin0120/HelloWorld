@@ -19,6 +19,9 @@ import (
 // If any of the following fields are changed then the
 // caller should Refresh the router.
 type Route struct {
+	// The Party which this Route was created and registered on.
+	Party       Party
+	Title       string         `json:"title"`       // custom name to replace the method on debug logging.
 	Name        string         `json:"name"`        // "userRoute"
 	Description string         `json:"description"` // "lists a user"
 	Method      string         `json:"method"`      // "GET"
@@ -28,7 +31,14 @@ type Route struct {
 	tmpl        macro.Template // Tmpl().Src: "/api/user/{id:uint64}"
 	// temp storage, they're appended to the Handlers on build.
 	// Execution happens before Handlers, can be empty.
+	// They run right after any builtinBeginHandlers.
 	beginHandlers context.Handlers
+	// temp storage, these are always registered first as Handlers on Build.
+	// There are the handlers may be added by the framework and
+	// can NOT be modified by the end-developer (i.e overlapRoute & bindMultiParamTypesHandler),
+	// even if a function like UseGlobal is used.
+	builtinBeginHandlers context.Handlers
+
 	// Handlers are the main route's handlers, executed by order.
 	// Cannot be empty.
 	Handlers         context.Handlers `json:"-"`
@@ -51,9 +61,16 @@ type Route struct {
 	RegisterFileName   string `json:"registerFileName"`
 	RegisterLineNumber int    `json:"registerLineNumber"`
 
+	// see APIBuilder.handle, routerHandler.bindMultiParamTypesHandler and routerHandler.Build,
+	// it's the parent route of the last registered of the same path parameter. Specifically for path parameters.
 	topLink *Route
+	// overlappedLink specifically for overlapRoute feature.
+	// keeps the second route of the same path pattern registered.
+	// It's used ONLY for logging.
+	overlappedLink *Route
 
 	// Sitemap properties: https://www.sitemaps.org/protocol.html
+	NoSitemap  bool      // when this route should be hidden from sitemap.
 	LastMod    time.Time `json:"lastMod,omitempty"`
 	ChangeFreq string    `json:"changeFreq,omitempty"`
 	Priority   float32   `json:"priority,omitempty"`
@@ -63,6 +80,7 @@ type Route struct {
 
 	// OnBuild runs right before BuildHandlers.
 	OnBuild func(r *Route)
+	NoLog   bool // disables debug logging.
 }
 
 // NewRoute returns a new route based on its method,
@@ -70,7 +88,7 @@ type Route struct {
 // handlers and the macro container which all routes should share.
 // It parses the path based on the "macros",
 // handlers are being changed to validate the macros at serve time, if needed.
-func NewRoute(statusErrorCode int, method, subdomain, unparsedPath string,
+func NewRoute(p Party, statusErrorCode int, method, subdomain, unparsedPath string,
 	handlers context.Handlers, macros macro.Macros) (*Route, error) {
 	tmpl, err := macro.Parse(unparsedPath, macros)
 	if err != nil {
@@ -94,6 +112,7 @@ func NewRoute(statusErrorCode int, method, subdomain, unparsedPath string,
 	formattedPath := formatPath(path)
 
 	route := &Route{
+		Party:         p,
 		StatusCode:    statusErrorCode,
 		Name:          defaultName,
 		Method:        method,
@@ -120,6 +139,58 @@ func (r *Route) Use(handlers ...context.Handler) {
 		return
 	}
 	r.beginHandlers = append(r.beginHandlers, handlers...)
+}
+
+// UseOnce like Use but it replaces any duplicate handlers with
+// the new ones.
+// Should be called before Application Build.
+func (r *Route) UseOnce(handlers ...context.Handler) {
+	r.beginHandlers = context.UpsertHandlers(r.beginHandlers, handlers)
+}
+
+// RemoveHandler deletes a handler from begin, main and done handlers
+// based on its name or the handler pc function.
+// Returns the total amount of handlers removed.
+//
+// Should be called before Application Build.
+func (r *Route) RemoveHandler(namesOrHandlers ...interface{}) (count int) {
+	for _, nameOrHandler := range namesOrHandlers {
+		handlerName := ""
+		switch h := nameOrHandler.(type) {
+		case string:
+			handlerName = h
+		case context.Handler:
+			handlerName = context.HandlerName(h)
+		default:
+			panic(fmt.Sprintf("remove handler: unexpected type of %T", h))
+		}
+
+		r.beginHandlers = removeHandler(handlerName, r.beginHandlers, &count)
+		r.Handlers = removeHandler(handlerName, r.Handlers, &count)
+		r.doneHandlers = removeHandler(handlerName, r.doneHandlers, &count)
+	}
+
+	return
+}
+
+func removeHandler(handlerName string, handlers context.Handlers, counter *int) (newHandlers context.Handlers) {
+	for _, h := range handlers {
+		if h == nil {
+			continue
+		}
+
+		if context.HandlerName(h) == handlerName {
+			if counter != nil {
+				*counter++
+			}
+
+			continue
+		}
+
+		newHandlers = append(newHandlers, h)
+	}
+
+	return
 }
 
 // Done adds explicit finish handlers to this route.
@@ -187,23 +258,23 @@ func (r *Route) BuildHandlers() {
 		r.OnBuild(r)
 	}
 
-	if len(r.beginHandlers) > 0 {
-		r.Handlers = append(r.beginHandlers, r.Handlers...)
-		r.beginHandlers = r.beginHandlers[0:0]
-	}
-
-	if len(r.doneHandlers) > 0 {
-		r.Handlers = append(r.Handlers, r.doneHandlers...)
-		r.doneHandlers = r.doneHandlers[0:0]
-	} // note: no mutex needed, this should be called in-sync when server is not running of course.
+	// prepend begin handlers.
+	r.Handlers = append(r.builtinBeginHandlers, append(r.beginHandlers, r.Handlers...)...)
+	// append done handlers.
+	r.Handlers = append(r.Handlers, r.doneHandlers...)
+	// reset the temp storage, so a second call of
+	// BuildHandlers will not re-add them (i.e RefreshRouter).
+	r.builtinBeginHandlers = r.builtinBeginHandlers[0:0]
+	r.beginHandlers = r.beginHandlers[0:0]
+	r.doneHandlers = r.doneHandlers[0:0]
 }
 
 // String returns the form of METHOD, SUBDOMAIN, TMPL PATH.
 func (r *Route) String() string {
-	start := r.Method
-	if r.StatusCode > 0 {
-		start = http.StatusText(r.StatusCode)
-	}
+	start := r.GetTitle()
+	// if r.StatusCode > 0 {
+	// 	start = fmt.Sprintf("%d (%s)", r.StatusCode, http.StatusText(r.StatusCode))
+	// }
 
 	return fmt.Sprintf("%s %s%s",
 		start, r.Subdomain, r.Tmpl().Src)
@@ -221,6 +292,16 @@ func (r *Route) Equal(other *Route) bool {
 // and the template source.
 func (r *Route) DeepEqual(other *Route) bool {
 	return r.Equal(other) && r.tmpl.Src == other.tmpl.Src
+}
+
+// ExcludeSitemap excludes this route page from sitemap generator.
+// It sets the NoSitemap field to true.
+//
+// See `SetLastMod`, `SetChangeFreq`, `SetPriority` methods
+// and `iris.WithSitemap`.
+func (r *Route) ExcludeSitemap() *Route {
+	r.NoSitemap = true
+	return r
 }
 
 // SetLastMod sets the date of last modification of the file served by this static GET route.
@@ -297,7 +378,7 @@ func formatPath(path string) string {
 		var formattedParts []string
 		parts := strings.Split(path, "/")
 		for _, part := range parts {
-			if len(part) == 0 {
+			if part == "" {
 				continue
 			}
 			if part[0] == startRune || part[0] == wildcardStartRune {
@@ -349,14 +430,14 @@ func (r *Route) ResolvePath(args ...string) string {
 	return formattedPath
 }
 
-func traceHandlerFile(method, name, line string, number int) string {
+func traceHandlerFile(title, name, line string, number int) string {
 	file := fmt.Sprintf("(%s:%d)", filepath.ToSlash(line), number)
 
 	if context.IgnoreHandlerName(name) {
 		return ""
 	}
 
-	space := strings.Repeat(" ", len(method)+1)
+	space := strings.Repeat(" ", len(title)+1)
 	return fmt.Sprintf("\n%s • %s %s", space, name, file)
 }
 
@@ -373,12 +454,27 @@ var methodColors = map[string]int{
 	MethodNone:         203, // orange-red.
 }
 
-func traceMethodColor(method string) int {
+// TraceTitleColorCode returns the color code depending on the method or the status.
+func TraceTitleColorCode(method string) int {
 	if color, ok := methodColors[method]; ok {
 		return color
 	}
 
 	return 131 // for error handlers, of "ERROR [%STATUSCODE]"
+}
+
+// GetTitle returns the custom Title or the method or the error code.
+func (r *Route) GetTitle() string {
+	title := r.Title
+	if title == "" {
+		if r.StatusCode > 0 {
+			title = fmt.Sprintf("%d", r.StatusCode) // if error code then title is the status code, e.g. 400.
+		} else {
+			title = r.Method // else is its method, e.g. GET
+		}
+	}
+
+	return title
 }
 
 // Trace prints some debug info about the Route to the "w".
@@ -388,19 +484,16 @@ func traceMethodColor(method string) int {
 //               * @handler_name (@handler_rel_location)
 //               * @second_handler ...
 // If route and handler line:number locations are equal then the second is ignored.
-func (r *Route) Trace(w io.Writer) {
-	method := r.Method
-	if method == "" {
-		method = fmt.Sprintf("%d", r.StatusCode)
-	}
+func (r *Route) Trace(w io.Writer, stoppedIndex int) {
+	title := r.GetTitle()
 
 	// Color the method.
-	color := traceMethodColor(method)
+	color := TraceTitleColorCode(title)
 
 	// @method: @path
 	// space := strings.Repeat(" ", len(http.MethodConnect)-len(method))
-	// s := fmt.Sprintf("%s: %s", pio.Rich(method, color), path)
-	pio.WriteRich(w, method, color)
+	// s := fmt.Sprintf("%s: %s", pio.Rich(title, color), path)
+	pio.WriteRich(w, title, color)
 
 	path := r.Tmpl().Src
 	if path == "" {
@@ -412,7 +505,7 @@ func (r *Route) Trace(w io.Writer) {
 	// (@description)
 	description := r.Description
 	if description == "" {
-		if method == MethodNone {
+		if title == MethodNone {
 			description = "offline"
 		}
 
@@ -469,15 +562,31 @@ func (r *Route) Trace(w io.Writer) {
 		}
 
 		// * @handler_name (@handler_rel_location)
-		fmt.Fprint(w, traceHandlerFile(r.Method, name, file, line))
+		fmt.Fprint(w, traceHandlerFile(title, name, file, line))
+		if stoppedIndex != -1 && stoppedIndex <= len(r.Handlers) {
+			if i <= stoppedIndex {
+				pio.WriteRich(w, " ✓", pio.Green)
+				// } else {
+				// pio.WriteRich(w, " ✕", pio.Red, pio.Underline)
+			}
+		}
 	}
 
 	fmt.Fprintln(w)
+
+	if r.overlappedLink != nil {
+		bckpDesc := r.overlappedLink.Description
+		r.overlappedLink.Description += " (overlapped)"
+		r.overlappedLink.Trace(w, -1)
+		r.overlappedLink.Description = bckpDesc
+	}
 }
 
 type routeReadOnlyWrapper struct {
 	*Route
 }
+
+var _ context.RouteReadOnly = routeReadOnlyWrapper{}
 
 func (rd routeReadOnlyWrapper) StatusErrorCode() int {
 	return rd.Route.StatusCode
@@ -499,8 +608,8 @@ func (rd routeReadOnlyWrapper) Path() string {
 	return rd.Route.tmpl.Src
 }
 
-func (rd routeReadOnlyWrapper) Trace(w io.Writer) {
-	rd.Route.Trace(w)
+func (rd routeReadOnlyWrapper) Trace(w io.Writer, stoppedIndex int) {
+	rd.Route.Trace(w, stoppedIndex)
 }
 
 func (rd routeReadOnlyWrapper) Tmpl() macro.Template {
@@ -513,6 +622,17 @@ func (rd routeReadOnlyWrapper) MainHandlerName() string {
 
 func (rd routeReadOnlyWrapper) MainHandlerIndex() int {
 	return rd.Route.MainHandlerIndex
+}
+
+func (rd routeReadOnlyWrapper) Property(key string) (interface{}, bool) {
+	properties := rd.Route.Party.Properties()
+	if properties != nil {
+		if property, ok := properties[key]; ok {
+			return property, true
+		}
+	}
+
+	return nil, false
 }
 
 func (rd routeReadOnlyWrapper) GetLastMod() time.Time {

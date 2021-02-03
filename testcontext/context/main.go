@@ -73,7 +73,7 @@ func task4(ctx context.Context) {
 func task5(ctx context.Context) {
 	defer mark("task_5")()
 	//	Create context with 5 seconds timeout
-	ctx5, cancel := context.WithTimeout(ctx, time.Second*6)
+	ctx5, cancel := context.WithTimeout(ctx, time.Second*60)
 	defer cancel()
 
 	//	Call following tasks

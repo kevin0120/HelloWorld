@@ -1,131 +1,81 @@
 package iris
 
 import (
-	// std packages
 	stdContext "context"
+	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"strings"
 	"sync"
 	"time"
 
-	"github.com/kataras/golog"
-
-	// context for the handlers
 	"github.com/kataras/iris/context"
-	// core packages, needed to build the application
-	"github.com/kataras/iris/core/errors"
+	"github.com/kataras/iris/core/errgroup"
 	"github.com/kataras/iris/core/host"
 	"github.com/kataras/iris/core/netutil"
 	"github.com/kataras/iris/core/router"
-	// handlerconv conversions
-	"github.com/kataras/iris/core/handlerconv"
-	// cache conversions
-	"github.com/kataras/iris/cache"
-	// view
-	"github.com/kataras/iris/view"
-	// middleware used in Default method
-
+	"github.com/kataras/iris/i18n"
 	requestLogger "github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
+	"github.com/kataras/iris/view"
+	"github.com/kataras/pio"
+
+	"github.com/kataras/golog"
+	"github.com/kataras/tunnel"
 )
 
-var (
-	// Version is the current version number of the Iris Web Framework.
-	Version = "11.1.1"
-)
+// Version is the current version number of the Iris Web Framework.
+const Version = "stale"
 
-// HTTP status codes as registered with IANA.
-// See: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-// Raw Copy from the net/http std package in order to recude the import path of "net/http" for the users.
-//
-// Copied from `net/http` package.
+func init() {
+	fmt.Println(`You have installed an invalid version. Install with:
+	go get -u github.com/kataras/iris/v12@latest
+
+	If your Open Source project depends on that pre-go1.9 version please open an issue
+	at https://github.com/kataras/iris/issues/new and share your repository with us,
+	we will upgrade your project's code base to the latest version for free.
+
+	If you have a commercial project that you cannot share publically, please contact with
+	@kataras at https://chat.iris-go.com. Assistance will be provided to you and your colleagues
+	for free.
+	`)
+
+	fmt.Print("Run ")
+	pio.WriteRich(os.Stdout, "autofix", pio.Green, pio.Underline)
+	fmt.Print("? (Y/n): ")
+	var input string
+	_, err := fmt.Scanln(&input)
+	if err != nil {
+		golog.Fatalf("can not take input from user: %v", err)
+	}
+	input = strings.ToLower(input)
+	if input == "" || input == "y" {
+		err := tryFix()
+		if err != nil {
+			golog.Fatalf("autofix: %v", err)
+		}
+
+		golog.Infof("OK. Restart the application manually now.")
+		os.Exit(0)
+	} else {
+		os.Exit(-1)
+	}
+}
+
+// Byte unit helpers.
 const (
-	StatusContinue           = 100 // RFC 7231, 6.2.1
-	StatusSwitchingProtocols = 101 // RFC 7231, 6.2.2
-	StatusProcessing         = 102 // RFC 2518, 10.1
-
-	StatusOK                   = 200 // RFC 7231, 6.3.1
-	StatusCreated              = 201 // RFC 7231, 6.3.2
-	StatusAccepted             = 202 // RFC 7231, 6.3.3
-	StatusNonAuthoritativeInfo = 203 // RFC 7231, 6.3.4
-	StatusNoContent            = 204 // RFC 7231, 6.3.5
-	StatusResetContent         = 205 // RFC 7231, 6.3.6
-	StatusPartialContent       = 206 // RFC 7233, 4.1
-	StatusMultiStatus          = 207 // RFC 4918, 11.1
-	StatusAlreadyReported      = 208 // RFC 5842, 7.1
-	StatusIMUsed               = 226 // RFC 3229, 10.4.1
-
-	StatusMultipleChoices  = 300 // RFC 7231, 6.4.1
-	StatusMovedPermanently = 301 // RFC 7231, 6.4.2
-	StatusFound            = 302 // RFC 7231, 6.4.3
-	StatusSeeOther         = 303 // RFC 7231, 6.4.4
-	StatusNotModified      = 304 // RFC 7232, 4.1
-	StatusUseProxy         = 305 // RFC 7231, 6.4.5
-
-	StatusTemporaryRedirect = 307 // RFC 7231, 6.4.7
-	StatusPermanentRedirect = 308 // RFC 7538, 3
-
-	StatusBadRequest                   = 400 // RFC 7231, 6.5.1
-	StatusUnauthorized                 = 401 // RFC 7235, 3.1
-	StatusPaymentRequired              = 402 // RFC 7231, 6.5.2
-	StatusForbidden                    = 403 // RFC 7231, 6.5.3
-	StatusNotFound                     = 404 // RFC 7231, 6.5.4
-	StatusMethodNotAllowed             = 405 // RFC 7231, 6.5.5
-	StatusNotAcceptable                = 406 // RFC 7231, 6.5.6
-	StatusProxyAuthRequired            = 407 // RFC 7235, 3.2
-	StatusRequestTimeout               = 408 // RFC 7231, 6.5.7
-	StatusConflict                     = 409 // RFC 7231, 6.5.8
-	StatusGone                         = 410 // RFC 7231, 6.5.9
-	StatusLengthRequired               = 411 // RFC 7231, 6.5.10
-	StatusPreconditionFailed           = 412 // RFC 7232, 4.2
-	StatusRequestEntityTooLarge        = 413 // RFC 7231, 6.5.11
-	StatusRequestURITooLong            = 414 // RFC 7231, 6.5.12
-	StatusUnsupportedMediaType         = 415 // RFC 7231, 6.5.13
-	StatusRequestedRangeNotSatisfiable = 416 // RFC 7233, 4.4
-	StatusExpectationFailed            = 417 // RFC 7231, 6.5.14
-	StatusTeapot                       = 418 // RFC 7168, 2.3.3
-	StatusMisdirectedRequest           = 421 // RFC 7540, 9.1.2
-	StatusUnprocessableEntity          = 422 // RFC 4918, 11.2
-	StatusLocked                       = 423 // RFC 4918, 11.3
-	StatusFailedDependency             = 424 // RFC 4918, 11.4
-	StatusTooEarly                     = 425 // RFC 8470, 5.2.
-	StatusUpgradeRequired              = 426 // RFC 7231, 6.5.15
-	StatusPreconditionRequired         = 428 // RFC 6585, 3
-	StatusTooManyRequests              = 429 // RFC 6585, 4
-	StatusRequestHeaderFieldsTooLarge  = 431 // RFC 6585, 5
-	StatusUnavailableForLegalReasons   = 451 // RFC 7725, 3
-
-	StatusInternalServerError           = 500 // RFC 7231, 6.6.1
-	StatusNotImplemented                = 501 // RFC 7231, 6.6.2
-	StatusBadGateway                    = 502 // RFC 7231, 6.6.3
-	StatusServiceUnavailable            = 503 // RFC 7231, 6.6.4
-	StatusGatewayTimeout                = 504 // RFC 7231, 6.6.5
-	StatusHTTPVersionNotSupported       = 505 // RFC 7231, 6.6.6
-	StatusVariantAlsoNegotiates         = 506 // RFC 2295, 8.1
-	StatusInsufficientStorage           = 507 // RFC 4918, 11.5
-	StatusLoopDetected                  = 508 // RFC 5842, 7.2
-	StatusNotExtended                   = 510 // RFC 2774, 7
-	StatusNetworkAuthenticationRequired = 511 // RFC 6585, 6
+	B = 1 << (10 * iota)
+	KB
+	MB
+	GB
+	TB
+	PB
+	EB
 )
-
-// HTTP Methods copied from `net/http`.
-const (
-	MethodGet     = "GET"
-	MethodPost    = "POST"
-	MethodPut     = "PUT"
-	MethodDelete  = "DELETE"
-	MethodConnect = "CONNECT"
-	MethodHead    = "HEAD"
-	MethodPatch   = "PATCH"
-	MethodOptions = "OPTIONS"
-	MethodTrace   = "TRACE"
-)
-
-// MethodNone is an iris-specific "virtual" method
-// to store the "offline" routes.
-const MethodNone = "NONE"
 
 // Application is responsible to manage the state of the application.
 // It contains and handles all the necessary parts to create a fast web server.
@@ -133,7 +83,8 @@ type Application struct {
 	// routing embedded | exposing APIBuilder's and Router's public API.
 	*router.APIBuilder
 	*router.Router
-	ContextPool *context.Pool
+	router.HTTPErrorHandler // if Router is Downgraded this is nil.
+	ContextPool             *context.Pool
 
 	// config contains the configuration fields
 	// all fields defaults to something that is working, developers don't have to set it.
@@ -142,10 +93,20 @@ type Application struct {
 	// the golog logger instance, defaults to "Info" level messages (all except "Debug")
 	logger *golog.Logger
 
+	// I18n contains localization and internationalization support.
+	// Use the `Load` or `LoadAssets` to locale language files.
+	//
+	// See `Context#Tr` method for request-based translations.
+	I18n *i18n.I18n
+
+	// Validator is the request body validator, defaults to nil.
+	Validator context.Validator
+
 	// view engine
 	view view.View
 	// used for build
-	once sync.Once
+	builded     bool
+	defaultMode bool
 
 	mu sync.Mutex
 	// Hosts contains a list of all servers (Host Supervisors) that this app is running on.
@@ -167,23 +128,28 @@ func New() *Application {
 	app := &Application{
 		config:     &config,
 		logger:     golog.Default,
+		I18n:       i18n.New(),
 		APIBuilder: router.NewAPIBuilder(),
 		Router:     router.NewRouter(),
 	}
 
-	app.ContextPool = context.New(func() context.Context {
+	app.ContextPool = context.New(func() interface{} {
 		return context.NewContext(app)
 	})
 
 	return app
 }
 
-// Default returns a new Application instance which, unlike `New`,
-// recovers on panics and logs the incoming http requests.
+// Default returns a new Application instance which on build state registers
+// html view engine on "./views" and load locales from "./locales/*/*".
+// The return instance recovers on panics and logs the incoming http requests too.
 func Default() *Application {
 	app := New()
 	app.Use(recover.New())
 	app.Use(requestLogger.New())
+	app.Use(Compression)
+
+	app.defaultMode = true
 
 	return app
 }
@@ -216,10 +182,10 @@ func (app *Application) WWW() router.Party {
 // If you need more information about this implementation then you have to navigate through
 // the `core/router#NewSubdomainRedirectWrapper` function instead.
 //
-// Example: https://github.com/kataras/iris/tree/master/_examples/subdomains/redirect
+// Example: https://github.com/kataras/iris/tree/master/_examples/routing/subdomains/redirect
 func (app *Application) SubdomainRedirect(from, to router.Party) router.Party {
 	sd := router.NewSubdomainRedirectWrapper(app.ConfigurationReadOnly().GetVHost, from.GetRelPath(), to.GetRelPath())
-	app.WrapRouter(sd)
+	app.Router.WrapRouter(sd)
 	return to
 }
 
@@ -231,7 +197,9 @@ func (app *Application) SubdomainRedirect(from, to router.Party) router.Party {
 // Returns itself in order to be used like `app:= New().Configure(...)`
 func (app *Application) Configure(configurators ...Configurator) *Application {
 	for _, cfg := range configurators {
-		cfg(app)
+		if cfg != nil {
+			cfg(app)
+		}
 	}
 
 	return app
@@ -252,6 +220,7 @@ func (app *Application) ConfigurationReadOnly() context.ConfigurationReadOnly {
 // - "info"
 // - "debug"
 // Usage: app.Logger().SetLevel("error")
+// Or set the level through Configurartion's LogLevel or WithLogLevel functional option.
 // Defaults to "info" level.
 //
 // Callers can use the application's logger which is
@@ -284,27 +253,38 @@ func (app *Application) Logger() *golog.Logger {
 	return app.logger
 }
 
-var (
-	// HTML view engine.
-	// Conversion for the view.HTML.
-	HTML = view.HTML
-	// Django view engine.
-	// Conversion for the view.Django.
-	Django = view.Django
-	// Handlebars view engine.
-	// Conversion for the view.Handlebars.
-	Handlebars = view.Handlebars
-	// Pug view engine.
-	// Conversion for the view.Pug.
-	Pug = view.Pug
-	// Amber view engine.
-	// Conversion for the view.Amber.
-	Amber = view.Amber
-)
+// I18nReadOnly returns the i18n's read-only features.
+// See `I18n` method for more.
+func (app *Application) I18nReadOnly() context.I18nReadOnly {
+	return app.I18n
+}
 
-// NoLayout to disable layout for a particular template file
-// A shortcut for the `view#NoLayout`.
-const NoLayout = view.NoLayout
+// Validate validates a value and returns nil if passed or
+// the failure reason if does not.
+func (app *Application) Validate(v interface{}) error {
+	if app.Validator == nil {
+		return nil
+	}
+
+	// val := reflect.ValueOf(v)
+	// if val.Kind() == reflect.Ptr && !val.IsNil() {
+	// 	val = val.Elem()
+	// }
+
+	// if val.Kind() == reflect.Struct && val.Type() != timeType {
+	// 	return app.Validator.Struct(v)
+	// }
+
+	// no need to check the kind, underline lib does it but in the future this may change (look above).
+	err := app.Validator.Struct(v)
+	if err != nil {
+		if !strings.HasPrefix(err.Error(), "validator: ") {
+			return err
+		}
+	}
+
+	return nil
+}
 
 // RegisterView should be used to register view engines mapping to a root directory
 // and the template file(s) extension.
@@ -324,168 +304,19 @@ func (app *Application) RegisterView(viewEngine view.Engine) {
 func (app *Application) View(writer io.Writer, filename string, layout string, bindingData interface{}) error {
 	if app.view.Len() == 0 {
 		err := errors.New("view engine is missing, use `RegisterView`")
-		app.Logger().Error(err)
+		app.logger.Error(err)
 		return err
 	}
 
 	err := app.view.ExecuteWriter(writer, filename, layout, bindingData)
 	if err != nil {
-		app.Logger().Error(err)
+		app.logger.Error(err)
 	}
 	return err
 }
 
-var (
-	// LimitRequestBodySize is a middleware which sets a request body size limit
-	// for all next handlers in the chain.
-	//
-	// A shortcut for the `context#LimitRequestBodySize`.
-	LimitRequestBodySize = context.LimitRequestBodySize
-	// StaticEmbeddedHandler returns a Handler which can serve
-	// embedded into executable files.
-	//
-	//
-	// Examples: https://github.com/kataras/iris/tree/master/_examples/file-server
-	StaticEmbeddedHandler = router.StaticEmbeddedHandler
-	// StripPrefix returns a handler that serves HTTP requests
-	// by removing the given prefix from the request URL's Path
-	// and invoking the handler h. StripPrefix handles a
-	// request for a path that doesn't begin with prefix by
-	// replying with an HTTP 404 not found error.
-	//
-	// Usage:
-	// fileserver := Party#StaticHandler("./static_files", false, false)
-	// h := iris.StripPrefix("/static", fileserver)
-	// app.Get("/static/{f:path}", h)
-	// app.Head("/static/{f:path}", h)
-	StripPrefix = router.StripPrefix
-	// Gzip is a middleware which enables writing
-	// using gzip compression, if client supports.
-	//
-	// A shortcut for the `context#Gzip`.
-	Gzip = context.Gzip
-	// FromStd converts native http.Handler, http.HandlerFunc & func(w, r, next) to context.Handler.
-	//
-	// Supported form types:
-	// 		 .FromStd(h http.Handler)
-	// 		 .FromStd(func(w http.ResponseWriter, r *http.Request))
-	// 		 .FromStd(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc))
-	//
-	// A shortcut for the `handlerconv#FromStd`.
-	FromStd = handlerconv.FromStd
-	// Cache is a middleware providing server-side cache functionalities
-	// to the next handlers, can be used as: `app.Get("/", iris.Cache, aboutHandler)`.
-	// It should be used after Static methods.
-	// See `iris#Cache304` for an alternative, faster way.
-	//
-	// Examples can be found at: https://github.com/kataras/iris/tree/master/_examples/#caching
-	Cache = cache.Handler
-	// NoCache is a middleware which overrides the Cache-Control, Pragma and Expires headers
-	// in order to disable the cache during the browser's back and forward feature.
-	//
-	// A good use of this middleware is on HTML routes; to refresh the page even on "back" and "forward" browser's arrow buttons.
-	//
-	// See `iris#StaticCache` for the opposite behavior.
-	//
-	// A shortcut of the `cache#NoCache`
-	NoCache = cache.NoCache
-	// StaticCache middleware for caching static files by sending the "Cache-Control" and "Expires" headers to the client.
-	// It accepts a single input parameter, the "cacheDur", a time.Duration that it's used to calculate the expiration.
-	//
-	// If "cacheDur" <=0 then it returns the `NoCache` middleware instaed to disable the caching between browser's "back" and "forward" actions.
-	//
-	// Usage: `app.Use(iris.StaticCache(24 * time.Hour))` or `app.Use(iris.Staticcache(-1))`.
-	// A middleware, which is a simple Handler can be called inside another handler as well, example:
-	// cacheMiddleware := iris.StaticCache(...)
-	// func(ctx iris.Context){
-	//  cacheMiddleware(ctx)
-	//  [...]
-	// }
-	//
-	// A shortcut of the `cache#StaticCache`
-	StaticCache = cache.StaticCache
-	// Cache304 sends a `StatusNotModified` (304) whenever
-	// the "If-Modified-Since" request header (time) is before the
-	// time.Now() + expiresEvery (always compared to their UTC values).
-	// Use this, which is a shortcut of the, `chache#Cache304` instead of the "github.com/kataras/iris/cache" or iris.Cache
-	// for better performance.
-	// Clients that are compatible with the http RCF (all browsers are and tools like postman)
-	// will handle the caching.
-	// The only disadvantage of using that instead of server-side caching
-	// is that this method will send a 304 status code instead of 200,
-	// So, if you use it side by side with other micro services
-	// you have to check for that status code as well for a valid response.
-	//
-	// Developers are free to extend this method's behavior
-	// by watching system directories changes manually and use of the `ctx.WriteWithExpiration`
-	// with a "modtime" based on the file modified date,
-	// simillary to the `StaticWeb`(which sends status OK(200) and browser disk caching instead of 304).
-	//
-	// A shortcut of the `cache#Cache304`.
-	Cache304 = cache.Cache304
-
-	// CookiePath is a `CookieOption`.
-	// Use it to change the cookie's Path field.
-	//
-	// A shortcut for the `context#CookiePath`.
-	CookiePath = context.CookiePath
-	// CookieCleanPath is a `CookieOption`.
-	// Use it to clear the cookie's Path field, exactly the same as `CookiePath("")`.
-	//
-	// A shortcut for the `context#CookieCleanPath`.
-	CookieCleanPath = context.CookieCleanPath
-	// CookieExpires is a `CookieOption`.
-	// Use it to change the cookie's Expires and MaxAge fields by passing the lifetime of the cookie.
-	//
-	// A shortcut for the `context#CookieExpires`.
-	CookieExpires = context.CookieExpires
-	// CookieHTTPOnly is a `CookieOption`.
-	// Use it to set the cookie's HttpOnly field to false or true.
-	// HttpOnly field defaults to true for `RemoveCookie` and `SetCookieKV`.
-	//
-	// A shortcut for the `context#CookieHTTPOnly`.
-	CookieHTTPOnly = context.CookieHTTPOnly
-	// CookieEncode is a `CookieOption`.
-	// Provides encoding functionality when adding a cookie.
-	// Accepts a `context#CookieEncoder` and sets the cookie's value to the encoded value.
-	// Users of that is the `context#SetCookie` and `context#SetCookieKV`.
-	//
-	// Example: https://github.com/kataras/iris/tree/master/_examples/cookies/securecookie
-	//
-	// A shortcut for the `context#CookieEncode`.
-	CookieEncode = context.CookieEncode
-	// CookieDecode is a `CookieOption`.
-	// Provides decoding functionality when retrieving a cookie.
-	// Accepts a `context#CookieDecoder` and sets the cookie's value to the decoded value before return by the `GetCookie`.
-	// User of that is the `context#GetCookie`.
-	//
-	// Example: https://github.com/kataras/iris/tree/master/_examples/cookies/securecookie
-	//
-	// A shortcut for the `context#CookieDecode`.
-	CookieDecode = context.CookieDecode
-	// IsErrPath can be used at `context#ReadForm`.
-	// It reports whether the incoming error is type of `formbinder.ErrPath`,
-	// which can be ignored when server allows unknown post values to be sent by the client.
-	//
-	// A shortcut for the `context#IsErrPath`.
-	IsErrPath = context.IsErrPath
-)
-
-// SPA  accepts an "assetHandler" which can be the result of an
-// app.StaticHandler or app.StaticEmbeddedHandler.
-// Use that when you want to navigate from /index.html to / automatically
-// it's a helper function which just makes some checks based on the `IndexNames` and `AssetValidators`
-// before the assetHandler call.
-//
-// Example: https://github.com/kataras/iris/tree/master/_examples/file-server/single-page-application
-func (app *Application) SPA(assetHandler context.Handler) *router.SPABuilder {
-	s := router.NewSPABuilder(assetHandler)
-	app.APIBuilder.HandleMany("GET HEAD", "/{f:path}", s.Handler)
-	return s
-}
-
 // ConfigureHost accepts one or more `host#Configuration`, these configurators functions
-// can access the host created by `app.Run`,
+// can access the host created by `app.Run` or `app.Listen`,
 // they're being executed when application is ready to being served to the public.
 //
 // It's an alternative way to interact with a host that is automatically created by
@@ -506,7 +337,7 @@ func (app *Application) ConfigureHost(configurators ...host.Configurator) *Appli
 	return app
 }
 
-// NewHost accepts a standar *http.Server object,
+// NewHost accepts a standard *http.Server object,
 // completes the necessary missing parts of that "srv"
 // and returns a new, ready-to-use, host (supervisor).
 func (app *Application) NewHost(srv *http.Server) *host.Supervisor {
@@ -523,10 +354,18 @@ func (app *Application) NewHost(srv *http.Server) *host.Supervisor {
 		srv.ErrorLog = log.New(app.logger.Printer.Output, "[HTTP Server] ", 0)
 	}
 
-	if srv.Addr == "" {
-		srv.Addr = ":8080"
+	if addr := srv.Addr; addr == "" {
+		addr = ":8080"
+		if len(app.Hosts) > 0 {
+			if v := app.Hosts[0].Server.Addr; v != "" {
+				addr = v
+			}
+		}
+
+		srv.Addr = addr
 	}
-	app.logger.Debugf("Host: addr is %s", srv.Addr)
+
+	// app.logger.Debugf("Host: addr is %s", srv.Addr)
 
 	// create the new host supervisor
 	// bind the constructed server and return it
@@ -542,21 +381,21 @@ func (app *Application) NewHost(srv *http.Server) *host.Supervisor {
 		app.config.vhost = netutil.ResolveVHost(srv.Addr)
 	}
 
-	app.logger.Debugf("Host: virtual host is %s", app.config.vhost)
+	// app.logger.Debugf("Host: virtual host is %s", app.config.vhost)
 
 	// the below schedules some tasks that will run among the server
 
 	if !app.config.DisableStartupLog {
 		// show the available info to exit from app.
 		su.RegisterOnServe(host.WriteStartupLogOnServe(app.logger.Printer.Output)) // app.logger.Writer -> Info
-		app.logger.Debugf("Host: register startup notifier")
+		// app.logger.Debugf("Host: register startup notifier")
 	}
 
 	if !app.config.DisableInterruptHandler {
-		// when CTRL+C/CMD+C pressed.
-		shutdownTimeout := 5 * time.Second
+		// when CTRL/CMD+C pressed.
+		shutdownTimeout := 10 * time.Second
 		host.RegisterOnInterrupt(host.ShutdownOnInterrupt(su, shutdownTimeout))
-		app.logger.Debugf("Host: register server shutdown on interrupt(CTRL+C/CMD+C)")
+		// app.logger.Debugf("Host: register server shutdown on interrupt(CTRL+C/CMD+C)")
 	}
 
 	su.IgnoredErrors = append(su.IgnoredErrors, app.config.IgnoreServerErrors...)
@@ -571,14 +410,12 @@ func (app *Application) NewHost(srv *http.Server) *host.Supervisor {
 	return su
 }
 
-// RegisterOnInterrupt registers a global function to call when CTRL+C/CMD+C pressed or a unix kill command received.
-//
-// A shortcut for the `host#RegisterOnInterrupt`.
-var RegisterOnInterrupt = host.RegisterOnInterrupt
-
-// Shutdown gracefully terminates all the application's server hosts.
+// Shutdown gracefully terminates all the application's server hosts and any tunnels.
 // Returns an error on the first failure, otherwise nil.
 func (app *Application) Shutdown(ctx stdContext.Context) error {
+	app.mu.Lock()
+	defer app.mu.Unlock()
+
 	for i, su := range app.Hosts {
 		app.logger.Debugf("Host[%d]: Shutdown now", i)
 		if err := su.Shutdown(ctx); err != nil {
@@ -586,7 +423,128 @@ func (app *Application) Shutdown(ctx stdContext.Context) error {
 			return err
 		}
 	}
+
+	for _, t := range app.config.Tunneling.Tunnels {
+		if t.Name == "" {
+			continue
+		}
+
+		if err := app.config.Tunneling.StopTunnel(t); err != nil {
+			return err
+		}
+	}
+
 	return nil
+}
+
+// Build sets up, once, the framework.
+// It builds the default router with its default macros
+// and the template functions that are very-closed to iris.
+//
+// If error occurred while building the Application, the returns type of error will be an *errgroup.Group
+// which let the callers to inspect the errors and cause, usage:
+//
+// import "github.com/kataras/iris/core/errgroup"
+//
+// errgroup.Walk(app.Build(), func(typ interface{}, err error) {
+// 	app.Logger().Errorf("%s: %s", typ, err)
+// })
+func (app *Application) Build() error {
+	if app.builded {
+		return nil
+	}
+	// start := time.Now()
+	app.builded = true // even if fails.
+
+	// check if a prior app.Logger().SetLevel called and if not
+	// then set the defined configuration's log level.
+	if app.logger.Level == golog.InfoLevel /* the default level */ {
+		app.logger.SetLevel(app.config.LogLevel)
+	}
+
+	rp := errgroup.New("Application Builder")
+	rp.Err(app.APIBuilder.GetReporter())
+
+	if app.defaultMode { // the app.I18n and app.View will be not available until Build.
+		if !app.I18n.Loaded() {
+			for _, s := range []string{"./locales/*/*", "./locales/*", "./translations"} {
+				if _, err := os.Stat(s); os.IsNotExist(err) {
+					continue
+				}
+
+				if err := app.I18n.Load(s); err != nil {
+					continue
+				}
+
+				app.I18n.SetDefault("en-US")
+				break
+			}
+		}
+
+		if app.view.Len() == 0 {
+			for _, s := range []string{"./views", "./templates", "./web/views"} {
+				if _, err := os.Stat(s); os.IsNotExist(err) {
+					continue
+				}
+
+				app.RegisterView(HTML(s, ".html"))
+				break
+			}
+		}
+	}
+
+	if app.I18n.Loaded() {
+		// {{ tr "lang" "key" arg1 arg2 }}
+		app.view.AddFunc("tr", app.I18n.Tr)
+		app.Router.WrapRouter(app.I18n.Wrapper())
+	}
+
+	if n := app.view.Len(); n > 0 {
+		tr := "engines"
+		if n == 1 {
+			tr = tr[0 : len(tr)-1]
+		}
+
+		app.logger.Debugf("Application: %d registered view %s", n, tr)
+		// view engine
+		// here is where we declare the closed-relative framework functions.
+		// Each engine has their defaults, i.e yield,render,render_r,partial, params...
+		rv := router.NewRoutePathReverser(app.APIBuilder)
+		app.view.AddFunc("urlpath", rv.Path)
+		// app.view.AddFunc("url", rv.URL)
+		if err := app.view.Load(); err != nil {
+			rp.Group("View Builder").Err(err)
+		}
+	}
+
+	if !app.Router.Downgraded() {
+		// router
+		if _, err := injectLiveReload(app.ContextPool, app.Router); err != nil {
+			rp.Errf("LiveReload: init: failed: %v", err)
+		}
+
+		if app.config.ForceLowercaseRouting {
+			app.Router.WrapRouter(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+				r.URL.Path = strings.ToLower(r.URL.Path)
+				next(w, r)
+			})
+		}
+
+		// create the request handler, the default routing handler
+		routerHandler := router.NewDefaultHandler(app.config, app.logger)
+		err := app.Router.BuildRouter(app.ContextPool, routerHandler, app.APIBuilder, false)
+		if err != nil {
+			rp.Err(err)
+		}
+		app.HTTPErrorHandler = routerHandler
+		// re-build of the router from outside can be done with
+		// app.RefreshRouter()
+	}
+
+	// if end := time.Since(start); end.Seconds() > 5 {
+	// app.logger.Debugf("Application: build took %s", time.Since(start))
+
+	return errgroup.Check(rp)
 }
 
 // Runner is just an interface which accepts the framework instance
@@ -595,7 +553,7 @@ func (app *Application) Shutdown(ctx stdContext.Context) error {
 // It can be used to register a custom runner with `Run` in order
 // to set the framework's server listen action.
 //
-// Currently Runner is being used to declare the built'n server listeners.
+// Currently `Runner` is being used to declare the builtin server listeners.
 //
 // See `Run` for more.
 type Runner func(*Application) error
@@ -609,7 +567,7 @@ type Runner func(*Application) error
 // Via host configurators you can configure the back-end host supervisor,
 // i.e to add events for shutdown, serve or error.
 // An example of this use case can be found at:
-// https://github.com/kataras/iris/blob/master/_examples/http-listening/notify-on-shutdown/main.go
+// https://github.com/kataras/iris/blob/master/_examples/http-server/notify-on-shutdown/main.go
 // Look at the `ConfigureHost` too.
 //
 // See `Run` for more.
@@ -631,7 +589,7 @@ func Listener(l net.Listener, hostConfigs ...host.Configurator) Runner {
 // Via host configurators you can configure the back-end host supervisor,
 // i.e to add events for shutdown, serve or error.
 // An example of this use case can be found at:
-// https://github.com/kataras/iris/blob/master/_examples/http-listening/notify-on-shutdown/main.go
+// https://github.com/kataras/iris/blob/master/_examples/http-server/notify-on-shutdown/main.go
 // Look at the `ConfigureHost` too.
 //
 // See `Run` for more.
@@ -655,7 +613,7 @@ func Server(srv *http.Server, hostConfigs ...host.Configurator) Runner {
 // Via host configurators you can configure the back-end host supervisor,
 // i.e to add events for shutdown, serve or error.
 // An example of this use case can be found at:
-// https://github.com/kataras/iris/blob/master/_examples/http-listening/notify-on-shutdown/main.go
+// https://github.com/kataras/iris/blob/master/_examples/http-server/notify-on-shutdown/main.go
 // Look at the `ConfigureHost` too.
 //
 // See `Run` for more.
@@ -667,29 +625,64 @@ func Addr(addr string, hostConfigs ...host.Configurator) Runner {
 	}
 }
 
+var (
+	// TLSNoRedirect is a `host.Configurator` which can be passed as last argument
+	// to the `TLS` runner function. It disables the automatic
+	// registration of redirection from "http://" to "https://" requests.
+	// Applies only to the `TLS` runner.
+	// See `AutoTLSNoRedirect` to register a custom fallback server for `AutoTLS` runner.
+	TLSNoRedirect = func(su *host.Supervisor) { su.NoRedirect() }
+	// AutoTLSNoRedirect is a `host.Configurator`.
+	// It registers a fallback HTTP/1.1 server for the `AutoTLS` one.
+	// The function accepts the letsencrypt wrapper and it
+	// should return a valid instance of http.Server which its handler should be the result
+	// of the "acmeHandler" wrapper.
+	// Usage:
+	//	 getServer := func(acme func(http.Handler) http.Handler) *http.Server {
+	//	     srv := &http.Server{Handler: acme(yourCustomHandler), ...otherOptions}
+	//	     go srv.ListenAndServe()
+	//	     return srv
+	//   }
+	//   app.Run(iris.AutoTLS(":443", "example.com example2.com", "mail@example.com", getServer))
+	//
+	// Note that if Server.Handler is nil then the server is automatically ran
+	// by the framework and the handler set to automatic redirection, it's still
+	// a valid option when the caller wants just to customize the server's fields (except Addr).
+	// With this host configurator the caller can customize the server
+	// that letsencrypt relies to perform the challenge.
+	// LetsEncrypt Certification Manager relies on http://%s:80/.well-known/acme-challenge/<TOKEN>.
+	AutoTLSNoRedirect = func(getFallbackServer func(acmeHandler func(fallback http.Handler) http.Handler) *http.Server) host.Configurator {
+		return func(su *host.Supervisor) {
+			su.NoRedirect()
+			su.Fallback = getFallbackServer
+		}
+	}
+)
+
 // TLS can be used as an argument for the `Run` method.
 // It will start the Application's secure server.
 //
 // Use it like you used to use the http.ListenAndServeTLS function.
 //
 // Addr should have the form of [host]:port, i.e localhost:443 or :443.
-// CertFile & KeyFile should be filenames with their extensions.
+// "certFileOrContents" & "keyFileOrContents" should be filenames with their extensions
+// or raw contents of the certificate and the private key.
 //
-// Second argument is optional, it accepts one or more
+// Last argument is optional, it accepts one or more
 // `func(*host.Configurator)` that are being executed
 // on that specific host that this function will create to start the server.
 // Via host configurators you can configure the back-end host supervisor,
 // i.e to add events for shutdown, serve or error.
 // An example of this use case can be found at:
-// https://github.com/kataras/iris/blob/master/_examples/http-listening/notify-on-shutdown/main.go
+// https://github.com/kataras/iris/blob/master/_examples/http-server/notify-on-shutdown/main.go
 // Look at the `ConfigureHost` too.
 //
 // See `Run` for more.
-func TLS(addr string, certFile, keyFile string, hostConfigs ...host.Configurator) Runner {
+func TLS(addr string, certFileOrContents, keyFileOrContents string, hostConfigs ...host.Configurator) Runner {
 	return func(app *Application) error {
 		return app.NewHost(&http.Server{Addr: addr}).
 			Configure(hostConfigs...).
-			ListenAndServeTLS(certFile, keyFile)
+			ListenAndServeTLS(certFileOrContents, keyFileOrContents)
 	}
 }
 
@@ -720,7 +713,7 @@ func TLS(addr string, certFile, keyFile string, hostConfigs ...host.Configurator
 // Via host configurators you can configure the back-end host supervisor,
 // i.e to add events for shutdown, serve or error.
 // An example of this use case can be found at:
-// https://github.com/kataras/iris/blob/master/_examples/http-listening/notify-on-shutdown/main.go
+// https://github.com/kataras/iris/blob/master/_examples/http-server/notify-on-shutdown/main.go
 // Look at the `ConfigureHost` too.
 //
 // Usage:
@@ -754,45 +747,25 @@ func Raw(f func() error) Runner {
 	}
 }
 
-// Build sets up, once, the framework.
-// It builds the default router with its default macros
-// and the template functions that are very-closed to iris.
-func (app *Application) Build() error {
-	rp := errors.NewReporter()
-
-	app.once.Do(func() {
-		rp.Describe("api builder: %v", app.APIBuilder.GetReport())
-
-		if !app.Router.Downgraded() {
-			// router
-			// create the request handler, the default routing handler
-			routerHandler := router.NewDefaultHandler()
-
-			rp.Describe("router: %v", app.Router.BuildRouter(app.ContextPool, routerHandler, app.APIBuilder, false))
-			// re-build of the router from outside can be done with;
-			// app.RefreshRouter()
-		}
-
-		if app.view.Len() > 0 {
-			app.logger.Debugf("Application: %d registered view engine(s)", app.view.Len())
-			// view engine
-			// here is where we declare the closed-relative framework functions.
-			// Each engine has their defaults, i.e yield,render,render_r,partial, params...
-			rv := router.NewRoutePathReverser(app.APIBuilder)
-			app.view.AddFunc("urlpath", rv.Path)
-			// app.view.AddFunc("url", rv.URL)
-			rp.Describe("view: %v", app.view.Load())
-		}
-	})
-
-	return rp.Return()
-}
-
 // ErrServerClosed is returned by the Server's Serve, ServeTLS, ListenAndServe,
 // and ListenAndServeTLS methods after a call to Shutdown or Close.
 //
 // A shortcut for the `http#ErrServerClosed`.
 var ErrServerClosed = http.ErrServerClosed
+
+// Listen builds the application and starts the server
+// on the TCP network address "host:port" which
+// handles requests on incoming connections.
+//
+// Listen always returns a non-nil error.
+// Ignore specific errors by using an `iris.WithoutServerError(iris.ErrServerClosed)`
+// as a second input argument.
+//
+// Listen is a shortcut of `app.Run(iris.Addr(hostPort, withOrWithout...))`.
+// See `Run` for details.
+func (app *Application) Listen(hostPort string, withOrWithout ...Configurator) error {
+	return app.Run(Addr(hostPort), withOrWithout...)
+}
 
 // Run builds the framework and starts the desired `Runner` with or without configuration edits.
 //
@@ -802,26 +775,58 @@ var ErrServerClosed = http.ErrServerClosed
 // then create a new host and run it manually by `go NewHost(*http.Server).Serve/ListenAndServe` etc...
 // or use an already created host:
 // h := NewHost(*http.Server)
-// Run(Raw(h.ListenAndServe), WithCharset("UTF-8"), WithRemoteAddrHeader("CF-Connecting-IP"))
+// Run(Raw(h.ListenAndServe), WithCharset("utf-8"), WithRemoteAddrHeader("CF-Connecting-IP"))
 //
 // The Application can go online with any type of server or iris's host with the help of
 // the following runners:
 // `Listener`, `Server`, `Addr`, `TLS`, `AutoTLS` and `Raw`.
 func (app *Application) Run(serve Runner, withOrWithout ...Configurator) error {
-	// first Build because it doesn't need anything from configuration,
-	// this gives the user the chance to modify the router inside a configurator as well.
+	app.Configure(withOrWithout...)
+
 	if err := app.Build(); err != nil {
-		return errors.PrintAndReturnErrors(err, app.logger.Errorf)
+		app.logger.Error(err)
+		return err
 	}
 
-	app.Configure(withOrWithout...)
-	app.logger.Debugf("Application: running using %d host(s)", len(app.Hosts)+1)
+	app.ConfigureHost(func(host *Supervisor) {
+		host.SocketSharding = app.config.SocketSharding
+	})
+
+	app.tryStartTunneling()
+
+	if len(app.Hosts) > 0 {
+		app.logger.Debugf("Application: running using %d host(s)", len(app.Hosts)+1 /* +1 the current */)
+	}
 
 	// this will block until an error(unless supervisor's DeferFlow called from a Task).
 	err := serve(app)
 	if err != nil {
-		app.Logger().Error(err)
+		app.logger.Error(err)
 	}
 
 	return err
+}
+
+// https://ngrok.com/docs
+func (app *Application) tryStartTunneling() {
+	if len(app.config.Tunneling.Tunnels) == 0 {
+		return
+	}
+
+	app.ConfigureHost(func(su *host.Supervisor) {
+		su.RegisterOnServe(func(h host.TaskHost) {
+			publicAddrs, err := tunnel.Start(app.config.Tunneling)
+			if err != nil {
+				app.logger.Errorf("Host: tunneling error: %v", err)
+				return
+			}
+
+			publicAddr := publicAddrs[0]
+			// to make subdomains resolution still based on this new remote, public addresses.
+			app.config.vhost = publicAddr[strings.Index(publicAddr, "://")+3:]
+
+			directLog := []byte(fmt.Sprintf("• Public Address: %s\n", publicAddr))
+			app.logger.Printer.Write(directLog) // nolint:errcheck
+		})
+	})
 }

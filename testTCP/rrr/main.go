@@ -26,7 +26,7 @@ func main() {
 	//	fmt.Fprintf(os.Stderr, "用法:%s ip地址\n", os.Args[0])
 	//	os.Exit(1)
 	//}
-	service := "127.0.0.1:8068"
+	service := "127.0.0.1:8000"
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err)
 
@@ -47,7 +47,7 @@ func main() {
 		checkError(err)
 		fmt.Println(string(msr[0]))
 		//os.Exit(0)
-
+		_, err = conn.Write([]byte("hello"))
 		time.Sleep(10 * time.Second)
 	}
 	//err := conn.Close()

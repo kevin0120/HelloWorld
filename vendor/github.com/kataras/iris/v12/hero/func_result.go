@@ -72,6 +72,9 @@ type Result interface {
 //
 // The caller can manage it at the handler itself. However,
 // to reduce thoese type of duplications it's preferable to use such a standard interface instead.
+//
+// The Preflight method can return `iris.ErrStopExecution` to render
+// and override any interface that the structure value may implement, e.g. mvc.Result.
 type PreflightResult interface {
 	Preflight(*context.Context) error
 }
@@ -173,7 +176,7 @@ func dispatchFuncResult(ctx *context.Context, values []reflect.Value, handler Re
 		// Except when err != nil then check if status code is < 400 and
 		// if it's set it as DefaultErrStatusCode.
 		// Except when found == false, then the status code is 404.
-		statusCode int
+		statusCode = ctx.GetStatusCode() // Get the current status code given by any previous middleware.
 		// if not empty then use that as content type,
 		// if empty and custom != nil then set it to application/json.
 		contentType string
@@ -477,28 +480,6 @@ type View struct {
 
 var _ Result = View{}
 
-const dotB = byte('.')
-
-// DefaultViewExt is the default extension if `view.Name `is missing,
-// but note that it doesn't care about
-// the app.RegisterView(iris.$VIEW_ENGINE("./$dir", "$ext"))'s $ext.
-// so if you don't use the ".html" as extension for your files
-// you have to append the extension manually into the `view.Name`
-// or change this global variable.
-var DefaultViewExt = ".html"
-
-func ensureExt(s string) string {
-	if len(s) == 0 {
-		return "index" + DefaultViewExt
-	}
-
-	if strings.IndexByte(s, dotB) < 1 {
-		s += DefaultViewExt
-	}
-
-	return s
-}
-
 // Dispatch writes the template filename, template layout and (any) data to the  client.
 // Completes the `Result` interface.
 func (r View) Dispatch(ctx *context.Context) { // r as Response view.
@@ -511,10 +492,7 @@ func (r View) Dispatch(ctx *context.Context) { // r as Response view.
 	}
 
 	if r.Name != "" {
-		r.Name = ensureExt(r.Name)
-
 		if r.Layout != "" {
-			r.Layout = ensureExt(r.Layout)
 			ctx.ViewLayout(r.Layout)
 		}
 

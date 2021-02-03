@@ -64,9 +64,9 @@ type DirCacheOptions struct {
 // See `DefaultDirOptions`.
 type DirOptions struct {
 	// Defaults to "/index.html", if request path is ending with **/*/$IndexName
-	// then it redirects to **/*(/) which another handler is handling it,
-	// that another handler, called index handler, is auto-registered by the framework
-	// if end developer does not managed to handle it by hand.
+	// then it redirects to **/*(/).
+	// That index handler is registered automatically
+	// by the framework unless but it can be overridden.
 	IndexName string
 	// PushTargets filenames (map's value) to
 	// be served without additional client's requests (HTTP/2 Push)
@@ -94,10 +94,12 @@ type DirOptions struct {
 	// When files should served under compression.
 	Compress bool
 
-	// List the files inside the current requested directory if `IndexName` not found.
+	// List the files inside the current requested
+	// directory if `IndexName` not found.
 	ShowList bool
 	// If `ShowList` is true then this function will be used instead
-	// of the default one to show the list of files of a current requested directory(dir).
+	// of the default one to show the list of files
+	// of a current requested directory(dir).
 	// See `DirListRich` package-level function too.
 	DirList DirListFunc
 
@@ -106,6 +108,16 @@ type DirOptions struct {
 
 	// Optional validator that loops through each requested resource.
 	AssetValidator func(ctx *context.Context, name string) bool
+	// If enabled then the router will render the index file on any not-found file
+	// instead of firing the 404 error code handler.
+	// Make sure the `IndexName` field is set.
+	//
+	// Usage:
+	//  app.HandleDir("/", iris.Dir("./public"), iris.DirOptions{
+	// 	 IndexName: "index.html",
+	// 	 SPA:       true,
+	//  })
+	SPA bool
 }
 
 // DefaultDirOptions holds the default settings for `FileServer`.
@@ -135,6 +147,7 @@ var DefaultDirOptions = DirOptions{
 		Burst:  0,
 	},
 	AssetValidator: nil,
+	SPA:            false,
 }
 
 // FileServer returns a Handler which serves files from a specific file system.
@@ -187,11 +200,32 @@ func FileServer(fs http.FileSystem, options DirOptions) context.Handler {
 		name := prefix(r.URL.Path, "/")
 		r.URL.Path = name
 
+		var (
+			indexFound bool
+			noRedirect bool
+		)
+
 		f, err := open(name, r)
 		if err != nil {
-			plainStatusCode(ctx, http.StatusNotFound)
-			return
+			if options.SPA && name != options.IndexName {
+				oldname := name
+				name = prefix(options.IndexName, "/") // to match push targets.
+				r.URL.Path = name
+				f, err = open(name, r) // try find the main index.
+				if err != nil {
+					r.URL.Path = oldname
+					plainStatusCode(ctx, http.StatusNotFound)
+					return
+				}
+
+				indexFound = true // to support push targets.
+				noRedirect = true // to disable redirecting back to /.
+			} else {
+				plainStatusCode(ctx, http.StatusNotFound)
+				return
+			}
 		}
+
 		defer f.Close()
 
 		info, err := f.Stat()
@@ -199,8 +233,6 @@ func FileServer(fs http.FileSystem, options DirOptions) context.Handler {
 			plainStatusCode(ctx, http.StatusNotFound)
 			return
 		}
-
-		var indexFound bool
 
 		// use contents of index.html for directory, if present
 		if info.IsDir() && options.IndexName != "" {
@@ -252,7 +284,7 @@ func FileServer(fs http.FileSystem, options DirOptions) context.Handler {
 
 		// index requested, send a moved permanently status
 		// and navigate back to the route without the index suffix.
-		if strings.HasSuffix(name, options.IndexName) {
+		if !noRedirect && options.IndexName != "" && strings.HasSuffix(name, options.IndexName) {
 			localRedirect(ctx, "./")
 			return
 		}
@@ -293,6 +325,12 @@ func FileServer(fs http.FileSystem, options DirOptions) context.Handler {
 			// if it's cached and its settings didnt allow this file to be compressed
 			// then don't try to compress it on the fly, even if the options.Compress was set to true.
 			if encoding != "" {
+				if ctx.ResponseWriter().Header().Get(context.ContentEncodingHeaderKey) != "" {
+					// disable any compression writer if that header exist,
+					// note that, we don't directly check for CompressResponseWriter type
+					// because it may be a ResponseRecorder.
+					ctx.CompressWriter(false)
+				}
 				// Set the response header we need, the data are already compressed.
 				context.AddCompressHeaders(ctx.ResponseWriter().Header(), encoding)
 			}
@@ -389,8 +427,12 @@ func StripPrefix(prefix string, h context.Handler) context.Handler {
 	canonicalPrefix = toWebPath(canonicalPrefix)
 
 	return func(ctx *context.Context) {
-		if p := strings.TrimPrefix(ctx.Request().URL.Path, canonicalPrefix); len(p) < len(ctx.Request().URL.Path) {
-			ctx.Request().URL.Path = p
+		u := ctx.Request().URL
+		if p := strings.TrimPrefix(u.Path, canonicalPrefix); len(p) < len(u.Path) {
+			if p == "" {
+				p = "/"
+			}
+			u.Path = p
 			h(ctx)
 		} else {
 			ctx.NotFound()
@@ -400,9 +442,9 @@ func StripPrefix(prefix string, h context.Handler) context.Handler {
 
 func toWebPath(systemPath string) string {
 	// winos slash to slash
-	webpath := strings.Replace(systemPath, "\\", "/", -1)
+	webpath := strings.ReplaceAll(systemPath, "\\", "/")
 	// double slashes to single
-	webpath = strings.Replace(webpath, "//", "/", -1)
+	webpath = strings.ReplaceAll(webpath, "//", "/")
 	return webpath
 }
 
@@ -971,7 +1013,7 @@ func cacheFiles(ctx stdContext.Context, fs http.FileSystem, names []string, comp
 			case <-ctx.Done():
 				return ctx.Err()
 			default:
-				break
+				break // lint:ignore
 			}
 
 			if alg == "brotli" {
@@ -1176,7 +1218,7 @@ var _ http.File = (*dir)(nil)
 
 // returns unorderded map of directories both reclusive and flat.
 func findDirs(fs http.FileSystem, names []string) (map[string]*dir, error) {
-	dirs := make(map[string]*dir, 0)
+	dirs := make(map[string]*dir)
 
 	for _, name := range names {
 		f, err := fs.Open(name)

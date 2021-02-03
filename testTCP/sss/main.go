@@ -25,7 +25,7 @@ func echo(conn *net.TCPConn) {
 		msr[0] = 'h'
 		_, err := conn.Read(msr[0:])
 		fmt.Println("远程地址:", string(msr[0]))
-		n, err := conn.Write(msr[0:])
+		n, err := conn.Write([]byte("world"))
 		fmt.Printf("send %d bytes to %s\n", n, conn.RemoteAddr())
 		if err != nil {
 			err = conn.Close()

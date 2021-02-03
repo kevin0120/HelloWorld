@@ -14,7 +14,7 @@ type UserInfo struct {
 
 func main() {
 	// 解析指定文件生成模板对象
-	tmpl, err := template.ParseFiles("/home/kevin/Downloads/gopath/src/HelloWorld/testTemplate/hello.html")
+	tmpl, err := template.ParseFiles("/home/kevin/Code/HelloWorld/testTemplate/hello.html")
 	if err != nil {
 		fmt.Println("create template failed, err:", err)
 		return

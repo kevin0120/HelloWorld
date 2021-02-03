@@ -16,8 +16,9 @@ type binding struct {
 
 // Input contains the input reference of which a dependency is binded to.
 type Input struct {
-	Index            int   // for func inputs
-	StructFieldIndex []int // for struct fields in order to support embedded ones.
+	Index            int    // for func inputs
+	StructFieldIndex []int  // for struct fields in order to support embedded ones.
+	StructFieldName  string // the struct field's name.
 	Type             reflect.Type
 
 	selfValue reflect.Value // reflect.ValueOf(*Input) cache.
@@ -32,6 +33,12 @@ func newInput(typ reflect.Type, index int, structFieldIndex []int) *Input {
 
 	in.selfValue = reflect.ValueOf(in)
 	return in
+}
+
+func newStructFieldInput(f reflect.StructField) *Input {
+	input := newInput(f.Type, f.Index[0], f.Index)
+	input.StructFieldName = f.Name
+	return input
 }
 
 // String returns the string representation of a binding.
@@ -241,8 +248,29 @@ func getBindingsForFunc(fn reflect.Value, dependencies []*Dependency, paramsCoun
 	}
 
 	bindings := getBindingsFor(inputs, dependencies, paramsCount)
-	if expected, got := n, len(bindings); expected > got {
-		panic(fmt.Sprintf("expected [%d] bindings (input parameters) but got [%d]", expected, got))
+	if expected, got := n, len(bindings); expected != got {
+		expectedInputs := ""
+		missingInputs := ""
+		for i, in := range inputs {
+			pos := i + 1
+			typName := in.String()
+			expectedInputs += fmt.Sprintf("\n  - [%d] %s", pos, typName)
+			found := false
+			for _, b := range bindings {
+				if b.Input.Index == i {
+					found = true
+					break
+				}
+			}
+
+			if !found {
+				missingInputs += fmt.Sprintf("\n  - [%d] %s", pos, typName)
+			}
+		}
+
+		fnName := context.HandlerName(fn)
+		panic(fmt.Sprintf("expected [%d] bindings (input parameters) but got [%d]\nFunction:\n  - %s\nExpected:%s\nMissing:%s",
+			expected, got, fnName, expectedInputs, missingInputs))
 	}
 
 	return bindings
@@ -261,7 +289,7 @@ func getBindingsForStruct(v reflect.Value, dependencies []*Dependency, paramsCou
 		// fmt.Printf("Controller [%s] | NonZero | Field Index: %v | Field Type: %s\n", typ, f.Index, f.Type)
 		bindings = append(bindings, &binding{
 			Dependency: NewDependency(elem.FieldByIndex(f.Index).Interface()),
-			Input:      newInput(f.Type, f.Index[0], f.Index),
+			Input:      newStructFieldInput(f),
 		})
 	}
 
@@ -299,9 +327,10 @@ func getBindingsForStruct(v reflect.Value, dependencies []*Dependency, paramsCou
 		// fmt.Printf(""Controller [%s] | Binding: %s\n", typ, binding.String())
 
 		if len(binding.Input.StructFieldIndex) == 0 {
-			// set correctly the input's field index.
-			structFieldIndex := fields[binding.Input.Index].Index
-			binding.Input.StructFieldIndex = structFieldIndex
+			// set correctly the input's field index and name.
+			f := fields[binding.Input.Index]
+			binding.Input.StructFieldIndex = f.Index
+			binding.Input.StructFieldName = f.Name
 		}
 
 		// fmt.Printf("Controller [%s] | binding Index: %v | binding Type: %s\n", typ, binding.Input.StructFieldIndex, binding.Input.Type)

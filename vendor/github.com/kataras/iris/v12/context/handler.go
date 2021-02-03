@@ -19,7 +19,7 @@ var (
 )
 
 var (
-	handlerNames   = make(map[*nameExpr]string)
+	handlerNames   = make(map[*NameExpr]string)
 	handlerNamesMu sync.RWMutex
 )
 
@@ -44,19 +44,22 @@ func SetHandlerName(original string, replacement string) {
 	// when a handler name is declared as it's and cause regex parsing expression error,
 	// e.g. `iris/cache/client.(*Handler).ServeHTTP-fm`
 	regex, _ := regexp.Compile(original)
-	handlerNames[&nameExpr{
+	handlerNames[&NameExpr{
 		literal: original,
 		regex:   regex,
 	}] = replacement
 	handlerNamesMu.Unlock()
 }
 
-type nameExpr struct {
+// NameExpr regex or literal comparison through `MatchString`.
+type NameExpr struct {
 	regex   *regexp.Regexp
 	literal string
 }
 
-func (expr *nameExpr) MatchString(s string) bool {
+// MatchString reports whether "s" is literal of "literal"
+// or it matches the regex expression at "regex".
+func (expr *NameExpr) MatchString(s string) bool {
 	if expr.literal == s { // if matches as string, as it's.
 		return true
 	}
@@ -114,6 +117,31 @@ func HandlerName(h interface{}) string {
 	handlerNamesMu.RUnlock()
 
 	return trimHandlerName(name)
+}
+
+// HandlersNames returns a slice of "handlers" names
+// separated by commas. Can be used for debugging
+// or to determinate if end-developer
+// called the same exactly Use/UseRouter/Done... API methods
+// so framework can give a warning.
+func HandlersNames(handlers ...interface{}) string {
+	if len(handlers) == 1 {
+		if hs, ok := handlers[0].(Handlers); ok {
+			asInterfaces := make([]interface{}, 0, len(hs))
+			for _, h := range hs {
+				asInterfaces = append(asInterfaces, h)
+			}
+
+			return HandlersNames(asInterfaces...)
+		}
+	}
+
+	names := make([]string, 0, len(handlers))
+	for _, h := range handlers {
+		names = append(names, HandlerName(h))
+	}
+
+	return strings.Join(names, ",")
 }
 
 // HandlerFileLine returns the handler's file and line information.
@@ -211,6 +239,10 @@ var ignoreMainHandlerNames = [...]string{
 	"iris.reCAPTCHA",
 	"iris.profiling",
 	"iris.recover",
+	"iris.accesslog",
+	"iris.grpc",
+	"iris.requestid",
+	"iris.rewrite",
 }
 
 // ingoreMainHandlerName reports whether a main handler of "name" should
@@ -231,7 +263,7 @@ func ingoreMainHandlerName(name string) bool {
 	return false
 }
 
-// Filter is just a type of func(Handler) bool which reports whether an action must be performed
+// Filter is just a type of func(Context) bool which reports whether an action must be performed
 // based on the incoming request.
 //
 // See `NewConditionalHandler` for more.
@@ -303,4 +335,24 @@ func JoinHandlers(h1 Handlers, h2 Handlers) Handlers {
 	// start from there we finish, and store the new Handlers too
 	copy(newHandlers[nowLen:], h2)
 	return newHandlers
+}
+
+// UpsertHandlers like `JoinHandlers` but it does
+// NOT copies the handlers entries and it does remove duplicates.
+func UpsertHandlers(h1 Handlers, h2 Handlers) Handlers {
+reg:
+	for _, handler := range h2 {
+		name := HandlerName(handler)
+		for i, registeredHandler := range h1 {
+			registeredName := HandlerName(registeredHandler)
+			if name == registeredName {
+				h1[i] = handler // replace this handler with the new one.
+				continue reg    // break and continue to the next handler.
+			}
+		}
+
+		h1 = append(h1, handler) // or just insert it.
+	}
+
+	return h1
 }

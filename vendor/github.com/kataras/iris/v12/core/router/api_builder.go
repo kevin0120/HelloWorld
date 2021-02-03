@@ -1,6 +1,7 @@
 package router
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -11,10 +12,11 @@ import (
 	"time"
 
 	"github.com/kataras/iris/v12/context"
-	"github.com/kataras/iris/v12/core/errgroup"
 	"github.com/kataras/iris/v12/hero"
 	"github.com/kataras/iris/v12/macro"
 	macroHandler "github.com/kataras/iris/v12/macro/handler"
+
+	"github.com/kataras/golog"
 )
 
 // MethodNone is a Virtual method
@@ -119,6 +121,7 @@ func (repo *repository) register(route *Route, rule RouteRegisterRule) (*Route, 
 var defaultOverlapFilter = func(ctx *context.Context) bool {
 	if ctx.IsStopped() {
 		// It's stopped and the response can be overridden by a new handler.
+		// An exception of compress writer, which does not implement Reseter (and it shouldn't):
 		rs, ok := ctx.ResponseWriter().(context.ResponseWriterReseter)
 		return ok && rs.Reset()
 	}
@@ -131,11 +134,41 @@ func overlapRoute(r *Route, next *Route) {
 	next.BuildHandlers()
 	nextHandlers := next.Handlers[0:]
 
+	isErrorRoutes := r.StatusCode > 0 && next.StatusCode > 0
+
 	decisionHandler := func(ctx *context.Context) {
 		ctx.Next()
 
-		if !defaultOverlapFilter(ctx) {
-			return
+		if isErrorRoutes { // fixes issue #1602.
+			// If it's an error we don't need to reset (see defaultOverlapFilter)
+			// its status code(!) and its body, we just check if it was proceed or not.
+			if !ctx.IsStopped() {
+				return
+			}
+		} else {
+			prevStatusCode := ctx.GetStatusCode()
+
+			if !defaultOverlapFilter(ctx) {
+				return
+			}
+			// set the status code that it was stopped with.
+			// useful for dependencies with StopWithStatus(XXX)
+			// instead of raw ctx.StopExecution().
+			// The func_result now also catch the last registered status code
+			// of the chain, unless the controller returns an integer.
+			// See _examples/authenticated-controller.
+			if prevStatusCode > 0 {
+				// An exception when stored error
+				// exists and it's type of ErrNotFound.
+				// Example:
+				// Version was not found:
+				//	 we need to be able to send the status on the last not found version
+				//   but reset the status code if a next available matched version was found.
+				//	 see the versioning package.
+				if !errors.Is(ctx.GetErr(), context.ErrNotFound) {
+					ctx.StatusCode(prevStatusCode)
+				}
+			}
 		}
 
 		ctx.SetErr(nil) // clear any stored error.
@@ -145,31 +178,39 @@ func overlapRoute(r *Route, next *Route) {
 		ctx.Do(nextHandlers)
 	}
 
-	// NOTE(@kataras): Any UseGlobal call will prepend to this, if they are
-	// in the same Party then it's expected, otherwise not.
-	r.beginHandlers = append(context.Handlers{decisionHandler}, r.beginHandlers...)
+	r.builtinBeginHandlers = append(context.Handlers{decisionHandler}, r.builtinBeginHandlers...)
+	r.overlappedLink = next
 }
 
 // APIBuilder the visible API for constructing the router
 // and child routers.
 type APIBuilder struct {
+	// the application logger.
+	logger *golog.Logger
+	// parent is the creator of this Party.
+	// It is nil on Root.
+	parent *APIBuilder // currently it's not used anywhere.
+
 	// the per-party APIBuilder with DI.
 	apiBuilderDI *APIContainer
 
 	// the api builder global macros registry
 	macros *macro.Macros
+	// the per-party (and its children) values map
+	// that may help on building the API
+	// when source code is splitted between projects.
+	// Initialized on Properties method.
+	properties context.Map
 	// the api builder global routes repository
 	routes *repository
-
-	// the api builder global errors, can be filled by the Subdomain, WildcardSubdomain, Handle...
-	// the list of possible errors that can be
-	// collected on the build state to log
-	// to the end-user.
-	errors *errgroup.Group
+	// disables the debug logging of routes under a per-party and its children.
+	routesNoLog bool
 
 	// the per-party handlers, order
-	// of handlers registration matters.
-	middleware context.Handlers
+	// of handlers registration matters,
+	// inherited by children unless Reset is called.
+	middleware          context.Handlers
+	middlewareErrorCode context.Handlers
 	// the global middleware handlers, order of call doesn't matters, order
 	// of handlers registration matters. We need a secondary field for this
 	// because `UseGlobal` registers handlers that should be executed
@@ -184,7 +225,7 @@ type APIBuilder struct {
 
 	// the per-party relative path.
 	relativePath string
-	// allowMethods are filled with the `AllowMethods` func.
+	// allowMethods are filled with the `AllowMethods` method.
 	// They are used to create new routes
 	// per any party's (and its children) routes registered
 	// if the method "x" wasn't registered already via  the `Handle` (and its extensions like `Get`, `Post`...).
@@ -194,22 +235,72 @@ type APIBuilder struct {
 	handlerExecutionRules ExecutionRules
 	// the per-party (and its children) route registration rule, see `SetRegisterRule`.
 	routeRegisterRule RouteRegisterRule
+
+	// routerFilterHandlers holds a reference
+	// of the handlers used by the current and its parent Party's registered
+	// router filters. Inherited by children unless `Reset` (see `UseRouter`),
+	routerFilterHandlers context.Handlers
+	// routerFilters field is shared across Parties. Each Party registers
+	// one or more middlewares to run before the router itself using the `UseRouter` method.
+	// Each Party calls the shared filter (`partyMatcher`) that decides if its `UseRouter` handlers
+	// can be executed. By default it's based on party's static path and/or subdomain,
+	// it can be modified through an `Application.SetPartyMatcher` call
+	// once before or after routerFilters filled.
+	//
+	// The Key is the Party (instance of APIBuilder),
+	// value wraps the partyFilter + the handlers registered through `UseRouter`.
+	// See `GetRouterFilters` too.
+	routerFilters map[Party]*Filter
+	// partyMatcher field is shared across all Parties,
+	// can be modified through the Application level only.
+	//
+	// It defaults to the internal, simple, "defaultPartyMatcher".
+	// It applies when "routerFilters" are used.
+	partyMatcher PartyMatcherFunc
 }
 
-var _ Party = (*APIBuilder)(nil)
-var _ RoutesProvider = (*APIBuilder)(nil) // passed to the default request handler (routerHandler)
+var (
+	_ Party          = (*APIBuilder)(nil)
+	_ PartyMatcher   = (*APIBuilder)(nil)
+	_ RoutesProvider = (*APIBuilder)(nil) // passed to the default request handler (routerHandler)
+)
 
 // NewAPIBuilder creates & returns a new builder
 // which is responsible to build the API and the router handler.
-func NewAPIBuilder() *APIBuilder {
+func NewAPIBuilder(logger *golog.Logger) *APIBuilder {
 	return &APIBuilder{
-		macros:       macro.Defaults,
-		errors:       errgroup.New("API Builder"),
-		relativePath: "/",
-		routes:       new(repository),
-		apiBuilderDI: &APIContainer{Container: hero.New()},
+		logger:        logger,
+		parent:        nil,
+		macros:        macro.Defaults,
+		relativePath:  "/",
+		routes:        new(repository),
+		apiBuilderDI:  &APIContainer{Container: hero.New().WithLogger(logger)},
+		routerFilters: make(map[Party]*Filter),
+		partyMatcher:  defaultPartyMatcher,
 	}
 }
+
+// Logger returns the Application Logger.
+func (api *APIBuilder) Logger() *golog.Logger {
+	return api.logger
+}
+
+// IsRoot reports whether this Party is the root Application's one.
+// It will return false on all children Parties, no exception.
+func (api *APIBuilder) IsRoot() bool {
+	return api.parent == nil
+}
+
+/* If requested:
+// GetRoot returns the very first Party (the Application).
+func (api *APIBuilder) GetRoot() *APIBuilder {
+	root := api.parent
+	for root != nil {
+		root = api.parent
+	}
+
+	return root
+}*/
 
 // ConfigureContainer accepts one or more functions that can be used
 // to configure dependency injection features of this Party
@@ -238,11 +329,6 @@ func (api *APIBuilder) ConfigureContainer(builder ...func(*APIContainer)) *APICo
 // if r := app.Party("www.") or app.Subdomain("www") then the `r.GetRelPath()` is the "www.".
 func (api *APIBuilder) GetRelPath() string {
 	return api.relativePath
-}
-
-// GetReporter returns the reporter for adding or receiving any errors caused when building the API.
-func (api *APIBuilder) GetReporter() *errgroup.Group {
-	return api.errors
 }
 
 // AllowMethods will re-register the future routes that will be registered
@@ -314,7 +400,7 @@ func (api *APIBuilder) SetRegisterRule(rule RouteRegisterRule) Party {
 	return api
 }
 
-// Handle registers a route to the server's api.
+// Handle registers a route to this Party.
 // if empty method is passed then handler(s) are being registered to all methods, same as .Any.
 //
 // Returns a *Route, app will throw any errors later on.
@@ -322,6 +408,8 @@ func (api *APIBuilder) Handle(method string, relativePath string, handlers ...co
 	return api.handle(0, method, relativePath, handlers...)
 }
 
+// handle registers a full route to this Party.
+// Use Handle or Get, Post, Put, Delete and et.c. instead.
 func (api *APIBuilder) handle(errorCode int, method string, relativePath string, handlers ...context.Handler) *Route {
 	routes := api.createRoutes(errorCode, []string{method}, relativePath, handlers...)
 
@@ -329,14 +417,14 @@ func (api *APIBuilder) handle(errorCode int, method string, relativePath string,
 	var err error
 	for _, route = range routes {
 		if route == nil {
-			break
+			continue
 		}
 
 		// global
 
 		route.topLink = api.routes.getRelative(route)
 		if route, err = api.routes.register(route, api.routeRegisterRule); err != nil {
-			api.errors.Add(err)
+			api.logger.Error(err)
 			break
 		}
 	}
@@ -394,11 +482,26 @@ func (api *APIBuilder) HandleMany(methodOrMulti string, relativePathorMulti stri
 //
 // Returns all the registered routes, including GET index and path patterm and HEAD.
 //
-// Examples can be found at: https://github.com/kataras/iris/tree/master/_examples/file-server
-func (api *APIBuilder) HandleDir(requestPath string, fs http.FileSystem, opts ...DirOptions) (routes []*Route) {
+// Usage:
+// HandleDir("/public", "./assets", DirOptions{...}) or
+// HandleDir("/public", iris.Dir("./assets"), DirOptions{...})
+//
+// Examples:
+// https://github.com/kataras/iris/tree/master/_examples/file-server
+func (api *APIBuilder) HandleDir(requestPath string, fsOrDir interface{}, opts ...DirOptions) (routes []*Route) {
 	options := DefaultDirOptions
 	if len(opts) > 0 {
 		options = opts[0]
+	}
+
+	var fs http.FileSystem
+	switch v := fsOrDir.(type) {
+	case string:
+		fs = http.Dir(v)
+	case http.FileSystem:
+		fs = v
+	default:
+		panic(fmt.Errorf(`unexpected "fsOrDir" argument type of %T (string or http.FileSystem)`, v))
 	}
 
 	h := FileServer(fs, options)
@@ -434,7 +537,7 @@ func (api *APIBuilder) HandleDir(requestPath string, fs http.FileSystem, opts ..
 		}
 
 		if _, err := api.routes.register(route, api.routeRegisterRule); err != nil {
-			api.errors.Add(err)
+			api.logger.Error(err)
 			break
 		}
 	}
@@ -475,7 +578,7 @@ func (api *APIBuilder) createRoutes(errorCode int, methods []string, relativePat
 
 	fullpath := api.relativePath + relativePath // for now, keep the last "/" if any,  "/xyz/"
 	if len(handlers) == 0 {
-		api.errors.Addf("missing handlers for route[%s:%d] %s: %s", filename, line, strings.Join(methods, ", "), fullpath)
+		api.logger.Errorf("missing handlers for route[%s:%d] %s: %s", filename, line, strings.Join(methods, ", "), fullpath)
 		return nil
 	}
 
@@ -494,6 +597,8 @@ func (api *APIBuilder) createRoutes(errorCode int, methods []string, relativePat
 	if errorCode == 0 {
 		beginHandlers = context.JoinHandlers(beginHandlers, api.middleware)
 		doneHandlers = context.JoinHandlers(doneHandlers, api.doneHandlers)
+	} else {
+		beginHandlers = context.JoinHandlers(beginHandlers, api.middlewareErrorCode)
 	}
 
 	mainHandlers := context.Handlers(handlers)
@@ -504,7 +609,7 @@ func (api *APIBuilder) createRoutes(errorCode int, methods []string, relativePat
 	mainHandlerFileName, mainHandlerFileNumber := context.HandlerFileLineRel(handlers[mainHandlerIndex])
 
 	// re-calculate mainHandlerIndex in favor of the middlewares.
-	mainHandlerIndex = len(api.middleware) + len(api.beginGlobalHandlers) + mainHandlerIndex
+	mainHandlerIndex = len(beginHandlers) + mainHandlerIndex
 
 	// TODO: for UseGlobal/DoneGlobal that doesn't work.
 	applyExecutionRules(api.handlerExecutionRules, &beginHandlers, &doneHandlers, &mainHandlers)
@@ -524,9 +629,9 @@ func (api *APIBuilder) createRoutes(errorCode int, methods []string, relativePat
 	routes := make([]*Route, len(methods))
 
 	for i, m := range methods { // single, empty method for error handlers.
-		route, err := NewRoute(errorCode, m, subdomain, path, routeHandlers, *api.macros)
+		route, err := NewRoute(api, errorCode, m, subdomain, path, routeHandlers, *api.macros)
 		if err != nil { // template path parser errors:
-			api.errors.Addf("[%s:%d] %v -> %s:%s:%s", filename, line, err, m, subdomain, path)
+			api.logger.Errorf("[%s:%d] %v -> %s:%s:%s", filename, line, err, m, subdomain, path)
 			continue
 		}
 
@@ -545,6 +650,7 @@ func (api *APIBuilder) createRoutes(errorCode int, methods []string, relativePat
 		// route.Use(api.beginGlobalHandlers...)
 		// route.Done(api.doneGlobalHandlers...)
 
+		route.NoLog = api.routesNoLog
 		routes[i] = route
 	}
 
@@ -565,17 +671,23 @@ func removeDuplicates(elements []string) (result []string) {
 	return result
 }
 
-// Party groups routes which may have the same prefix and share same handlers,
-// returns that new rich subrouter.
+// Party returns a new child Party which inherites its
+// parent's options and middlewares.
+// A Party groups routes which may have the same prefix or subdomain and share same middlewares.
 //
-// You can even declare a subdomain with relativePath as "mysub." or see `Subdomain`.
+// To create a group of routes for subdomains
+// use the `Subdomain` or `WildcardSubdomain` methods
+// or pass a "relativePath" of "admin." or "*." respectfully.
 func (api *APIBuilder) Party(relativePath string, handlers ...context.Handler) Party {
-	// if app.Party("/"), root party, then just add the middlewares
-	// and return itself.
-	if api.relativePath == "/" && (relativePath == "" || relativePath == "/") {
-		api.Use(handlers...)
-		return api
-	}
+	// if app.Party("/"), root party or app.Party("/user") == app.Party("/user")
+	// then just add the middlewares and return itself.
+	// if relativePath == "" || api.relativePath == relativePath {
+	// 	api.Use(handlers...)
+	// 	return api
+	// }
+	// ^ No, this is wrong, let the developer do its job, if she/he wants a copy let have it,
+	// it's a pure check as well, a path can be the same even if it's the same as its parent, i.e.
+	// app.Party("/user").Party("/user") should result in a /user/user, not a /user.
 
 	parentPath := api.relativePath
 	dot := string(SubdomainPrefix[0])
@@ -607,16 +719,30 @@ func (api *APIBuilder) Party(relativePath string, handlers ...context.Handler) P
 	allowMethods := make([]string, len(api.allowMethods))
 	copy(allowMethods, api.allowMethods)
 
+	// make a copy of the parent properties.
+	var properties context.Map
+	for k, v := range api.properties {
+		properties[k] = v
+	}
+
 	childAPI := &APIBuilder{
 		// global/api builder
+		logger:              api.logger,
 		macros:              api.macros,
+		properties:          properties,
 		routes:              api.routes,
+		routesNoLog:         api.routesNoLog,
 		beginGlobalHandlers: api.beginGlobalHandlers,
 		doneGlobalHandlers:  api.doneGlobalHandlers,
-		errors:              api.errors,
+
 		// per-party/children
+		parent:                api,
 		middleware:            middleware,
+		middlewareErrorCode:   context.JoinHandlers(api.middlewareErrorCode, context.Handlers{}),
 		doneHandlers:          api.doneHandlers[0:],
+		routerFilters:         api.routerFilters,
+		routerFilterHandlers:  api.routerFilterHandlers,
+		partyMatcher:          api.partyMatcher,
 		relativePath:          fullpath,
 		allowMethods:          allowMethods,
 		handlerExecutionRules: api.handlerExecutionRules,
@@ -661,7 +787,7 @@ func (api *APIBuilder) PartyFunc(relativePath string, partyBuilderFunc func(p Pa
 func (api *APIBuilder) Subdomain(subdomain string, middleware ...context.Handler) Party {
 	if api.relativePath == SubdomainWildcardIndicator {
 		// cannot concat wildcard subdomain with something else
-		api.errors.Addf("cannot concat parent wildcard subdomain with anything else ->  %s , %s",
+		api.logger.Errorf("cannot concat parent wildcard subdomain with anything else ->  %s , %s",
 			api.relativePath, subdomain)
 		return api
 	}
@@ -681,7 +807,7 @@ func (api *APIBuilder) Subdomain(subdomain string, middleware ...context.Handler
 func (api *APIBuilder) WildcardSubdomain(middleware ...context.Handler) Party {
 	if hasSubdomain(api.relativePath) {
 		// cannot concat static subdomain with a dynamic one, wildcard should be at the root level
-		api.errors.Addf("cannot concat static subdomain with a dynamic one. Dynamic subdomains should be at the root level -> %s",
+		api.logger.Errorf("cannot concat static subdomain with a dynamic one. Dynamic subdomains should be at the root level -> %s",
 			api.relativePath)
 		return api
 	}
@@ -694,6 +820,16 @@ func (api *APIBuilder) WildcardSubdomain(middleware ...context.Handler) Party {
 // Learn more at:  https://github.com/kataras/iris/tree/master/_examples/routing/dynamic-path
 func (api *APIBuilder) Macros() *macro.Macros {
 	return api.macros
+}
+
+// Properties returns the original Party's properties map,
+// it can be modified before server startup but not afterwards.
+func (api *APIBuilder) Properties() context.Map {
+	if api.properties == nil {
+		api.properties = make(context.Map)
+	}
+
+	return api.properties
 }
 
 // GetRoutes returns the routes information,
@@ -758,14 +894,165 @@ func (api *APIBuilder) GetRouteReadOnlyByPath(tmplPath string) context.RouteRead
 	return r.ReadOnly
 }
 
+// SetRoutesNoLog disables (true) the verbose logging for the next registered
+// routes under this Party and its children.
+//
+// To disable logging for controllers under MVC Application,
+// see `mvc/Application.SetControllersNoLog` instead.
+//
+// Defaults to false when log level is "debug".
+func (api *APIBuilder) SetRoutesNoLog(disable bool) Party {
+	api.routesNoLog = disable
+	return api
+}
+
+type (
+	// PartyMatcherFunc used to build a filter which decides
+	// if the given Party is responsible to fire its `UseRouter` handlers or not.
+	// Can be customized through `SetPartyMatcher` method. See `Match` method too.
+	PartyMatcherFunc func(*context.Context, Party) bool
+	// PartyMatcher decides if `UseRouter` handlers should be executed or not.
+	// A different interface becauwe we want to separate
+	// the Party's public API from `UseRouter` internals.
+	PartyMatcher interface {
+		Match(ctx *context.Context) bool
+	}
+	// Filter is a wraper for a Router Filter contains information
+	// for its Party's fullpath, subdomain the Party's
+	// matcher and the associated handlers to be executed before main router's request handler.
+	Filter struct {
+		Matcher   PartyMatcher             // it's a Party, for freedom that can be changed through a custom matcher which accepts the same filter.
+		Skippers  map[*APIBuilder]struct{} // skip execution on these builders ( see `Reset`)
+		Subdomain string
+		Path      string
+		Handlers  context.Handlers
+	}
+)
+
+// SetPartyMatcher accepts a function which runs against
+// a Party and should report whether its `UseRouter` handlers should be executed.
+// PartyMatchers are run through parent to children.
+// It modifies the default Party filter that decides
+// which `UseRouter` middlewares to run before the Router,
+// each one of those middlewares can skip `Context.Next` or call `Context.StopXXX`
+// to stop the main router from searching for a route match.
+// Can be called before or after `UseRouter`, it doesn't matter.
+func (api *APIBuilder) SetPartyMatcher(matcherFunc PartyMatcherFunc) {
+	if matcherFunc == nil {
+		matcherFunc = defaultPartyMatcher
+	}
+	api.partyMatcher = matcherFunc
+}
+
+// Match reports whether the `UseRouter` handlers should be executed.
+// Calls its parent's Match if possible.
+// Implements the `PartyMatcher` interface.
+func (api *APIBuilder) Match(ctx *context.Context) bool {
+	return api.partyMatcher(ctx, api)
+}
+
+func defaultPartyMatcher(ctx *context.Context, p Party) bool {
+	subdomain, path := splitSubdomainAndPath(p.GetRelPath())
+	staticPath := staticPath(path)
+	hosts := subdomain != ""
+
+	if p.IsRoot() {
+		// ALWAYS executed first when registered
+		// through an `Application.UseRouter` call.
+		return true
+	}
+
+	if hosts {
+		// Note(@kataras): do NOT try to implement something like party matcher for each party
+		// separately. We will introduce a new problem with subdomain inside a subdomain:
+		// they are not by prefix, so parenting calls will not help
+		// e.g. admin. and control.admin, control.admin is a sub of the admin.
+		if !canHandleSubdomain(ctx, subdomain) {
+			return false
+		}
+	}
+
+	// this is the longest static path.
+	return strings.HasPrefix(ctx.Path(), staticPath)
+}
+
+// GetRouterFilters returns the global router filters.
+// Read `UseRouter` for more.
+// The map can be altered before router built.
+// The router internally prioritized them by the subdomains and
+// longest static path.
+// Implements the `RoutesProvider` interface.
+func (api *APIBuilder) GetRouterFilters() map[Party]*Filter {
+	return api.routerFilters
+}
+
+// UseRouter upserts one or more handlers that will be fired
+// right before the main router's request handler.
+//
+// Use this method to register handlers, that can ran
+// independently of the incoming request's values,
+// that they will be executed ALWAYS against ALL children incoming requests.
+// Example of use-case: CORS.
+//
+// Note that because these are executed before the router itself
+// the Context should not have access to the `GetCurrentRoute`
+// as it is not decided yet which route is responsible to handle the incoming request.
+// It's one level higher than the `WrapRouter`.
+// The context SHOULD call its `Next` method in order to proceed to
+// the next handler in the chain or the main request handler one.
+func (api *APIBuilder) UseRouter(handlers ...context.Handler) {
+	if len(handlers) == 0 || handlers[0] == nil {
+		return
+	}
+
+	beginHandlers := context.Handlers(handlers)
+	// respect any execution rules (begin).
+	api.handlerExecutionRules.Begin.apply(&beginHandlers)
+	beginHandlers = context.JoinHandlers(api.routerFilterHandlers, beginHandlers)
+
+	if f := api.routerFilters[api]; f != nil && len(f.Handlers) > 0 { // exists.
+		beginHandlers = context.UpsertHandlers(f.Handlers, beginHandlers) // remove dupls.
+	}
+
+	// we are not using the parent field here,
+	// we need to have control over those values in order to be able to `Reset`.
+	api.routerFilterHandlers = beginHandlers
+
+	subdomain, path := splitSubdomainAndPath(api.relativePath)
+	api.routerFilters[api] = &Filter{
+		Matcher:   api,
+		Subdomain: subdomain,
+		Path:      path,
+		Handlers:  beginHandlers,
+	}
+}
+
+// GetDefaultErrorMiddleware returns the application's error pre handlers
+// registered through `UseError` for the default error handlers.
+// This is used when no matching error handlers registered
+// for a specific status code but `UseError` is called to register a middleware,
+// so the default error handler should make use of those middleware now.
+func (api *APIBuilder) GetDefaultErrorMiddleware() context.Handlers {
+	return api.middlewareErrorCode
+}
+
+// UseError upserts one or more handlers that will be fired,
+// as middleware, before any error handler registered through `On(Any)ErrorCode`.
+// See `OnErrorCode` too.
+func (api *APIBuilder) UseError(handlers ...context.Handler) {
+	api.middlewareErrorCode = context.UpsertHandlers(api.middlewareErrorCode, handlers)
+}
+
 // Use appends Handler(s) to the current Party's routes and child routes.
 // If the current Party is the root, then it registers the middleware to all child Parties' routes too.
+// The given "handlers" will be executed only on matched routes.
 //
 // Call order matters, it should be called right before the routes that they care about these handlers.
 //
 // If it's called after the routes then these handlers will never be executed.
 // Use `UseGlobal` if you want to register begin handlers(middleware)
 // that should be always run before all application's routes.
+// To register a middleware for error handlers, look `UseError` method instead.
 func (api *APIBuilder) Use(handlers ...context.Handler) {
 	api.middleware = append(api.middleware, handlers...)
 }
@@ -773,27 +1060,19 @@ func (api *APIBuilder) Use(handlers ...context.Handler) {
 // UseOnce either inserts a middleware,
 // or on the basis of the middleware already existing,
 // replace that existing middleware instead.
+// To register a middleware for error handlers, look `UseError` method instead.
 func (api *APIBuilder) UseOnce(handlers ...context.Handler) {
-reg:
-	for _, handler := range handlers {
-		name := context.HandlerName(handler)
-		for i, registeredHandler := range api.middleware {
-			registeredName := context.HandlerName(registeredHandler)
-			if name == registeredName {
-				api.middleware[i] = handler // replace this handler with the new one.
-				continue reg                // break and continue to the next handler.
-			}
-		}
-
-		api.middleware = append(api.middleware, handler) // or just insert it.
-	}
+	api.middleware = context.UpsertHandlers(api.middleware, handlers)
 }
 
 // UseGlobal registers handlers that should run at the very beginning.
 // It prepends those handler(s) to all routes,
-// including all parties, subdomains.
+// including all parties, subdomains and errors.
 // It doesn't care about call order, it will prepend the handlers to all
 // existing routes and the future routes that may being registered.
+//
+// The given "handlers" will be executed only on matched routes and registered errors.
+// See `UseRouter` if you want to register middleware that will always run, even on 404 not founds.
 //
 // The difference from `.DoneGlobal` is that this/or these Handler(s) are being always running first.
 // Use of `ctx.Next()` of those handler(s) is necessary to call the main handler or the next middleware.
@@ -811,6 +1090,7 @@ func (api *APIBuilder) UseGlobal(handlers ...context.Handler) {
 }
 
 // Done appends to the very end, Handler(s) to the current Party's routes and child routes.
+// The given "handlers" will be executed only on matched routes.
 //
 // Call order matters, it should be called right before the routes that they care about these handlers.
 //
@@ -825,6 +1105,8 @@ func (api *APIBuilder) Done(handlers ...context.Handler) {
 // It doesn't care about call order, it will append the handlers to all
 // existing routes and the future routes that may being registered.
 //
+// The given "handlers" will be executed only on matched and registered error routes.
+//
 // The difference from `.UseGlobal` is that this/or these Handler(s) are being always running last.
 // Use of `ctx.Next()` at the previous handler is necessary.
 // It's always a good practise to call it right before the `Application#Run` function.
@@ -836,6 +1118,40 @@ func (api *APIBuilder) DoneGlobal(handlers ...context.Handler) {
 	api.doneGlobalHandlers = append(api.doneGlobalHandlers, handlers...)
 }
 
+// RemoveHandler deletes a handler from begin and done handlers
+// based on its name or the handler pc function.
+// Note that UseGlobal and DoneGlobal handlers cannot be removed
+// through this method as they were registered to the routes already.
+//
+// As an exception, if one of the arguments is a pointer to an int,
+// then this is used to set the total amount of removed handlers.
+//
+// Returns the Party itself for chain calls.
+//
+// Should be called before children routes regitration.
+func (api *APIBuilder) RemoveHandler(namesOrHandlers ...interface{}) Party {
+	var counter *int
+
+	for _, nameOrHandler := range namesOrHandlers {
+		handlerName := ""
+		switch h := nameOrHandler.(type) {
+		case string:
+			handlerName = h
+		case context.Handler:
+			handlerName = context.HandlerName(h)
+		case *int:
+			counter = h
+		default:
+			panic(fmt.Sprintf("remove handler: unexpected type of %T", h))
+		}
+
+		api.middleware = removeHandler(handlerName, api.middleware, counter)
+		api.doneHandlers = removeHandler(handlerName, api.doneHandlers, counter)
+	}
+
+	return api
+}
+
 // Reset removes all the begin and done handlers that may derived from the parent party via `Use` & `Done`,
 // and the execution rules.
 // Note that the `Reset` will not reset the handlers that are registered via `UseGlobal` & `DoneGlobal`.
@@ -843,10 +1159,41 @@ func (api *APIBuilder) DoneGlobal(handlers ...context.Handler) {
 // Returns this Party.
 func (api *APIBuilder) Reset() Party {
 	api.middleware = api.middleware[0:0]
+	api.middlewareErrorCode = api.middlewareErrorCode[0:0]
+	api.ResetRouterFilters()
+
 	api.doneHandlers = api.doneHandlers[0:0]
 	api.handlerExecutionRules = ExecutionRules{}
 	api.routeRegisterRule = RouteOverride
+
 	// keep container as it's.
+	return api
+}
+
+// ResetRouterFilters deactivates any previous registered
+// router filters and the parents ones for this Party.
+//
+// Returns this Party.
+func (api *APIBuilder) ResetRouterFilters() Party {
+	api.routerFilterHandlers = api.routerFilterHandlers[0:0]
+	delete(api.routerFilters, api)
+
+	if api.parent == nil {
+		// it's the root, stop, nothing else to do here.
+		return api
+	}
+
+	// Set a filter with empty handlers, the router will find it, execute nothing
+	// and continue with the request handling. This works on Reset() and no UseRouter
+	// and with Reset().UseRouter.
+	subdomain, path := splitSubdomainAndPath(api.relativePath)
+	api.routerFilters[api] = &Filter{
+		Matcher:   api,
+		Handlers:  nil,
+		Subdomain: subdomain,
+		Path:      path,
+	}
+
 	return api
 }
 
@@ -980,7 +1327,7 @@ func (api *APIBuilder) Favicon(favPath string, requestPath ...string) *Route {
 	favPath = Abs(favPath)
 	f, err := os.Open(favPath)
 	if err != nil {
-		api.errors.Addf("favicon: file or directory %s not found: %w", favPath, err)
+		api.logger.Errorf("favicon: file or directory %s not found: %w", favPath, err)
 		return nil
 	}
 
@@ -997,7 +1344,7 @@ func (api *APIBuilder) Favicon(favPath string, requestPath ...string) *Route {
 		// So we could panic but we don't,
 		// we just interrupt with a message
 		// to the (user-defined) logger.
-		api.errors.Addf("favicon: couldn't read the data bytes for %s: %w", favPath, err)
+		api.logger.Errorf("favicon: couldn't read the data bytes for %s: %w", favPath, err)
 		return nil
 	}
 
@@ -1021,7 +1368,7 @@ func (api *APIBuilder) Favicon(favPath string, requestPath ...string) *Route {
 
 // OnErrorCode registers a handlers chain for this `Party` for a specific HTTP status code.
 // Read more at: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
-// Look `OnAnyErrorCode` too.
+// Look `UseError` and `OnAnyErrorCode` too.
 func (api *APIBuilder) OnErrorCode(statusCode int, handlers ...context.Handler) (routes []*Route) {
 	routes = append(routes, api.handle(statusCode, "", "/", handlers...))
 
@@ -1034,29 +1381,39 @@ func (api *APIBuilder) OnErrorCode(statusCode int, handlers ...context.Handler) 
 
 // OnAnyErrorCode registers a handlers chain for all error codes
 // (4xxx and 5xxx, change the `context.ClientErrorCodes` and `context.ServerErrorCodes` variables to modify those)
-// Look `OnErrorCode` too.
+// Look `UseError` and `OnErrorCode` too.
 func (api *APIBuilder) OnAnyErrorCode(handlers ...context.Handler) (routes []*Route) {
 	for _, statusCode := range context.ClientAndServerErrorCodes {
 		routes = append(routes, api.OnErrorCode(statusCode, handlers...)...)
 	}
 
+	if n := len(routes); n > 1 {
+		for _, r := range routes[1:n] {
+			r.NoLog = true
+		}
+
+		routes[0].Title = "ERR"
+	}
+
 	return
 }
 
-// RegisterView registers and loads a view engine middleware for that group of routes.
+// RegisterView registers and loads a view engine middleware for this group of routes.
 // It overrides any of the application's root registered view engines.
 // To register a view engine per handler chain see the `Context.ViewEngine` instead.
 // Read `Configuration.ViewEngineContextKey` documentation for more.
 func (api *APIBuilder) RegisterView(viewEngine context.ViewEngine) {
 	if err := viewEngine.Load(); err != nil {
-		api.errors.Add(err)
+		api.logger.Error(err)
 		return
 	}
 
-	api.Use(func(ctx *context.Context) {
+	handler := func(ctx *context.Context) {
 		ctx.ViewEngine(viewEngine)
 		ctx.Next()
-	})
+	}
+	api.Use(handler)
+	api.UseError(handler)
 	// Note (@kataras): It does not return the Party in order
 	// to keep the iris.Application a compatible Party.
 }
@@ -1076,10 +1433,13 @@ func (api *APIBuilder) RegisterView(viewEngine context.ViewEngine) {
 //
 // Examples: https://github.com/kataras/iris/tree/master/_examples/view
 func (api *APIBuilder) Layout(tmplLayoutFile string) Party {
-	api.Use(func(ctx *context.Context) {
+	handler := func(ctx *context.Context) {
 		ctx.ViewLayout(tmplLayoutFile)
 		ctx.Next()
-	})
+	}
+
+	api.Use(handler)
+	api.UseError(handler)
 
 	return api
 }
@@ -1121,7 +1481,7 @@ func getCaller() (string, int) {
 		if relFile, err := filepath.Rel(wd, file); err == nil {
 			if !strings.HasPrefix(relFile, "..") {
 				// Only if it's relative to this path, not parent.
-				file = "./" + relFile
+				file = "./" + filepath.ToSlash(relFile)
 			}
 		}
 

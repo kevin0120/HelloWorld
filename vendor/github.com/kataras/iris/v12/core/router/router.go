@@ -3,6 +3,8 @@ package router
 import (
 	"errors"
 	"net/http"
+	"sort"
+	"strings"
 	"sync"
 
 	"github.com/kataras/iris/v12/context"
@@ -19,10 +21,17 @@ import (
 type Router struct {
 	mu sync.Mutex // for Downgrade, WrapRouter & BuildRouter,
 
-	preHandlers    context.Handlers // run before requestHandler, as middleware, same way context's handlers run, see `UseRouter`.
 	requestHandler RequestHandler   // build-accessible, can be changed to define a custom router or proxy, used on RefreshRouter too.
 	mainHandler    http.HandlerFunc // init-accessible
 	wrapperFunc    WrapperFunc
+	// wrappers to be built on BuildRouter state,
+	// first is executed first at this case.
+	// Case:
+	// - SubdomainRedirect on user call, registers a wrapper, on design state
+	// - i18n,if loaded and Subdomain or PathRedirect is true, registers a wrapper too, on build state
+	// the SubdomainRedirect should be the first(subdomainWrap(i18nWrap)) wrapper
+	// to be executed instead of last(i18nWrap(subdomainWrap)).
+	wrapperFuncs []WrapperFunc
 
 	cPool          *context.Pool // used on RefreshRouter
 	routesProvider RoutesProvider
@@ -87,23 +96,75 @@ func (router *Router) FindClosestPaths(subdomain, searchPath string, n int) []st
 	return list
 }
 
-// UseRouter registers one or more handlers that are fired
-// before the main router's request handler.
-//
-// Use this method to register handlers, that can ran
-// independently of the incoming request's method and path values,
-// that they will be executed ALWAYS against ALL incoming requests.
-// Example of use-case: CORS.
-//
-// Note that because these are executed before the router itself
-// the Context should not have access to the `GetCurrentRoute`
-// as it is not decided yet which route is responsible to handle the incoming request.
-// It's one level higher than the `WrapRouter`.
-// The context SHOULD call its `Next` method in order to proceed to
-// the next handler in the chain or the main request handler one.
-// ExecutionRules are NOT applied here.
-func (router *Router) UseRouter(handlers ...context.Handler) {
-	router.preHandlers = append(router.preHandlers, handlers...)
+func (router *Router) buildMainHandlerWithFilters(routerFilters map[Party]*Filter, cPool *context.Pool, requestHandler RequestHandler) {
+	sortedFilters := make([]*Filter, 0, len(routerFilters))
+	// key was just there to enforce uniqueness on API level.
+	for _, f := range routerFilters {
+		sortedFilters = append(sortedFilters, f)
+		// append it as one handlers so execution rules are being respected in that step too.
+		f.Handlers = append(f.Handlers, func(ctx *context.Context) {
+			// set the handler index back to 0 so the route's handlers can be executed as expected.
+			ctx.HandlerIndex(0)
+			// execute the main request handler, this will fire the found route's handlers
+			// or if error the error code's associated handler.
+			router.requestHandler.HandleRequest(ctx)
+		})
+	}
+
+	sort.SliceStable(sortedFilters, func(i, j int) bool {
+		left, right := sortedFilters[i], sortedFilters[j]
+		var (
+			leftSubLen  = len(left.Subdomain)
+			rightSubLen = len(right.Subdomain)
+
+			leftSlashLen  = strings.Count(left.Path, "/")
+			rightSlashLen = strings.Count(right.Path, "/")
+		)
+
+		if leftSubLen == rightSubLen {
+			if leftSlashLen > rightSlashLen {
+				return true
+			}
+		}
+
+		if leftSubLen > rightSubLen {
+			return true
+		}
+
+		if leftSlashLen > rightSlashLen {
+			return true
+		}
+
+		if leftSlashLen == rightSlashLen {
+			return len(left.Path) > len(right.Path)
+		}
+
+		return len(left.Path) > len(right.Path)
+	})
+
+	router.mainHandler = func(w http.ResponseWriter, r *http.Request) {
+		ctx := cPool.Acquire(w, r)
+
+		filterExecuted := false
+		for _, f := range sortedFilters { // from subdomain, largest path to shortest.
+			// fmt.Printf("Sorted filter execution: [%s] [%s]\n", f.Subdomain, f.Path)
+			if f.Matcher.Match(ctx) {
+				// fmt.Printf("Matched [%s] and execute [%d] handlers [%s]\n\n", ctx.Path(), len(f.Handlers), context.HandlersNames(f.Handlers))
+				filterExecuted = true
+				// execute the final handlers chain.
+				ctx.Do(f.Handlers)
+				break // and break on first found.
+			}
+		}
+
+		if !filterExecuted {
+			// If not at least one match filter found and executed,
+			// then just run the router.
+			router.requestHandler.HandleRequest(ctx)
+		}
+
+		cPool.Release(ctx)
+	}
 }
 
 // BuildRouter builds the router based on
@@ -149,28 +210,23 @@ func (router *Router) BuildRouter(cPool *context.Pool, requestHandler RequestHan
 		}
 	}
 
-	// the important
-	if len(router.preHandlers) > 0 {
-		handlers := append(router.preHandlers, func(ctx *context.Context) {
-			// set the handler index back to 0 so the route's handlers can be executed as exepcted.
-			ctx.HandlerIndex(0)
-			// execute the main request handler, this will fire the found route's handlers
-			// or if error the error code's associated handler.
-			router.requestHandler.HandleRequest(ctx)
-		})
-
-		router.mainHandler = func(w http.ResponseWriter, r *http.Request) {
-			ctx := cPool.Acquire(w, r)
-			// execute the final handlers chain.
-			ctx.Do(handlers)
-			cPool.Release(ctx)
-		}
+	// the important stuff.
+	if routerFilters := routesProvider.GetRouterFilters(); len(routerFilters) > 0 {
+		router.buildMainHandlerWithFilters(routerFilters, cPool, requestHandler)
 	} else {
 		router.mainHandler = func(w http.ResponseWriter, r *http.Request) {
 			ctx := cPool.Acquire(w, r)
 			router.requestHandler.HandleRequest(ctx)
 			cPool.Release(ctx)
 		}
+	}
+
+	for i := len(router.wrapperFuncs) - 1; i >= 0; i-- {
+		w := router.wrapperFuncs[i]
+		if w == nil {
+			continue
+		}
+		router.WrapRouter(w)
 	}
 
 	if router.wrapperFunc != nil { // if wrapper used then attach that as the router service
@@ -225,7 +281,33 @@ func (router *Router) Downgraded() bool {
 //
 // Before build.
 func (router *Router) WrapRouter(wrapperFunc WrapperFunc) {
+	// logger := context.DefaultLogger("router wrapper")
+	// file, line := context.HandlerFileLineRel(wrapperFunc)
+	// if router.wrapperFunc != nil {
+	// 	wrappedFile, wrappedLine := context.HandlerFileLineRel(router.wrapperFunc)
+	// 	logger.Infof("%s:%d wraps %s:%d", file, line, wrappedFile, wrappedLine)
+	// } else {
+	// 	logger.Infof("%s:%d wraps the main router", file, line)
+	// }
 	router.wrapperFunc = makeWrapperFunc(router.wrapperFunc, wrapperFunc)
+}
+
+// AddRouterWrapper adds a router wrapper.
+// Unlike `WrapRouter` the first registered will be executed first
+// so a wrapper wraps its next not the previous one.
+// it defers the wrapping until the `BuildRouter`.
+// Redirection wrappers should be added using this method
+// e.g. SubdomainRedirect.
+func (router *Router) AddRouterWrapper(wrapperFunc WrapperFunc) {
+	router.wrapperFuncs = append(router.wrapperFuncs, wrapperFunc)
+}
+
+// PrependRouterWrapper like `AddRouterWrapper` but this wrapperFunc
+// will always be executed before the previous `AddRouterWrapper`.
+// Path form (no modification) wrappers should be added using this method
+// e.g. ForceLowercaseRouting.
+func (router *Router) PrependRouterWrapper(wrapperFunc WrapperFunc) {
+	router.wrapperFuncs = append([]WrapperFunc{wrapperFunc}, router.wrapperFuncs...)
 }
 
 // ServeHTTPC serves the raw context, useful if we have already a context, it by-pass the wrapper.

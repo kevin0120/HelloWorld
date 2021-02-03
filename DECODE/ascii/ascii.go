@@ -1,8 +1,8 @@
 package ascii
 
 import (
+	"errors"
 	"fmt"
-	"github.com/kataras/iris/core/errors"
 	"reflect"
 	"strconv"
 	"strings"

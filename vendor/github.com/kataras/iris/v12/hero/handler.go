@@ -18,11 +18,40 @@ type (
 	// ErrorHandlerFunc implements the `ErrorHandler`.
 	// It describes the type defnition for an error function handler.
 	ErrorHandlerFunc func(*context.Context, error)
+
+	// Code is a special type for status code.
+	// It's used for a builtin dependency to map the status code given by a previous
+	// method or middleware.
+	// Use a type like that in order to not conflict with any developer-registered
+	// dependencies.
+	// Alternatively: ctx.GetStatusCode().
+	Code int
+
+	// Err is a special type for error stored in mvc responses or context.
+	// It's used for a builtin dependency to map the error given by a previous
+	// method or middleware.
+	// Use a type like that in order to not conflict with any developer-registered
+	// dependencies.
+	// Alternatively: ctx.GetErr().
+	Err error
 )
 
 // HandleError fires when a non-nil error returns from a request-scoped dependency at serve-time or the handler itself.
 func (fn ErrorHandlerFunc) HandleError(ctx *context.Context, err error) {
 	fn(ctx, err)
+}
+
+// String implements the fmt.Stringer interface.
+// Returns the text corresponding to this status code, e.g. "Not Found".
+// Same as iris.StatusText(int(code)).
+func (code Code) String() string {
+	return context.StatusText(int(code))
+}
+
+// Value returns the underline int value.
+// Same as int(code).
+func (code Code) Value() int {
+	return int(code)
 }
 
 var (
@@ -79,6 +108,7 @@ func makeHandler(fn interface{}, c *Container, paramsCount int) context.Handler 
 	numIn := typ.NumIn()
 
 	bindings := getBindingsForFunc(v, c.Dependencies, paramsCount)
+	c.fillReport(context.HandlerName(fn), bindings)
 
 	resultHandler := defaultResultHandler
 	for i, lidx := 0, len(c.resultHandlers)-1; i <= lidx; i++ {
@@ -101,7 +131,12 @@ func makeHandler(fn interface{}, c *Container, paramsCount int) context.Handler 
 				// }
 
 				c.GetErrorHandler(ctx).HandleError(ctx, err)
-				return
+				// return [13 Sep 2020, commented that in order to be able to
+				// give end-developer the option not only to handle the error
+				// but to skip it if necessary, example:
+				// read form, unknown field, continue without StopWith,
+				// the binder should bind the method's input argument and continue
+				// without errors. See `mvc.TestErrorHandlerContinue` test.]
 			}
 
 			// If ~an error status code is set or~ execution has stopped

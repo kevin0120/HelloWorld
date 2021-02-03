@@ -1,19 +1,20 @@
 package router
 
 import (
-	"errors"
+	"bytes"
+	stdContext "context"
 	"fmt"
+	"html"
+	"html/template"
 	"io"
 	"io/ioutil"
-	"mime/multipart"
 	"net/http"
-	"net/textproto"
 	"net/url"
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -21,146 +22,380 @@ import (
 	"github.com/kataras/iris/context"
 )
 
-// StaticEmbeddedHandler returns a Handler which can serve embedded files
-// that are embedded using the go-bindata tool(assetsGziped = false) or the kataras/bindata tool (assetsGziped = true).
+const indexName = "/index.html"
+
+// DirListFunc is the function signature for customizing directory and file listing.
+// See `DirList` and `DirListRich` functions for its implementations.
+type DirListFunc func(ctx *context.Context, dirOptions DirOptions, dirName string, dir http.File) error
+
+// Attachments options for files to be downloaded and saved locally by the client.
+// See `DirOptions`.
+type Attachments struct {
+	// Set to true to enable the files to be downloaded and
+	// saved locally by the client, instead of serving the file.
+	Enable bool
+	// Options to send files with a limit of bytes sent per second.
+	Limit float64
+	Burst int
+	// Use this function to change the sent filename.
+	NameFunc func(systemName string) (attachmentName string)
+}
+
+// DirCacheOptions holds the options for the cached file system.
+// See `DirOptions`structure for more.
+type DirCacheOptions struct {
+	// Enable or disable cache.
+	Enable bool
+	// Minimum content size for compression in bytes.
+	CompressMinSize int64
+	// Ignore compress files that match this pattern.
+	CompressIgnore *regexp.Regexp
+	// The available sever's encodings to be negotiated with the client's needs,
+	// common values: gzip, br.
+	Encodings []string
+
+	// If greater than zero then prints information about cached files to the stdout.
+	// If it's 1 then it prints only the total cached and after-compression reduced file sizes
+	// If it's 2 then it prints it per file too.
+	Verbose uint8
+}
+
+// DirOptions contains the settings that `FileServer` can use to serve files.
+// See `DefaultDirOptions`.
+type DirOptions struct {
+	// Defaults to "/index.html", if request path is ending with **/*/$IndexName
+	// then it redirects to **/*(/) which another handler is handling it,
+	// that another handler, called index handler, is auto-registered by the framework
+	// if end developer does not managed to handle it by hand.
+	IndexName string
+	// PushTargets filenames (map's value) to
+	// be served without additional client's requests (HTTP/2 Push)
+	// when a specific request path (map's key WITHOUT prefix)
+	// is requested and it's not a directory (it's an `IndexFile`).
+	//
+	// Example:
+	// 	"/": {
+	// 		"favicon.ico",
+	// 		"js/main.js",
+	// 		"css/main.css",
+	// 	}
+	PushTargets map[string][]string
+	// PushTargetsRegexp like `PushTargets` but accepts regexp which
+	// is compared against all files under a directory (recursively).
+	// The `IndexName` should be set.
+	//
+	// Example:
+	// "/": regexp.MustCompile("((.*).js|(.*).css|(.*).ico)$")
+	// See `iris.MatchCommonAssets` too.
+	PushTargetsRegexp map[string]*regexp.Regexp
+
+	// Cache to enable in-memory cache and pre-compress files.
+	Cache DirCacheOptions
+	// When files should served under compression.
+	Compress bool
+
+	// List the files inside the current requested directory if `IndexName` not found.
+	ShowList bool
+	// If `ShowList` is true then this function will be used instead
+	// of the default one to show the list of files of a current requested directory(dir).
+	// See `DirListRich` package-level function too.
+	DirList DirListFunc
+
+	// Files downloaded and saved locally.
+	Attachments Attachments
+
+	// Optional validator that loops through each requested resource.
+	AssetValidator func(ctx *context.Context, name string) bool
+}
+
+// DefaultDirOptions holds the default settings for `FileServer`.
+var DefaultDirOptions = DirOptions{
+	IndexName:         indexName,
+	PushTargets:       make(map[string][]string),
+	PushTargetsRegexp: make(map[string]*regexp.Regexp),
+	Cache: DirCacheOptions{
+		// Disable by-default.
+		Enable: false,
+		// Don't compress files smaller than 300 bytes.
+		CompressMinSize: 300,
+		// Gzip, deflate, br(brotli), snappy.
+		Encodings: context.AllEncodings,
+		// Log to the stdout (no iris logger) the total reduced file size.
+		Verbose: 1,
+	},
+	Compress: true,
+	ShowList: false,
+	DirList: DirListRich(DirListRichOptions{
+		Tmpl:     DirListRichTemplate,
+		TmplName: "dirlist",
+	}),
+	Attachments: Attachments{
+		Enable: false,
+		Limit:  0,
+		Burst:  0,
+	},
+	AssetValidator: nil,
+}
+
+// FileServer returns a Handler which serves files from a specific file system.
+// The first parameter is the file system,
+// if it's a `http.Dir` the files should be located near the executable program.
+// The second parameter is the settings that the caller can use to customize the behavior.
 //
-// Examples: https://github.com/kataras/iris/tree/master/_examples/file-server
-func StaticEmbeddedHandler(vdir string, assetFn func(name string) ([]byte, error), namesFn func() []string, assetsGziped bool) context.Handler {
-	// Depends on the command the user gave to the go-bindata
-	// the assset path (names) may be or may not be prepended with a slash.
-	// What we do: we remove the ./ from the vdir which should be
-	// the same with the asset path (names).
-	// we don't pathclean, because that will prepend a slash
-	//					   go-bindata should give a correct path format.
-	// On serve time we check the "paramName" (which is the path after the "requestPath")
-	// so it has the first directory part missing, we use the "vdir" to complete it
-	// and match with the asset path (names).
-	if len(vdir) > 0 {
-		if vdir[0] == '.' {
-			vdir = vdir[1:]
-		}
-		if vdir[0] == '/' || vdir[0] == os.PathSeparator { // second check for /something, (or ./something if we had dot on 0 it will be removed
-			vdir = vdir[1:]
-		}
-
-		// check for trailing slashes because new users may be do that by mistake
-		// although all examples are showing the correct way but you never know
-		// i.e "./assets/" is not correct, if was inside "./assets".
-		// remove last "/".
-		if trailingSlashIdx := len(vdir) - 1; vdir[trailingSlashIdx] == '/' {
-			vdir = vdir[0:trailingSlashIdx]
-		}
+// See `Party#HandleDir` too.
+// Examples can be found at: https://github.com/kataras/iris/tree/master/_examples/file-server
+func FileServer(fs http.FileSystem, options DirOptions) context.Handler {
+	if fs == nil {
+		panic("FileServer: fs is nil. The fs parameter should point to a file system of physical system directory or to an embedded one")
 	}
 
-	// collect the names we are care for,
-	// because not all Asset used here, we need the vdir's assets.
-	allNames := namesFn()
-
-	var names []string
-	for _, path := range allNames {
-		// i.e: path = public/css/main.css
-
-		// check if path is the path name we care for
-		if !strings.HasPrefix(path, vdir) {
-			continue
-		}
-
-		names = append(names, path)
+	// Make sure index name starts with a slash.
+	if options.IndexName != "" {
+		options.IndexName = prefix(options.IndexName, "/")
 	}
 
-	// modtime := time.Now()
-	h := func(ctx context.Context) {
+	// Make sure PushTarget's paths are in the proper form.
+	for path, filenames := range options.PushTargets {
+		for idx, filename := range filenames {
+			filenames[idx] = filepath.ToSlash(filename)
+		}
+		options.PushTargets[path] = filenames
+	}
 
-		reqPath := strings.TrimPrefix(ctx.Request().URL.Path, "/"+vdir)
-		// i.e : /css/main.css
+	if !options.Attachments.Enable {
+		// make sure rate limiting is not used when attachments are not.
+		options.Attachments.Limit = 0
+		options.Attachments.Burst = 0
+	}
 
-		for _, path := range names {
-			// in order to map "/" as "/index.html"
-			if path == "/index.html" && reqPath == "/" {
-				reqPath = "/index.html"
-			}
+	plainStatusCode := func(ctx *context.Context, statusCode int) {
+		if writer, ok := ctx.ResponseWriter().(*context.CompressResponseWriter); ok {
+			writer.Disabled = true
+		}
+		ctx.StatusCode(statusCode)
+	}
 
-			if path != vdir+reqPath {
-				continue
-			}
+	dirList := options.DirList
+	if dirList == nil {
+		dirList = DirList
+	}
 
-			cType := TypeByFilename(path)
+	open := fsOpener(fs, options.Cache) // We only need its opener, the "fs" is NOT used below.
 
-			buf, err := assetFn(path) // remove the first slash
+	h := func(ctx *context.Context) {
+		r := ctx.Request()
+		name := prefix(r.URL.Path, "/")
+		r.URL.Path = name
 
-			if assetsGziped {
-				// this will add the "Vary" : "Accept-Encoding"
-				// and 					"Content-Encoding": "gzip"
-				// headers.
-				context.AddGzipHeaders(ctx.ResponseWriter())
-			}
+		f, err := open(name, r)
+		if err != nil {
+			plainStatusCode(ctx, http.StatusNotFound)
+			return
+		}
+		defer f.Close()
 
-			if err != nil {
-				continue
-			}
-
-			ctx.ContentType(cType)
-			if _, err := ctx.Write(buf); err != nil {
-				ctx.StatusCode(http.StatusInternalServerError)
-				ctx.StopExecution()
-			}
+		info, err := f.Stat()
+		if err != nil {
+			plainStatusCode(ctx, http.StatusNotFound)
 			return
 		}
 
-		// not found or error
-		ctx.NotFound()
+		var indexFound bool
+
+		// use contents of index.html for directory, if present
+		if info.IsDir() && options.IndexName != "" {
+			// Note that, in contrast of the default net/http mechanism;
+			// here different handlers may serve the indexes
+			// if manually then this will block will never fire,
+			// if index handler are automatically registered by the framework
+			// then this block will be fired on indexes because the static site routes are registered using the static route's handler.
+			//
+			// End-developers must have the chance to register different logic and middlewares
+			// to an index file, useful on Single Page Applications.
+
+			index := strings.TrimSuffix(name, "/") + options.IndexName
+			fIndex, err := open(index, r)
+			if err == nil {
+				defer fIndex.Close()
+				infoIndex, err := fIndex.Stat()
+				if err == nil {
+					indexFound = true
+					f = fIndex
+					info = infoIndex
+				}
+			}
+		}
+
+		// Still a directory? (we didn't find an index.html file)
+		if info.IsDir() {
+			if !options.ShowList {
+				plainStatusCode(ctx, http.StatusNotFound)
+				return
+			}
+			if modified, err := ctx.CheckIfModifiedSince(info.ModTime()); !modified && err == nil {
+				ctx.WriteNotModified()
+				ctx.StatusCode(http.StatusNotModified)
+				ctx.Next()
+				return
+			}
+			ctx.SetLastModified(info.ModTime())
+			err = dirList(ctx, options, info.Name(), f)
+			if err != nil {
+				ctx.Application().Logger().Errorf("FileServer: dirList: %v", err)
+				plainStatusCode(ctx, http.StatusInternalServerError)
+				return
+			}
+
+			ctx.Next()
+			return
+		}
+
+		// index requested, send a moved permanently status
+		// and navigate back to the route without the index suffix.
+		if strings.HasSuffix(name, options.IndexName) {
+			localRedirect(ctx, "./")
+			return
+		}
+
+		if options.AssetValidator != nil {
+			if !options.AssetValidator(ctx, name) {
+				errCode := ctx.GetStatusCode()
+				if ctx.ResponseWriter().Written() <= context.StatusCodeWritten {
+					// if nothing written as body from the AssetValidator but 200 status code(which is the default),
+					// then we assume that the end-developer just returned false expecting this to be not found.
+					if errCode == http.StatusOK {
+						errCode = http.StatusNotFound
+					}
+					plainStatusCode(ctx, errCode)
+				}
+				return
+			}
+		}
+
+		// try to find and send the correct content type based on the filename
+		// and the binary data inside "f".
+		detectOrWriteContentType(ctx, info.Name(), f)
+
+		// if not index file and attachments should be force-sent:
+		if !indexFound && options.Attachments.Enable {
+			destName := info.Name()
+			// diposition := "attachment"
+			if nameFunc := options.Attachments.NameFunc; nameFunc != nil {
+				destName = nameFunc(destName)
+			}
+
+			ctx.ResponseWriter().Header().Set(context.ContentDispositionHeaderKey, "attachment;filename="+destName)
+		}
+
+		// the encoding saved from the negotiation.
+		encoding, isCached := getFileEncoding(f)
+		if isCached {
+			// if it's cached and its settings didnt allow this file to be compressed
+			// then don't try to compress it on the fly, even if the options.Compress was set to true.
+			if encoding != "" {
+				// Set the response header we need, the data are already compressed.
+				context.AddCompressHeaders(ctx.ResponseWriter().Header(), encoding)
+			}
+		} else if options.Compress {
+			ctx.CompressWriter(true)
+		}
+
+		if indexFound && !options.Attachments.Enable {
+			if indexAssets, ok := options.PushTargets[name]; ok {
+				if pusher, ok := ctx.ResponseWriter().Naive().(http.Pusher); ok {
+					var pushOpts *http.PushOptions
+					if encoding != "" {
+						pushOpts = &http.PushOptions{Header: r.Header}
+					}
+
+					for _, indexAsset := range indexAssets {
+						if indexAsset[0] != '/' {
+							// it's relative path.
+							indexAsset = path.Join(r.RequestURI, indexAsset)
+						}
+
+						if err = pusher.Push(indexAsset, pushOpts); err != nil {
+							break
+						}
+					}
+				}
+			}
+
+			if regex, ok := options.PushTargetsRegexp[r.URL.Path]; ok {
+				if pusher, ok := ctx.ResponseWriter().Naive().(http.Pusher); ok {
+					var pushOpts *http.PushOptions
+					if encoding != "" {
+						pushOpts = &http.PushOptions{Header: r.Header}
+					}
+
+					prefixURL := strings.TrimSuffix(r.RequestURI, name)
+					names, err := findNames(fs, name)
+					if err == nil {
+						for _, indexAsset := range names {
+							// it's an index file, do not pushed that.
+							if strings.HasSuffix(prefix(indexAsset, "/"), options.IndexName) {
+								continue
+							}
+
+							// match using relative path (without the first '/' slash)
+							// to keep consistency between the `PushTargets` behavior
+							if regex.MatchString(indexAsset) {
+
+								// println("Regex Matched: " + indexAsset)
+								if err = pusher.Push(path.Join(prefixURL, indexAsset), pushOpts); err != nil {
+									break
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// If limit is 0 then same as ServeContent.
+		ctx.ServeContentWithRate(f, info.Name(), info.ModTime(), options.Attachments.Limit, options.Attachments.Burst)
+		if serveCode := ctx.GetStatusCode(); context.StatusCodeNotSuccessful(serveCode) {
+			plainStatusCode(ctx, serveCode)
+			return
+		}
+
+		ctx.Next() // fire any middleware, if any.
 	}
 
 	return h
 }
 
-// StaticHandler returns a new Handler which is ready
-// to serve all kind of static files.
-//
-// Developers can wrap this handler using the `router.StripPrefix`
-// for a fixed static path when the result handler is being, finally, registered to a route.
-//
+// StripPrefix returns a handler that serves HTTP requests
+// by removing the given prefix from the request URL's Path
+// and invoking the handler h. StripPrefix handles a
+// request for a path that doesn't begin with prefix by
+// replying with an HTTP 404 not found error.
 //
 // Usage:
-// app := iris.New()
-// ...
-// fileserver := iris.StaticHandler("./static_files", false, false)
-// h := router.StripPrefix("/static", fileserver)
-// /* http://mydomain.com/static/css/style.css */
-// app.Get("/static", h)
-// ...
-//
-func StaticHandler(systemPath string, showList bool, gzip bool) context.Handler {
-	return NewStaticHandlerBuilder(systemPath).
-		Gzip(gzip).
-		Listing(showList).
-		Build()
-}
+// fileserver := FileServer("./static_files", DirOptions {...})
+// h := StripPrefix("/static", fileserver)
+// app.Get("/static/{file:path}", h)
+// app.Head("/static/{file:path}", h)
+func StripPrefix(prefix string, h context.Handler) context.Handler {
+	if prefix == "" {
+		return h
+	}
+	// here we separate the path from the subdomain (if any), we care only for the path
+	// fixes a bug when serving static files via a subdomain
+	canonicalPrefix := prefix
+	if dotWSlashIdx := strings.Index(canonicalPrefix, SubdomainPrefix); dotWSlashIdx > 0 {
+		canonicalPrefix = canonicalPrefix[dotWSlashIdx+1:]
+	}
+	canonicalPrefix = toWebPath(canonicalPrefix)
 
-// StaticHandlerBuilder is the web file system's Handler builder
-// use that or the iris.StaticHandler/StaticWeb methods.
-type StaticHandlerBuilder interface {
-	Gzip(enable bool) StaticHandlerBuilder
-	Listing(listDirectoriesOnOff bool) StaticHandlerBuilder
-	Build() context.Handler
-}
-
-//  +------------------------------------------------------------+
-//  |                                                            |
-//  |                      Static Builder                        |
-//  |                                                            |
-//  +------------------------------------------------------------+
-
-type fsHandler struct {
-	// user options, only directory is required.
-	directory       http.Dir
-	listDirectories bool
-	gzip            bool
-	// these are init on the Build() call
-	filesystem http.FileSystem
-	once       sync.Once
-	handler    context.Handler
-	begin      context.Handlers
+	return func(ctx *context.Context) {
+		if p := strings.TrimPrefix(ctx.Request().URL.Path, canonicalPrefix); len(p) < len(ctx.Request().URL.Path) {
+			ctx.Request().URL.Path = p
+			h(ctx)
+		} else {
+			ctx.NotFound()
+		}
+	}
 }
 
 func toWebPath(systemPath string) string {
@@ -168,8 +403,6 @@ func toWebPath(systemPath string) string {
 	webpath := strings.Replace(systemPath, "\\", "/", -1)
 	// double slashes to single
 	webpath = strings.Replace(webpath, "//", "/", -1)
-	// remove all dots
-	webpath = strings.Replace(webpath, ".", "", -1)
 	return webpath
 }
 
@@ -183,219 +416,10 @@ func Abs(path string) string {
 	return absPath
 }
 
-// NewStaticHandlerBuilder returns a new Handler which serves static files
-// supports gzip, no listing and much more
-// Note that, this static builder returns a Handler
-// it doesn't cares about the rest of your iris configuration.
-//
-// Use the iris.StaticHandler/StaticWeb in order to serve static files on more automatic way
-// this builder is used by people who have more complicated application
-// structure and want a fluent api to work on.
-func NewStaticHandlerBuilder(dir string) StaticHandlerBuilder {
-	return &fsHandler{
-		directory: http.Dir(Abs(dir)),
-		// list directories disabled by default
-		listDirectories: false,
-	}
-}
-
-// Gzip if enable is true then gzip compression is enabled for this static directory.
-//
-// Defaults to false.
-func (w *fsHandler) Gzip(enable bool) StaticHandlerBuilder {
-	w.gzip = enable
-	return w
-}
-
-// Listing turn on/off the 'show files and directories'.
-//
-// Defaults to false.
-func (w *fsHandler) Listing(listDirectoriesOnOff bool) StaticHandlerBuilder {
-	w.listDirectories = listDirectoriesOnOff
-	return w
-}
-
-type (
-	noListFile struct {
-		http.File
-	}
-)
-
-// Overrides the Readdir of the http.File in order to disable showing a list of the dirs/files
-func (n noListFile) Readdir(count int) ([]os.FileInfo, error) {
-	return nil, nil
-}
-
-// Implements the http.Filesystem
-// Do not call it.
-func (w *fsHandler) Open(name string) (http.File, error) {
-	info, err := w.filesystem.Open(name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if !w.listDirectories {
-		return noListFile{info}, nil
-	}
-
-	return info, nil
-}
-
-// Build the handler (once) and returns it
-func (w *fsHandler) Build() context.Handler {
-	// we have to ensure that Build is called ONLY one time,
-	// one instance per one static directory.
-	w.once.Do(func() {
-		w.filesystem = w.directory
-
-		fileserver := func(ctx context.Context) {
-			upath := ctx.Request().URL.Path
-			if !strings.HasPrefix(upath, "/") {
-				upath = "/" + upath
-				ctx.Request().URL.Path = upath
-			}
-
-			// Note the request.url.path is changed but request.RequestURI is not
-			// so on custom errors we use the requesturi instead.
-			// this can be changed.
-
-			// take the gzip setting.
-			gzipEnabled := w.gzip
-			if !gzipEnabled {
-				// if false then check if the dev did something like `ctx.Gzip(true)`.
-				_, gzipEnabled = ctx.ResponseWriter().(*context.GzipResponseWriter)
-			}
-
-			_, prevStatusCode := serveFile(ctx,
-				w.filesystem,
-				path.Clean(upath),
-				false,
-				w.listDirectories,
-				gzipEnabled)
-
-			// check for any http errors after the file handler executed
-			if context.StatusCodeNotSuccessful(prevStatusCode) { // error found (404 or 400 or 500 usually)
-				if writer, ok := ctx.ResponseWriter().(*context.GzipResponseWriter); ok && writer != nil {
-					writer.ResetBody()
-					writer.Disable()
-					// ctx.ResponseWriter.Header().Del(contentType) // application/x-gzip sometimes lawl
-					// remove gzip headers
-					// headers := ctx.ResponseWriter.Header()
-					// headers[contentType] = nil
-					// headers["X-Content-Type-Options"] = nil
-					// headers[varyHeader] = nil
-					// headers[contentEncodingHeader] = nil
-					// headers[contentLength] = nil
-				}
-				// ctx.Application().Logger().Infof(errMsg)
-				ctx.StatusCode(prevStatusCode)
-				return
-			}
-
-			// go to the next middleware, if any.
-			ctx.Next()
-		}
-
-		w.handler = fileserver
-	})
-
-	return w.handler
-}
-
-// StripPrefix returns a handler that serves HTTP requests
-// by removing the given prefix from the request URL's Path
-// and invoking the handler h. StripPrefix handles a
-// request for a path that doesn't begin with prefix by
-// replying with an HTTP 404 not found error.
-//
-// Usage:
-// fileserver := Party#StaticHandler("./static_files", false, false)
-// h := router.StripPrefix("/static", fileserver)
-// app.Get("/static/{f:path}", h)
-// app.Head("/static/{f:path}", h)
-func StripPrefix(prefix string, h context.Handler) context.Handler {
-	if prefix == "" {
-		return h
-	}
-	// here we separate the path from the subdomain (if any), we care only for the path
-	// fixes a bug when serving static files via a subdomain
-	fixedPrefix := prefix
-	if dotWSlashIdx := strings.Index(fixedPrefix, SubdomainPrefix); dotWSlashIdx > 0 {
-		fixedPrefix = fixedPrefix[dotWSlashIdx+1:]
-	}
-	fixedPrefix = toWebPath(fixedPrefix)
-
-	return func(ctx context.Context) {
-		if p := strings.TrimPrefix(ctx.Request().URL.Path, fixedPrefix); len(p) < len(ctx.Request().URL.Path) {
-			ctx.Request().URL.Path = p
-			h(ctx)
-		} else {
-			ctx.NotFound()
-		}
-	}
-}
-
-//  +------------------------------------------------------------+
-//  |                                                            |
-//  |                      serve file handler                    |
-//  | edited from net/http/fs.go in order to support GZIP with   |
-//  | custom iris http errors and fallback to non-compressed data|
-//  | when not supported.                                        |
-//  |                                                            |
-//  +------------------------------------------------------------+
-
-var htmlReplacer = strings.NewReplacer(
-	"&", "&amp;",
-	"<", "&lt;",
-	">", "&gt;",
-	// "&#34;" is shorter than "&quot;".
-	`"`, "&#34;",
-	// "&#39;" is shorter than "&apos;" and apos was not in HTML until HTML5.
-	"'", "&#39;",
-)
-
-func dirList(ctx context.Context, f http.File) (string, int) {
-	dirs, err := f.Readdir(-1)
-	if err != nil {
-		// TODO: log err.Error() to the Server.ErrorLog, once it's possible
-		// for a handler to get at its Server via the http.ResponseWriter. See
-		// Issue 12438.
-		return "Error reading directory", http.StatusInternalServerError
-
-	}
-	sort.Slice(dirs, func(i, j int) bool { return dirs[i].Name() < dirs[j].Name() })
-	ctx.ContentType("text/html")
-	fmt.Fprintf(ctx.ResponseWriter(), "<pre>\n")
-	for _, d := range dirs {
-		name := d.Name()
-		if d.IsDir() {
-			name += "/"
-		}
-		// name may contain '?' or '#', which must be escaped to remain
-		// part of the URL path, and not indicate the start of a query
-		// string or fragment.
-		url := url.URL{Path: name}
-		fmt.Fprintf(ctx.ResponseWriter(), "<a href=\"%s\">%s</a>\n", url.String(), htmlReplacer.Replace(name))
-	}
-	fmt.Fprintf(ctx.ResponseWriter(), "</pre>\n")
-	return "", http.StatusOK
-}
-
-// errSeeker is returned by ServeContent's sizeFunc when the content
-// doesn't seek properly. The underlying Seeker's error text isn't
-// included in the sizeFunc reply so it's not sent over HTTP to end
-// users.
-var errSeeker = errors.New("seeker can't seek")
-
-// errNoOverlap is returned by serveContent's parseRange if first-byte-pos of
-// all of the byte-range-spec values is greater than the content size.
-var errNoOverlap = errors.New("invalid range: failed to overlap")
-
 // The algorithm uses at most sniffLen bytes to make its decision.
 const sniffLen = 512
 
-func detectOrWriteContentType(ctx context.Context, name string, content io.ReadSeeker) (string, error) {
+func detectOrWriteContentType(ctx *context.Context, name string, content io.ReadSeeker) (string, error) {
 	// If Content-Type isn't set, use the file's extension to find it, but
 	// if the Content-Type is unset explicitly, do not sniff the type.
 	ctypes, haveType := ctx.ResponseWriter().Header()["Content-Type"]
@@ -422,445 +446,9 @@ func detectOrWriteContentType(ctx context.Context, name string, content io.ReadS
 	return ctype, nil
 }
 
-// if name is empty, filename is unknown. (used for mime type, before sniffing)
-// if modtime.IsZero(), modtime is unknown.
-// content must be seeked to the beginning of the file.
-// The sizeFunc is called at most once. Its error, if any, is sent in the HTTP response.
-func serveContent(ctx context.Context, name string, modtime time.Time, sizeFunc func() (int64, error), content io.ReadSeeker) (string, int) /* we could use the TransactionErrResult but prefer not to create new objects for each of the errors on static file handlers*/ {
-	ctx.SetLastModified(modtime)
-	done, rangeReq := checkPreconditions(ctx, modtime)
-	if done {
-		return "", http.StatusNotModified
-	}
-
-	code := http.StatusOK
-
-	// If Content-Type isn't set, use the file's extension to find it, but
-	// if the Content-Type is unset explicitly, do not sniff the type.
-	ctype, err := detectOrWriteContentType(ctx, name, content)
-	if err != nil {
-		return "while seeking", http.StatusInternalServerError
-	}
-
-	size, err := sizeFunc()
-	if err != nil {
-		return err.Error(), http.StatusInternalServerError
-	}
-
-	// handle Content-Range header.
-	sendSize := size
-	var sendContent io.Reader = content
-
-	if size >= 0 {
-		ranges, err := parseRange(rangeReq, size)
-		if err != nil {
-			if err == errNoOverlap {
-				ctx.Header("Content-Range", fmt.Sprintf("bytes */%d", size))
-			}
-			return err.Error(), http.StatusRequestedRangeNotSatisfiable
-
-		}
-		if sumRangesSize(ranges) > size {
-			// The total number of bytes in all the ranges
-			// is larger than the size of the file by
-			// itself, so this is probably an attack, or a
-			// dumb client. Ignore the range request.
-			ranges = nil
-		}
-		switch {
-		case len(ranges) == 1:
-			// RFC 2616, Section 14.16:
-			// "When an HTTP message includes the content of a single
-			// range (for example, a response to a request for a
-			// single range, or to a request for a set of ranges
-			// that overlap without any holes), this content is
-			// transmitted with a Content-Range header, and a
-			// Content-Length header showing the number of bytes
-			// actually transferred.
-			// ...
-			// A response to a request for a single range MUST NOT
-			// be sent using the multipart/byteranges media type."
-			ra := ranges[0]
-			if _, err := content.Seek(ra.start, io.SeekStart); err != nil {
-				return err.Error(), http.StatusRequestedRangeNotSatisfiable
-			}
-			sendSize = ra.length
-			code = http.StatusPartialContent
-			ctx.Header("Content-Range", ra.contentRange(size))
-		case len(ranges) > 1:
-			sendSize = rangesMIMESize(ranges, ctype, size)
-			code = http.StatusPartialContent
-
-			pr, pw := io.Pipe()
-			mw := multipart.NewWriter(pw)
-			ctx.ContentType("multipart/byteranges; boundary=" + mw.Boundary())
-			sendContent = pr
-			defer pr.Close() // cause writing goroutine to fail and exit if CopyN doesn't finish.
-			go func() {
-				for _, ra := range ranges {
-					part, err := mw.CreatePart(ra.mimeHeader(ctype, size))
-					if err != nil {
-						pw.CloseWithError(err)
-						return
-					}
-					if _, err := content.Seek(ra.start, io.SeekStart); err != nil {
-						pw.CloseWithError(err)
-						return
-					}
-					if _, err := io.CopyN(part, content, ra.length); err != nil {
-						pw.CloseWithError(err)
-						return
-					}
-				}
-				mw.Close()
-				pw.Close()
-			}()
-		}
-		ctx.Header("Accept-Ranges", "bytes")
-		if ctx.ResponseWriter().Header().Get(context.ContentEncodingHeaderKey) == "" {
-			ctx.Header(context.ContentLengthHeaderKey, strconv.FormatInt(sendSize, 10))
-		}
-	}
-
-	ctx.StatusCode(code)
-
-	if ctx.Method() != http.MethodHead {
-		io.CopyN(ctx.ResponseWriter(), sendContent, sendSize)
-	}
-
-	return "", code
-}
-
-func etagEmptyOrStrongMatch(rangeValue string, etagValue string) bool {
-	etag, _ := scanETag(rangeValue)
-	if etag != "" {
-		if etagStrongMatch(etag, etagValue) {
-			return true
-		}
-		return false
-	}
-	return true
-}
-
-// scanETag determines if a syntactically valid ETag is present at s. If so,
-// the ETag and remaining text after consuming ETag is returned. Otherwise,
-// it returns "", "".
-func scanETag(s string) (etag string, remain string) {
-	s = textproto.TrimString(s)
-	start := 0
-	if strings.HasPrefix(s, "W/") {
-		start = 2
-	}
-	if len(s[start:]) < 2 || s[start] != '"' {
-		return "", ""
-	}
-	// ETag is either W/"text" or "text".
-	// See RFC 7232 2.3.
-	for i := start + 1; i < len(s); i++ {
-		c := s[i]
-		switch {
-		// Character values allowed in ETags.
-		case c == 0x21 || c >= 0x23 && c <= 0x7E || c >= 0x80:
-		case c == '"':
-			return string(s[:i+1]), s[i+1:]
-		default:
-			break
-		}
-	}
-	return "", ""
-}
-
-// etagStrongMatch reports whether a and b match using strong ETag comparison.
-// Assumes a and b are valid ETags.
-func etagStrongMatch(a, b string) bool {
-	return a == b && a != "" && a[0] == '"'
-}
-
-// etagWeakMatch reports whether a and b match using weak ETag comparison.
-// Assumes a and b are valid ETags.
-func etagWeakMatch(a, b string) bool {
-	return strings.TrimPrefix(a, "W/") == strings.TrimPrefix(b, "W/")
-}
-
-// condResult is the result of an HTTP request precondition check.
-// See https://tools.ietf.org/html/rfc7232 section 3.
-type condResult int
-
-const (
-	condNone condResult = iota
-	condTrue
-	condFalse
-)
-
-func checkIfMatch(ctx context.Context) condResult {
-	im := ctx.GetHeader("If-Match")
-	if im == "" {
-		return condNone
-	}
-	for {
-		im = textproto.TrimString(im)
-		if len(im) == 0 {
-			break
-		}
-		if im[0] == ',' {
-			im = im[1:]
-			continue
-		}
-		if im[0] == '*' {
-			return condTrue
-		}
-		etag, remain := scanETag(im)
-		if etag == "" {
-			break
-		}
-		if etagStrongMatch(etag, ctx.ResponseWriter().Header().Get("Etag")) {
-			return condTrue
-		}
-		im = remain
-	}
-
-	return condFalse
-}
-
-func checkIfNoneMatch(ctx context.Context) condResult {
-	inm := ctx.GetHeader("If-None-Match")
-	if inm == "" {
-		return condNone
-	}
-	buf := inm
-	for {
-		buf = textproto.TrimString(buf)
-		if len(buf) == 0 {
-			break
-		}
-		if buf[0] == ',' {
-			buf = buf[1:]
-		}
-		if buf[0] == '*' {
-			return condFalse
-		}
-		etag, remain := scanETag(buf)
-		if etag == "" {
-			break
-		}
-		if etagWeakMatch(etag, ctx.ResponseWriter().Header().Get("Etag")) {
-			return condFalse
-		}
-		buf = remain
-	}
-	return condTrue
-}
-
-// checkPreconditions evaluates request preconditions and reports whether a precondition
-// resulted in sending StatusNotModified or StatusPreconditionFailed.
-func checkPreconditions(ctx context.Context, modtime time.Time) (done bool, rangeHeader string) {
-	// This function carefully follows RFC 7232 section 6.
-	ch := checkIfMatch(ctx)
-	if ch == condNone {
-		ch = checkIfUnmodifiedSince(ctx, modtime)
-	}
-	if ch == condFalse {
-
-		ctx.StatusCode(http.StatusPreconditionFailed)
-		return true, ""
-	}
-	switch checkIfNoneMatch(ctx) {
-	case condFalse:
-		if ctx.Method() == http.MethodGet || ctx.Method() == http.MethodHead {
-			ctx.WriteNotModified()
-			return true, ""
-		}
-		ctx.StatusCode(http.StatusPreconditionFailed)
-		return true, ""
-
-	case condNone:
-		if modified, err := ctx.CheckIfModifiedSince(modtime); !modified && err == nil {
-			ctx.WriteNotModified()
-			return true, ""
-		}
-	}
-
-	rangeHeader = ctx.GetHeader("Range")
-	if rangeHeader != "" {
-		if checkIfRange(ctx, etagEmptyOrStrongMatch, modtime) == condFalse {
-			rangeHeader = ""
-		}
-	}
-	return false, rangeHeader
-}
-
-func checkIfUnmodifiedSince(ctx context.Context, modtime time.Time) condResult {
-	ius := ctx.GetHeader("If-Unmodified-Since")
-	if ius == "" || context.IsZeroTime(modtime) {
-		return condNone
-	}
-	if t, err := context.ParseTime(ctx, ius); err == nil {
-		// The Date-Modified header truncates sub-second precision, so
-		// use mtime < t+1s instead of mtime <= t to check for unmodified.
-		if modtime.Before(t.Add(1 * time.Second)) {
-			return condTrue
-		}
-		return condFalse
-	}
-	return condNone
-}
-
-func checkIfRange(ctx context.Context, etagEmptyOrStrongMatch func(ifRangeValue string, etagValue string) bool, modtime time.Time) condResult {
-	if ctx.Method() != http.MethodGet {
-		return condNone
-	}
-	ir := ctx.GetHeader("If-Range")
-	if ir == "" {
-		return condNone
-	}
-
-	if etagEmptyOrStrongMatch(ir, ctx.GetHeader("Etag")) {
-		return condTrue
-	}
-
-	// The If-Range value is typically the ETag value, but it may also be
-	// the modtime date. See golang.org/issue/8367.
-	if modtime.IsZero() {
-		return condFalse
-	}
-	t, err := context.ParseTime(ctx, ir)
-	if err != nil {
-		return condFalse
-	}
-	if t.Unix() == modtime.Unix() {
-		return condTrue
-	}
-	return condFalse
-}
-
-const indexPage = "/index.html"
-
-// name is '/'-separated, not filepath.Separator.
-func serveFile(ctx context.Context, fs http.FileSystem, name string, redirect bool, showList bool, gzip bool) (string, int) {
-	// redirect .../index.html to .../
-	// can't use Redirect() because that would make the path absolute,
-	// which would be a problem running under StripPrefix
-	if strings.HasSuffix(ctx.Request().URL.Path, indexPage) {
-		localRedirect(ctx, "./")
-		return "", http.StatusMovedPermanently
-	}
-
-	f, err := fs.Open(name)
-	if err != nil {
-		return err.Error(), 404
-	}
-	defer f.Close()
-
-	d, err := f.Stat()
-	if err != nil {
-		return err.Error(), 404
-	}
-
-	if redirect {
-		// redirect to canonical path: / at end of directory url
-		// ctx.Request.URL.Path always begins with /
-		url := ctx.Request().URL.Path
-		if d.IsDir() {
-			if url[len(url)-1] != '/' {
-				localRedirect(ctx, path.Base(url)+"/")
-				return "", http.StatusMovedPermanently
-			}
-		} else {
-			if url[len(url)-1] == '/' {
-				localRedirect(ctx, "../"+path.Base(url))
-				return "", http.StatusMovedPermanently
-			}
-		}
-	}
-
-	// redirect if the directory name doesn't end in a slash
-	if d.IsDir() {
-		url := ctx.Request().URL.Path
-		if url[len(url)-1] != '/' {
-			localRedirect(ctx, path.Base(url)+"/")
-			return "", http.StatusMovedPermanently
-		}
-	}
-
-	// use contents of index.html for directory, if present
-	if d.IsDir() {
-		index := strings.TrimSuffix(name, "/") + indexPage
-		ff, err := fs.Open(index)
-		if err == nil {
-			defer ff.Close()
-			dd, err := ff.Stat()
-			if err == nil {
-				d = dd
-				f = ff
-			}
-		}
-	}
-
-	// Still a directory? (we didn't find an index.html file)
-	if d.IsDir() {
-		if !showList {
-			return "", http.StatusForbidden
-		}
-		if modified, err := ctx.CheckIfModifiedSince(d.ModTime()); !modified && err == nil {
-			ctx.WriteNotModified()
-			return "", http.StatusNotModified
-		}
-		ctx.SetLastModified(d.ModTime())
-		return dirList(ctx, f)
-	}
-
-	// if gzip disabled then continue using content byte ranges
-	if !gzip {
-		// serveContent will check modification time
-		sizeFunc := func() (int64, error) { return d.Size(), nil }
-		return serveContent(ctx, d.Name(), d.ModTime(), sizeFunc, f)
-	}
-
-	// else, set the last modified as "serveContent" does.
-	ctx.SetLastModified(d.ModTime())
-
-	// write the file to the response writer.
-	contents, err := ioutil.ReadAll(f)
-	if err != nil {
-		ctx.Application().Logger().Debugf("err reading file: %v", err)
-		return "error reading the file", http.StatusInternalServerError
-	}
-
-	// Use `WriteNow` instead of `Write`
-	// because we need to know the compressed written size before
-	// the `FlushResponse`.
-	_, err = ctx.GzipResponseWriter().Write(contents)
-	if err != nil {
-		ctx.Application().Logger().Debugf("short write: %v", err)
-		return "short write", http.StatusInternalServerError
-	}
-
-	// try to find and send the correct content type based on the filename
-	// and the binary data inside "f".
-	detectOrWriteContentType(ctx, d.Name(), f)
-
-	return "", http.StatusOK
-}
-
-// toHTTPError returns a non-specific HTTP error message and status code
-// for a given non-nil error value. It's important that toHTTPError does not
-// actually return err.Error(), since msg and httpStatus are returned to users,
-// and historically Go's ServeContent always returned just "404 Not Found" for
-// all errors. We don't want to start leaking information in error messages.
-func toHTTPError(err error) (msg string, httpStatus int) {
-	if os.IsNotExist(err) {
-		return "404 page not found", http.StatusNotFound
-	}
-	if os.IsPermission(err) {
-		return "403 Forbidden", http.StatusForbidden
-	}
-	// Default:
-	return "500 Internal Server Error", http.StatusInternalServerError
-}
-
 // localRedirect gives a Moved Permanently response.
 // It does not convert relative paths to absolute paths like Redirect does.
-func localRedirect(ctx context.Context, newPath string) {
+func localRedirect(ctx *context.Context, newPath string) {
 	if q := ctx.Request().URL.RawQuery; q != "" {
 		newPath += "?" + q
 	}
@@ -869,139 +457,756 @@ func localRedirect(ctx context.Context, newPath string) {
 	ctx.StatusCode(http.StatusMovedPermanently)
 }
 
-func containsDotDot(v string) bool {
-	if !strings.Contains(v, "..") {
-		return false
-	}
-	for _, ent := range strings.FieldsFunc(v, isSlashRune) {
-		if ent == ".." {
-			return true
-		}
-	}
-	return false
-}
-
-func isSlashRune(r rune) bool { return r == '/' || r == '\\' }
-
-// httpRange specifies the byte range to be sent to the client.
-type httpRange struct {
-	start, length int64
-}
-
-func (r httpRange) contentRange(size int64) string {
-	return fmt.Sprintf("bytes %d-%d/%d", r.start, r.start+r.length-1, size)
-}
-
-func (r httpRange) mimeHeader(contentType string, size int64) textproto.MIMEHeader {
-	return textproto.MIMEHeader{
-		"Content-Range": {r.contentRange(size)},
-		contentType:     {contentType},
-	}
-}
-
-// parseRange parses a Range header string as per RFC 2616.
-// errNoOverlap is returned if none of the ranges overlap.
-func parseRange(s string, size int64) ([]httpRange, error) {
-	if s == "" {
-		return nil, nil // header not present
-	}
-	const b = "bytes="
-	if !strings.HasPrefix(s, b) {
-		return nil, errors.New("invalid range")
-	}
-	var ranges []httpRange
-	noOverlap := false
-	for _, ra := range strings.Split(s[len(b):], ",") {
-		ra = strings.TrimSpace(ra)
-		if ra == "" {
-			continue
-		}
-		i := strings.Index(ra, "-")
-		if i < 0 {
-			return nil, errors.New("invalid range")
-		}
-		start, end := strings.TrimSpace(ra[:i]), strings.TrimSpace(ra[i+1:])
-		var r httpRange
-		if start == "" {
-			// If no start is specified, end specifies the
-			// range start relative to the end of the file.
-			i, err := strconv.ParseInt(end, 10, 64)
-			if err != nil {
-				return nil, errors.New("invalid range")
-			}
-			if i > size {
-				i = size
-			}
-			r.start = size - i
-			r.length = size - r.start
-		} else {
-			i, err := strconv.ParseInt(start, 10, 64)
-			if err != nil || i < 0 {
-				return nil, errors.New("invalid range")
-			}
-			if i >= size {
-				// If the range begins after the size of the content,
-				// then it does not overlap.
-				noOverlap = true
-				continue
-			}
-			r.start = i
-			if end == "" {
-				// If no end is specified, range extends to end of the file.
-				r.length = size - r.start
-			} else {
-				i, err := strconv.ParseInt(end, 10, 64)
-				if err != nil || r.start > i {
-					return nil, errors.New("invalid range")
-				}
-				if i >= size {
-					i = size - 1
-				}
-				r.length = i - r.start + 1
-			}
-		}
-		ranges = append(ranges, r)
-	}
-	if noOverlap && len(ranges) == 0 {
-		// The specified ranges did not overlap with the content.
-		return nil, errNoOverlap
-	}
-	return ranges, nil
-}
-
-// countingWriter counts how many bytes have been written to it.
-type countingWriter int64
-
-func (w *countingWriter) Write(p []byte) (n int, err error) {
-	*w += countingWriter(len(p))
-	return len(p), nil
-}
-
-// rangesMIMESize returns the number of bytes it takes to encode the
-// provided ranges as a multipart response.
-func rangesMIMESize(ranges []httpRange, contentType string, contentSize int64) (encSize int64) {
-	var w countingWriter
-	mw := multipart.NewWriter(&w)
-	for _, ra := range ranges {
-		mw.CreatePart(ra.mimeHeader(contentType, contentSize))
-		encSize += ra.length
-	}
-	mw.Close()
-	encSize += int64(w)
-	return
-}
-
-func sumRangesSize(ranges []httpRange) (size int64) {
-	for _, ra := range ranges {
-		size += ra.length
-	}
-	return
-}
-
 // DirectoryExists returns true if a directory(or file) exists, otherwise false
 func DirectoryExists(dir string) bool {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		return false
 	}
 	return true
+}
+
+// Instead of path.Base(filepath.ToSlash(s))
+// let's do something like that, it is faster
+// (used to list directories on serve-time too):
+func toBaseName(s string) string {
+	n := len(s) - 1
+	for i := n; i >= 0; i-- {
+		if c := s[i]; c == '/' || c == '\\' {
+			if i == n {
+				// "s" ends with a slash, remove it and retry.
+				return toBaseName(s[:n])
+			}
+
+			return s[i+1:] // return the rest, trimming the slash.
+		}
+	}
+
+	return s
+}
+
+// DirList is a `DirListFunc` which renders directories and files in html, but plain, mode.
+// See `DirListRich` for more.
+func DirList(ctx *context.Context, dirOptions DirOptions, dirName string, dir http.File) error {
+	dirs, err := dir.Readdir(-1)
+	if err != nil {
+		return err
+	}
+
+	sort.Slice(dirs, func(i, j int) bool { return dirs[i].Name() < dirs[j].Name() })
+
+	ctx.ContentType(context.ContentHTMLHeaderValue)
+	_, err = ctx.WriteString("<pre>\n")
+	if err != nil {
+		return err
+	}
+
+	for _, d := range dirs {
+		name := toBaseName(d.Name())
+
+		upath := path.Join(ctx.Request().RequestURI, name)
+		url := url.URL{Path: upath}
+
+		downloadAttr := ""
+		if dirOptions.Attachments.Enable && !d.IsDir() {
+			downloadAttr = " download" // fixes chrome Resource interpreted, other browsers will just ignore this <a> attribute.
+		}
+
+		viewName := name
+		if d.IsDir() {
+			viewName += "/"
+		}
+
+		// name may contain '?' or '#', which must be escaped to remain
+		// part of the URL path, and not indicate the start of a query
+		// string or fragment.
+		_, err = ctx.Writef("<a href=\"%s\"%s>%s</a>\n", url.String(), downloadAttr, html.EscapeString(viewName))
+		if err != nil {
+			return err
+		}
+	}
+	_, err = ctx.WriteString("</pre>\n")
+	return err
+}
+
+// DirListRichOptions the options for the `DirListRich` helper function.
+type DirListRichOptions struct {
+	// If not nil then this template's "dirlist" is used to render the listing page.
+	Tmpl *template.Template
+	// If not empty then this view file is used to render the listing page.
+	// The view should be registered with `Application.RegisterView`.
+	// E.g. "dirlist.html"
+	TmplName string
+}
+
+// DirListRich is a `DirListFunc` which can be passed to `DirOptions.DirList` field
+// to override the default file listing appearance.
+// See `DirListRichTemplate` to modify the template, if necessary.
+func DirListRich(opts ...DirListRichOptions) DirListFunc {
+	var options DirListRichOptions
+	if len(opts) > 0 {
+		options = opts[0]
+	}
+	if options.TmplName == "" && options.Tmpl == nil {
+		options.Tmpl = DirListRichTemplate
+	}
+
+	return func(ctx *context.Context, dirOptions DirOptions, dirName string, dir http.File) error {
+		dirs, err := dir.Readdir(-1)
+		if err != nil {
+			return err
+		}
+
+		sortBy := ctx.URLParam("sort")
+		switch sortBy {
+		case "name":
+			sort.Slice(dirs, func(i, j int) bool { return dirs[i].Name() < dirs[j].Name() })
+		case "size":
+			sort.Slice(dirs, func(i, j int) bool { return dirs[i].Size() < dirs[j].Size() })
+		default:
+			sort.Slice(dirs, func(i, j int) bool { return dirs[i].ModTime().After(dirs[j].ModTime()) })
+		}
+
+		pageData := listPageData{
+			Title: fmt.Sprintf("List of %d files", len(dirs)),
+			Files: make([]fileInfoData, 0, len(dirs)),
+		}
+
+		for _, d := range dirs {
+			name := toBaseName(d.Name())
+
+			upath := path.Join(ctx.Request().RequestURI, name)
+			url := url.URL{Path: upath}
+
+			viewName := name
+			if d.IsDir() {
+				viewName += "/"
+			}
+
+			shouldDownload := dirOptions.Attachments.Enable && !d.IsDir()
+			pageData.Files = append(pageData.Files, fileInfoData{
+				Info:     d,
+				ModTime:  d.ModTime().UTC().Format(http.TimeFormat),
+				Path:     url.String(),
+				RelPath:  path.Join(ctx.Path(), name),
+				Name:     html.EscapeString(viewName),
+				Download: shouldDownload,
+			})
+		}
+
+		if options.TmplName != "" {
+			return ctx.View(options.TmplName, pageData)
+		}
+
+		return options.Tmpl.ExecuteTemplate(ctx, "dirlist", pageData)
+	}
+}
+
+type (
+	listPageData struct {
+		Title string // the document's title.
+		Files []fileInfoData
+	}
+
+	fileInfoData struct {
+		Info     os.FileInfo
+		ModTime  string // format-ed time.
+		Path     string // the request path.
+		RelPath  string // file path without the system directory itself (we are not exposing it to the user).
+		Name     string // the html-escaped name.
+		Download bool   // the file should be downloaded (attachment instead of inline view).
+	}
+)
+
+// FormatBytes returns a string representation of the "b" bytes.
+func FormatBytes(b int64) string {
+	const unit = 1000
+	if b < unit {
+		return fmt.Sprintf("%d B", b)
+	}
+	div, exp := int64(unit), 0
+	for n := b / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %cB",
+		float64(b)/float64(div), "kMGTPE"[exp])
+}
+
+// DirListRichTemplate is the html template the `DirListRich` function is using to render
+// the directories and files.
+var DirListRichTemplate = template.Must(template.New("dirlist").
+	Funcs(template.FuncMap{
+		"formatBytes": FormatBytes,
+	}).Parse(`
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{.Title}}</title>
+    <style>
+        a {
+            padding: 8px 8px;
+            text-decoration:none;
+            cursor:pointer;
+            color: #10a2ff;
+        }
+        table {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            empty-cells: show;
+            border: 1px solid #cbcbcb;
+        }
+        
+        table caption {
+            color: #000;
+            font: italic 85%/1 arial, sans-serif;
+            padding: 1em 0;
+            text-align: center;
+        }
+        
+        table td,
+        table th {
+            border-left: 1px solid #cbcbcb;
+            border-width: 0 0 0 1px;
+            font-size: inherit;
+            margin: 0;
+            overflow: visible;
+            padding: 0.5em 1em;
+        }
+        
+        table thead {
+            background-color: #10a2ff;
+            color: #fff;
+            text-align: left;
+            vertical-align: bottom;
+        }
+        
+        table td {
+            background-color: transparent;
+        }
+
+        .table-odd td {
+            background-color: #f2f2f2;
+        }
+
+        .table-bordered td {
+            border-bottom: 1px solid #cbcbcb;
+        }
+        .table-bordered tbody > tr:last-child > td {
+            border-bottom-width: 0;
+        }
+	</style>
+</head>
+<body>
+    <table class="table-bordered table-odd">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+				<th>Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range $idx, $file := .Files }}
+            <tr>
+                <td>{{ $idx }}</td>
+                {{ if $file.Download }}
+                <td><a href="{{ $file.Path }}" title="{{ $file.ModTime }}" download>{{ $file.Name }}</a></td> 
+                {{ else }}
+                <td><a href="{{ $file.Path }}" title="{{ $file.ModTime }}">{{ $file.Name }}</a></td>
+                {{ end }}
+				{{ if $file.Info.IsDir }}
+				<td>Dir</td>
+				{{ else }}
+				<td>{{ formatBytes $file.Info.Size }}</td>
+				{{ end }}
+            </tr>
+            {{ end }}
+        </tbody>
+	</table>
+</body></html>
+`))
+
+// fsOpener returns the file system opener, cached one or the original based on the options Enable field.
+func fsOpener(fs http.FileSystem, options DirCacheOptions) func(name string, r *http.Request) (http.File, error) {
+	if !options.Enable {
+		// if it's not enabled return the opener original one.
+		return func(name string, _ *http.Request) (http.File, error) {
+			return fs.Open(name)
+		}
+	}
+
+	c, err := cache(fs, options)
+	if err != nil {
+		panic(err)
+	}
+	return c.Ropen
+}
+
+// cache returns a http.FileSystem which serves in-memory cached (compressed) files.
+// Look `Verbose` function to print out information while in development status.
+func cache(fs http.FileSystem, options DirCacheOptions) (*cacheFS, error) {
+	start := time.Now()
+
+	names, err := findNames(fs, "/")
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Slice(names, func(i, j int) bool {
+		return strings.Count(names[j], "/") > strings.Count(names[i], "/")
+	})
+
+	dirs, err := findDirs(fs, names)
+	if err != nil {
+		return nil, err
+	}
+
+	files, err := cacheFiles(stdContext.Background(), fs, names,
+		options.Encodings, options.CompressMinSize, options.CompressIgnore)
+	if err != nil {
+		return nil, err
+	}
+
+	ttc := time.Since(start)
+
+	c := &cacheFS{dirs: dirs, files: files, algs: options.Encodings}
+	go logCacheFS(c, ttc, len(names), options.Verbose)
+
+	return c, nil
+}
+
+func logCacheFS(fs *cacheFS, ttc time.Duration, n int, level uint8) {
+	if level == 0 {
+		return
+	}
+
+	var (
+		totalLength             int64
+		totalCompressedLength   = make(map[string]int64)
+		totalCompressedContents int64
+	)
+
+	for name, f := range fs.files {
+		uncompressed := f.algs[""]
+		totalLength += int64(len(uncompressed))
+
+		if level == 2 {
+			fmt.Printf("%s (%s)\n", name, FormatBytes(int64(len(uncompressed))))
+		}
+
+		for alg, contents := range f.algs {
+			if alg == "" {
+				continue
+			}
+
+			totalCompressedContents++
+
+			if len(alg) < 7 {
+				alg += strings.Repeat(" ", 7-len(alg))
+			}
+			totalCompressedLength[alg] += int64(len(contents))
+
+			if level == 2 {
+				fmt.Printf("%s (%s)\n", alg, FormatBytes(int64(len(contents))))
+			}
+		}
+	}
+
+	fmt.Printf("Time to complete the compression and caching of [%d/%d] files: %s\n", totalCompressedContents/int64(len(fs.algs)), n, ttc)
+	fmt.Printf("Total size reduced from %s to:\n", FormatBytes(totalLength))
+	for alg, length := range totalCompressedLength {
+		// https://en.wikipedia.org/wiki/Data_compression_ratio
+		reducedRatio := 1 - float64(length)/float64(totalLength)
+		fmt.Printf("%s (%s) [%.2f%%]\n", alg, FormatBytes(length), reducedRatio*100)
+	}
+}
+
+type cacheFS struct {
+	dirs  map[string]*dir
+	files fileMap
+	algs  []string
+}
+
+var _ http.FileSystem = (*cacheFS)(nil)
+
+// Open returns the http.File based on "name".
+// If file, it always returns a cached file of uncompressed data.
+// See `Ropen` too.
+func (c *cacheFS) Open(name string) (http.File, error) {
+	// we always fetch with the sep,
+	// as http requests will do,
+	// and the filename's info.Name() is always base
+	// and without separator prefix
+	// (keep note, we need that fileInfo
+	// wrapper because go-bindata's Name originally
+	// returns the fullname while the http.Dir returns the basename).
+	if name == "" || name[0] != '/' {
+		name = "/" + name
+	}
+
+	if d, ok := c.dirs[name]; ok {
+		return d, nil
+	}
+
+	if f, ok := c.files[name]; ok {
+		return f.Get("")
+	}
+
+	return nil, os.ErrNotExist
+}
+
+// Ropen returns the http.File based on "name".
+// If file, it negotiates the content encoding,
+// based on the given algorithms, and
+// returns the cached file with compressed data,
+// if the encoding was empty then it
+// returns the cached file with its original, uncompressed data.
+//
+// A check of `GetEncoding(file)` is required to set
+// response headers.
+//
+// Note: We don't require a response writer to set the headers
+// because the caller of this method may stop the operation
+// before file's contents are written to the client.
+func (c *cacheFS) Ropen(name string, r *http.Request) (http.File, error) {
+	if name == "" || name[0] != '/' {
+		name = "/" + name
+	}
+
+	if d, ok := c.dirs[name]; ok {
+		return d, nil
+	}
+
+	if f, ok := c.files[name]; ok {
+		encoding, _ := context.GetEncoding(r, c.algs)
+		return f.Get(encoding)
+	}
+
+	return nil, os.ErrNotExist
+}
+
+// getFileEncoding returns the encoding of an http.File.
+// If the "f" file was created by a `Cache` call then
+// it returns the content encoding that this file was cached with.
+// It returns empty string for files that
+// were too small or ignored to be compressed.
+//
+// It also reports whether the "f" is a cached file or not.
+func getFileEncoding(f http.File) (string, bool) {
+	if f == nil {
+		return "", false
+	}
+
+	ff, ok := f.(*file)
+	if !ok {
+		return "", false
+	}
+
+	return ff.alg, true
+}
+
+// type fileMap map[string] /* path */ map[string] /*compression alg or empty for original */ []byte /*contents */
+type fileMap map[string]*file
+
+func cacheFiles(ctx stdContext.Context, fs http.FileSystem, names []string, compressAlgs []string, compressMinSize int64, compressIgnore *regexp.Regexp) (fileMap, error) {
+	ctx, cancel := stdContext.WithCancel(ctx)
+	defer cancel()
+
+	list := make(fileMap, len(names))
+	mutex := new(sync.Mutex)
+
+	cache := func(name string) error {
+		f, err := fs.Open(name)
+		if err != nil {
+			return err
+		}
+
+		inf, err := f.Stat()
+		if err != nil {
+			f.Close()
+			return err
+		}
+
+		fi := newFileInfo(path.Base(name), inf.Mode(), inf.ModTime())
+
+		contents, err := ioutil.ReadAll(f)
+		f.Close()
+		if err != nil {
+			return err
+		}
+
+		algs := make(map[string][]byte, len(compressAlgs)+1)
+		algs[""] = contents // original contents.
+
+		mutex.Lock()
+		list[name] = newFile(name, fi, algs)
+		mutex.Unlock()
+		if compressMinSize > 0 && compressMinSize > int64(len(contents)) {
+			return nil
+		}
+
+		if compressIgnore != nil && compressIgnore.MatchString(name) {
+			return nil
+		}
+
+		// Note:
+		// We can fire a new goroutine for each compression of the same file
+		// but this will have an impact on CPU cost if
+		// thousands of files running 4 compressions at the same time,
+		// so, unless requested keep it as it's.
+		buf := new(bytes.Buffer)
+		for _, alg := range compressAlgs {
+			// stop all compressions if at least one file failed to.
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			default:
+				break
+			}
+
+			if alg == "brotli" {
+				alg = "br"
+			}
+
+			w, err := context.NewCompressWriter(buf, strings.ToLower(alg), -1)
+			if err != nil {
+				return err
+			}
+			_, err = w.Write(contents)
+			w.Close()
+			if err != nil {
+				return err
+			}
+
+			bs := buf.Bytes()
+			dest := make([]byte, len(bs))
+			copy(dest, bs)
+			algs[alg] = dest
+
+			buf.Reset()
+		}
+
+		return nil
+	}
+
+	var (
+		err     error
+		wg      sync.WaitGroup
+		errOnce sync.Once
+	)
+
+	for _, name := range names {
+		wg.Add(1)
+
+		go func(name string) {
+			defer wg.Done()
+
+			if fnErr := cache(name); fnErr != nil {
+				errOnce.Do(func() {
+					err = fnErr
+					cancel()
+				})
+			}
+		}(name)
+	}
+
+	wg.Wait()
+	return list, err
+}
+
+type cacheStoreFile interface {
+	Get(compressionAlgorithm string) (http.File, error)
+}
+
+type file struct {
+	io.ReadSeeker                   // nil on cache store and filled on file Get.
+	algs          map[string][]byte // non empty for store and nil for files.
+	alg           string            // empty for cache store, filled with the compression algorithm of this file (useful to decompress).
+	name          string
+	baseName      string
+	info          os.FileInfo
+}
+
+var _ http.File = (*file)(nil)
+var _ cacheStoreFile = (*file)(nil)
+
+func newFile(name string, fi os.FileInfo, algs map[string][]byte) *file {
+	return &file{
+		name:     name,
+		baseName: path.Base(name),
+		info:     fi,
+		algs:     algs,
+	}
+}
+
+func (f *file) Close() error                             { return nil }
+func (f *file) Readdir(count int) ([]os.FileInfo, error) { return nil, os.ErrNotExist }
+func (f *file) Stat() (os.FileInfo, error)               { return f.info, nil }
+
+// Get returns a new http.File to be served.
+// Caller should check if a specific http.File has this method as well.
+func (f *file) Get(alg string) (http.File, error) {
+	// The "alg" can be empty for non-compressed file contents.
+	// We don't need a new structure.
+
+	if contents, ok := f.algs[alg]; ok {
+		return &file{
+			name:       f.name,
+			baseName:   f.baseName,
+			info:       f.info,
+			alg:        alg,
+			ReadSeeker: bytes.NewReader(contents),
+		}, nil
+	}
+
+	// When client accept compression but cached contents are not compressed,
+	// e.g. file too small or ignored one.
+	return f.Get("")
+}
+
+func findNames(fs http.FileSystem, name string) ([]string, error) {
+	f, err := fs.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	fi, err := f.Stat()
+	if err != nil {
+		return nil, err
+	}
+
+	if !fi.IsDir() {
+		return []string{name}, nil
+	}
+
+	fileinfos, err := f.Readdir(-1)
+	if err != nil {
+		return nil, err
+	}
+
+	files := make([]string, 0)
+
+	for _, info := range fileinfos {
+		// Note:
+		// go-bindata has absolute names with os.Separator,
+		// http.Dir the basename.
+		filename := toBaseName(info.Name())
+		fullname := path.Join(name, filename)
+		if fullname == name { // prevent looping through itself when fs is cacheFS.
+			continue
+		}
+		rfiles, err := findNames(fs, fullname)
+		if err != nil {
+			return nil, err
+		}
+
+		files = append(files, rfiles...)
+	}
+
+	return files, nil
+}
+
+type fileInfo struct {
+	baseName string
+	modTime  time.Time
+	isDir    bool
+	mode     os.FileMode
+}
+
+var _ os.FileInfo = (*fileInfo)(nil)
+
+func newFileInfo(baseName string, mode os.FileMode, modTime time.Time) *fileInfo {
+	return &fileInfo{
+		baseName: baseName,
+		modTime:  modTime,
+		mode:     mode,
+		isDir:    mode == os.ModeDir,
+	}
+}
+
+func (fi *fileInfo) Close() error       { return nil }
+func (fi *fileInfo) Name() string       { return fi.baseName }
+func (fi *fileInfo) Mode() os.FileMode  { return fi.mode }
+func (fi *fileInfo) ModTime() time.Time { return fi.modTime }
+func (fi *fileInfo) IsDir() bool        { return fi.isDir }
+func (fi *fileInfo) Size() int64        { return 0 }
+func (fi *fileInfo) Sys() interface{}   { return fi }
+
+type dir struct {
+	os.FileInfo   // *fileInfo
+	io.ReadSeeker // nil
+
+	name     string // fullname, for any case.
+	baseName string
+	children []os.FileInfo // a slice of *fileInfo
+}
+
+var _ os.FileInfo = (*dir)(nil)
+var _ http.File = (*dir)(nil)
+
+func (d *dir) Close() error               { return nil }
+func (d *dir) Name() string               { return d.baseName }
+func (d *dir) Stat() (os.FileInfo, error) { return d.FileInfo, nil }
+
+func (d *dir) Readdir(count int) ([]os.FileInfo, error) {
+	return d.children, nil
+}
+
+func newDir(fi os.FileInfo, fullname string) *dir {
+	baseName := path.Base(fullname)
+	return &dir{
+		FileInfo: newFileInfo(baseName, os.ModeDir, fi.ModTime()),
+		name:     fullname,
+		baseName: baseName,
+	}
+}
+
+var _ http.File = (*dir)(nil)
+
+// returns unorderded map of directories both reclusive and flat.
+func findDirs(fs http.FileSystem, names []string) (map[string]*dir, error) {
+	dirs := make(map[string]*dir, 0)
+
+	for _, name := range names {
+		f, err := fs.Open(name)
+		if err != nil {
+			return nil, err
+		}
+		inf, err := f.Stat()
+		if err != nil {
+			return nil, err
+		}
+
+		dirName := path.Dir(name)
+		d, ok := dirs[dirName]
+		if !ok {
+			fi := newFileInfo(path.Base(dirName), os.ModeDir, inf.ModTime())
+			d = newDir(fi, dirName)
+			dirs[dirName] = d
+		}
+
+		fi := newFileInfo(path.Base(name), inf.Mode(), inf.ModTime())
+
+		// Add the directory file info (=this dir) to the parent one,
+		// so `ShowList` can render sub-directories of this dir.
+		parentName := path.Dir(dirName)
+		if parent, hasParent := dirs[parentName]; hasParent {
+			parent.children = append(parent.children, d)
+		}
+
+		d.children = append(d.children, fi)
+	}
+
+	return dirs, nil
 }

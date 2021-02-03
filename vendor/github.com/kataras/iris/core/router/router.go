@@ -1,11 +1,15 @@
 package router
 
 import (
+	"errors"
 	"net/http"
+	"sort"
+	"strings"
 	"sync"
 
 	"github.com/kataras/iris/context"
-	"github.com/kataras/iris/core/errors"
+
+	"github.com/schollz/closestmatch"
 )
 
 // Router is the "director".
@@ -16,22 +20,146 @@ import (
 // User can refresh the router with `RefreshRouter` whenever a route's field is changed by him.
 type Router struct {
 	mu sync.Mutex // for Downgrade, WrapRouter & BuildRouter,
-	// not indeed but we don't to risk its usage by third-parties.
+
 	requestHandler RequestHandler   // build-accessible, can be changed to define a custom router or proxy, used on RefreshRouter too.
 	mainHandler    http.HandlerFunc // init-accessible
-	wrapperFunc    func(http.ResponseWriter, *http.Request, http.HandlerFunc)
+	wrapperFunc    WrapperFunc
 
 	cPool          *context.Pool // used on RefreshRouter
 	routesProvider RoutesProvider
+
+	// key = subdomain
+	// value = closest of static routes, filled on `BuildRouter/RefreshRouter`.
+	closestPaths map[string]*closestmatch.ClosestMatch
 }
 
 // NewRouter returns a new empty Router.
-func NewRouter() *Router { return &Router{} }
+func NewRouter() *Router {
+	return &Router{}
+}
 
 // RefreshRouter re-builds the router. Should be called when a route's state
 // changed (i.e Method changed at serve-time).
 func (router *Router) RefreshRouter() error {
 	return router.BuildRouter(router.cPool, router.requestHandler, router.routesProvider, true)
+}
+
+// ErrNotRouteAdder throws on `AddRouteUnsafe` when a registered `RequestHandler`
+// does not implements the optional `AddRoute(*Route) error` method.
+var ErrNotRouteAdder = errors.New("request handler does not implement AddRoute method")
+
+// AddRouteUnsafe adds a route directly to the router's request handler.
+// Works before or after Build state.
+// Mainly used for internal cases like `iris.WithSitemap`.
+// Do NOT use it on serve-time.
+func (router *Router) AddRouteUnsafe(routes ...*Route) error {
+	if h := router.requestHandler; h != nil {
+		if v, ok := h.(interface {
+			AddRoute(*Route) error
+		}); ok {
+			for _, r := range routes {
+				return v.AddRoute(r)
+			}
+		}
+	}
+
+	return ErrNotRouteAdder
+}
+
+// FindClosestPaths returns a list of "n" paths close to "path" under the given "subdomain".
+//
+// Order may change.
+func (router *Router) FindClosestPaths(subdomain, searchPath string, n int) []string {
+	if router.closestPaths == nil {
+		return nil
+	}
+
+	cm, ok := router.closestPaths[subdomain]
+	if !ok {
+		return nil
+	}
+
+	list := cm.ClosestN(searchPath, n)
+	if len(list) == 1 && list[0] == "" {
+		// yes, it may return empty string as its first slice element when not found.
+		return nil
+	}
+
+	return list
+}
+
+func (router *Router) buildMainHandlerWithFilters(routerFilters map[Party]*Filter, cPool *context.Pool, requestHandler RequestHandler) {
+	sortedFilters := make([]*Filter, 0, len(routerFilters))
+	// key was just there to enforce uniqueness on API level.
+	for _, f := range routerFilters {
+		sortedFilters = append(sortedFilters, f)
+		// append it as one handlers so execution rules are being respected in that step too.
+		f.Handlers = append(f.Handlers, func(ctx *context.Context) {
+			// set the handler index back to 0 so the route's handlers can be executed as expected.
+			ctx.HandlerIndex(0)
+			// execute the main request handler, this will fire the found route's handlers
+			// or if error the error code's associated handler.
+			router.requestHandler.HandleRequest(ctx)
+		})
+	}
+
+	sort.SliceStable(sortedFilters, func(i, j int) bool {
+		left, right := sortedFilters[i], sortedFilters[j]
+		var (
+			leftSubLen  = len(left.Subdomain)
+			rightSubLen = len(right.Subdomain)
+
+			leftSlashLen  = strings.Count(left.Path, "/")
+			rightSlashLen = strings.Count(right.Path, "/")
+		)
+
+		if leftSubLen == rightSubLen {
+			if leftSlashLen > rightSlashLen {
+				return true
+			}
+		}
+
+		if leftSubLen > rightSubLen {
+			return true
+		}
+
+		if leftSlashLen > rightSlashLen {
+			return true
+		}
+
+		if leftSlashLen == rightSlashLen {
+			if len(left.Path) > len(right.Path) {
+				return true
+			}
+			return false
+		}
+
+		return len(left.Path) > len(right.Path)
+	})
+
+	router.mainHandler = func(w http.ResponseWriter, r *http.Request) {
+		ctx := cPool.Acquire(w, r)
+
+		filterExecuted := false
+		for _, f := range sortedFilters {
+			// fmt.Printf("Sorted filter execution: [%s] [%s]\n", f.Subdomain, f.Path)
+			if f.Matcher.Match(ctx) {
+				// fmt.Printf("Matched [%s] and execute [%d] handlers [%s]\n\n", ctx.Path(), len(f.Handlers), context.HandlersNames(f.Handlers))
+				filterExecuted = true
+				// execute the final handlers chain.
+				ctx.Do(f.Handlers)
+				break
+			}
+		}
+
+		if !filterExecuted {
+			// If not at least one match filter found and executed,
+			// then just run the router.
+			router.requestHandler.HandleRequest(ctx)
+		}
+
+		cPool.Release(ctx)
+	}
 }
 
 // BuildRouter builds the router based on
@@ -42,7 +170,6 @@ func (router *Router) RefreshRouter() error {
 //
 // Use of RefreshRouter to re-build the router if needed.
 func (router *Router) BuildRouter(cPool *context.Pool, requestHandler RequestHandler, routesProvider RoutesProvider, force bool) error {
-
 	if requestHandler == nil {
 		return errors.New("router: request handler is nil")
 	}
@@ -78,22 +205,41 @@ func (router *Router) BuildRouter(cPool *context.Pool, requestHandler RequestHan
 		}
 	}
 
-	// the important
-	router.mainHandler = func(w http.ResponseWriter, r *http.Request) {
-		ctx := cPool.Acquire(w, r)
-		router.requestHandler.HandleRequest(ctx)
-		cPool.Release(ctx)
+	// the important stuff.
+	if routerFilters := routesProvider.GetRouterFilters(); len(routerFilters) > 0 {
+		router.buildMainHandlerWithFilters(routerFilters, cPool, requestHandler)
+	} else {
+		router.mainHandler = func(w http.ResponseWriter, r *http.Request) {
+			ctx := cPool.Acquire(w, r)
+			router.requestHandler.HandleRequest(ctx)
+			cPool.Release(ctx)
+		}
 	}
 
 	if router.wrapperFunc != nil { // if wrapper used then attach that as the router service
-		router.mainHandler = NewWrapper(router.wrapperFunc, router.mainHandler).ServeHTTP
+		router.mainHandler = newWrapper(router.wrapperFunc, router.mainHandler).ServeHTTP
+	}
+
+	// build closest.
+	subdomainPaths := make(map[string][]string)
+	for _, r := range router.routesProvider.GetRoutes() {
+		if !r.IsStatic() {
+			continue
+		}
+
+		subdomainPaths[r.Subdomain] = append(subdomainPaths[r.Subdomain], r.Path)
+	}
+
+	router.closestPaths = make(map[string]*closestmatch.ClosestMatch)
+	for subdomain, paths := range subdomainPaths {
+		router.closestPaths[subdomain] = closestmatch.New(paths, []int{3, 4, 6})
 	}
 
 	return nil
 }
 
 // Downgrade "downgrades", alters the router supervisor service(Router.mainHandler)
-//  algorithm to a custom one,
+// algorithm to a custom one,
 // be aware to change the global variables of 'ParamStart' and 'ParamWildcardStart'.
 // can be used to implement a custom proxy or
 // a custom router which should work with raw ResponseWriter, *Request
@@ -112,12 +258,6 @@ func (router *Router) Downgraded() bool {
 	return router.mainHandler != nil && router.requestHandler == nil
 }
 
-// WrapperFunc is used as an expected input parameter signature
-// for the WrapRouter. It's a "low-level" signature which is compatible
-// with the net/http.
-// It's being used to run or no run the router based on a custom logic.
-type WrapperFunc func(w http.ResponseWriter, r *http.Request, firstNextIsTheRouter http.HandlerFunc)
-
 // WrapRouter adds a wrapper on the top of the main router.
 // Usually it's useful for third-party middleware
 // when need to wrap the entire application with a middleware like CORS.
@@ -128,32 +268,11 @@ type WrapperFunc func(w http.ResponseWriter, r *http.Request, firstNextIsTheRout
 //
 // Before build.
 func (router *Router) WrapRouter(wrapperFunc WrapperFunc) {
-	if wrapperFunc == nil {
-		return
-	}
-
-	router.mu.Lock()
-	defer router.mu.Unlock()
-
-	if router.wrapperFunc != nil {
-		// wrap into one function, from bottom to top, end to begin.
-		nextWrapper := wrapperFunc
-		prevWrapper := router.wrapperFunc
-		wrapperFunc = func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-			if next != nil {
-				nexthttpFunc := http.HandlerFunc(func(_w http.ResponseWriter, _r *http.Request) {
-					prevWrapper(_w, _r, next)
-				})
-				nextWrapper(w, r, nexthttpFunc)
-			}
-		}
-	}
-
-	router.wrapperFunc = wrapperFunc
+	router.wrapperFunc = makeWrapperFunc(router.wrapperFunc, wrapperFunc)
 }
 
 // ServeHTTPC serves the raw context, useful if we have already a context, it by-pass the wrapper.
-func (router *Router) ServeHTTPC(ctx context.Context) {
+func (router *Router) ServeHTTPC(ctx *context.Context) {
 	router.requestHandler.HandleRequest(ctx)
 }
 
@@ -163,27 +282,6 @@ func (router *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // RouteExists reports whether a particular route exists
 // It will search from the current subdomain of context's host, if not inside the root domain.
-func (router *Router) RouteExists(ctx context.Context, method, path string) bool {
+func (router *Router) RouteExists(ctx *context.Context, method, path string) bool {
 	return router.requestHandler.RouteExists(ctx, method, path)
-}
-
-type wrapper struct {
-	router      http.HandlerFunc // http.HandlerFunc to catch the CURRENT state of its .ServeHTTP on case of future change.
-	wrapperFunc func(http.ResponseWriter, *http.Request, http.HandlerFunc)
-}
-
-// NewWrapper returns a new http.Handler wrapped by the 'wrapperFunc'
-// the "next" is the final "wrapped" input parameter.
-//
-// Application is responsible to make it to work on more than one wrappers
-// via composition or func clojure.
-func NewWrapper(wrapperFunc func(w http.ResponseWriter, r *http.Request, routerNext http.HandlerFunc), wrapped http.HandlerFunc) http.Handler {
-	return &wrapper{
-		wrapperFunc: wrapperFunc,
-		router:      wrapped,
-	}
-}
-
-func (wr *wrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	wr.wrapperFunc(w, r, wr.router)
 }

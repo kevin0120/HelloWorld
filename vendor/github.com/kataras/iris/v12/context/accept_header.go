@@ -135,7 +135,7 @@ func expectTokenSlash(s string) (token, rest string) {
 
 func expectQuality(s string) (q float64, rest string) {
 	switch {
-	case len(s) == 0:
+	case s == "":
 		return -1, ""
 	case s[0] == '0':
 		q = 0
@@ -194,8 +194,8 @@ func init() {
 		var t octetType
 		isCtl := c <= 31 || c == 127
 		isChar := 0 <= c && c <= 127
-		isSeparator := strings.IndexRune(" \t\"(),/:;<=>?@[]\\{}", rune(c)) >= 0
-		if strings.IndexRune(" \t\r\n", rune(c)) >= 0 {
+		isSeparator := strings.ContainsRune(" \t\"(),/:;<=>?@[]\\{}", rune(c))
+		if strings.ContainsRune(" \t\r\n", rune(c)) {
 			t |= isSpace
 		}
 		if isChar && !isCtl && !isSeparator {
