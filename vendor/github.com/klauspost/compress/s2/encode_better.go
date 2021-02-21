@@ -63,6 +63,9 @@ func encodeBlockBetter(dst, src []byte) (d int) {
 	// lets us use a fast path for emitLiteral in the main loop, while we are
 	// looking for copies.
 	sLimit := len(src) - inputMargin
+	if len(src) < minNonLiteralBlockSize {
+		return 0
+	}
 
 	// Bail if we can't compress to at least this.
 	dstLimit := len(src) - len(src)>>5 - 5
@@ -183,6 +186,9 @@ func encodeBlockBetter(dst, src []byte) (d int) {
 		if offset > 65535 && s-base <= 5 {
 			// Bail if the match is equal or worse to the encoding.
 			s = base + 3
+			if s >= sLimit {
+				goto emitRemainder
+			}
 			cv = load64(src, s)
 			continue
 		}

@@ -42,7 +42,7 @@ TRY IT!
 
 OPTIONAL - Rebuilding the generated code
 ----------------------------------------
-
+  https://www.cnblogs.com/oolo/p/11840305.html
 1. Install [protobuf compiler](https://github.com/google/protobuf/blob/master/README.md#protocol-compiler-installation)
 
 1. Install the protoc Go plugin

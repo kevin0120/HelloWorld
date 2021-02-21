@@ -1,8 +1,8 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"github.com/kataras/iris/core/errors"
 	"time"
 )
 
@@ -48,7 +48,7 @@ func main() {
 	fmt.Println(time.Unix(11, 01).Unix())
 	fmt.Println(time.Unix(66666611, 01).UnixNano())
 
-	errors.Prefix = "kevin"
+	//errors.Prefix = "kevin"
 	e1 := errors.New("hello world")
 
 	fmt.Println(e1)

@@ -36,11 +36,10 @@ func Chained(rule Rule, next ...Rule) Rule {
 	}
 
 	return c
-
 }
 
 // Claim validator
-func (c *chainedRule) Claim(ctx context.Context) bool {
+func (c *chainedRule) Claim(ctx *context.Context) bool {
 	if !c.Rule.Claim(ctx) {
 		return false
 	}
@@ -48,7 +47,7 @@ func (c *chainedRule) Claim(ctx context.Context) bool {
 }
 
 // Valid validator
-func (c *chainedRule) Valid(ctx context.Context) bool {
+func (c *chainedRule) Valid(ctx *context.Context) bool {
 	if !c.Rule.Valid(ctx) {
 		return false
 	}

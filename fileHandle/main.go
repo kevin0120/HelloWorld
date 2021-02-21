@@ -11,16 +11,16 @@ import (
 //文件操作函数大多在os包里
 func main() {
 	//创建新目录
-	os.Mkdir("goDir", 0777)
+	_ = os.Mkdir("./fileHandle/goDir", 0777)
 	//创建新的多级目录
-	os.MkdirAll("goDir/test1/test2", 0777)
+	os.MkdirAll("fileHandle/goDir/test1/test2", 0777)
 	//删除名称为name的目录,当目录下有文件或者其他目录时会出错
-	err := os.Remove("goDir")
+	err := os.Remove("fileHandle/goDir")
 	if err != nil {
 		fmt.Println(err)
 	}
 	//根据path删除多级子目录
-	os.RemoveAll("goDir")
+	os.RemoveAll("fileHandle/goDir")
 
 	//创建空白文件
 	//os.NewFile 或者os.Create

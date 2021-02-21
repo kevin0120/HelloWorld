@@ -1,4 +1,4 @@
-// Package recover provides recovery for specific routes or for the whole app via middleware. See _examples/miscellaneous/recover
+// Package recover provides recovery for specific routes or for the whole app via middleware. See _examples/recover
 package recover
 
 import (
@@ -9,7 +9,11 @@ import (
 	"github.com/kataras/iris/context"
 )
 
-func getRequestLogs(ctx context.Context) string {
+func init() {
+	context.SetHandlerName("iris/middleware/recover.*", "iris.recover")
+}
+
+func getRequestLogs(ctx *context.Context) string {
 	var status, ip, method, path string
 	status = strconv.Itoa(ctx.GetStatusCode())
 	path = ctx.Path()
@@ -23,7 +27,7 @@ func getRequestLogs(ctx context.Context) string {
 // it recovers from panics and logs
 // the panic message to the application's logger "Warn" level.
 func New() context.Handler {
-	return func(ctx context.Context) {
+	return func(ctx *context.Context) {
 		defer func() {
 			if err := recover(); err != nil {
 				if ctx.IsStopped() {
@@ -35,7 +39,6 @@ func New() context.Handler {
 					_, f, l, got := runtime.Caller(i)
 					if !got {
 						break
-
 					}
 
 					stacktrace += fmt.Sprintf("%s:%d\n", f, l)
@@ -48,8 +51,7 @@ func New() context.Handler {
 				logMessage += fmt.Sprintf("\n%s", stacktrace)
 				ctx.Application().Logger().Warn(logMessage)
 
-				ctx.StatusCode(500)
-				ctx.StopExecution()
+				ctx.StopWithStatus(500)
 			}
 		}()
 

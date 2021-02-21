@@ -18,7 +18,7 @@ func valueOf(v interface{}) reflect.Value {
 
 // indirectType returns the value of a pointer-type "typ".
 // If "typ" is a pointer, array, chan, map or slice it returns its Elem,
-// otherwise returns the typ as it's.
+// otherwise returns the "typ" as it is.
 func indirectType(typ reflect.Type) reflect.Type {
 	switch typ.Kind() {
 	case reflect.Ptr, reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
@@ -118,6 +118,8 @@ func structFieldIgnored(f reflect.StructField) bool {
 
 // all except non-zero.
 func lookupFields(elem reflect.Value, skipUnexported bool, onlyZeros bool, parentIndex []int) (fields []reflect.StructField, stateless int) {
+	// Note: embedded pointers are not supported.
+	// elem = reflect.Indirect(elem)
 	elemTyp := elem.Type()
 	for i, n := 0, elem.NumField(); i < n; i++ {
 		field := elemTyp.Field(i)

@@ -9,26 +9,35 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/kataras/iris/v12/context"
-	"github.com/kataras/iris/v12/core/errgroup"
 	"github.com/kataras/iris/v12/core/host"
 	"github.com/kataras/iris/v12/core/netutil"
 	"github.com/kataras/iris/v12/core/router"
 	"github.com/kataras/iris/v12/i18n"
-	requestLogger "github.com/kataras/iris/v12/middleware/logger"
+	"github.com/kataras/iris/v12/middleware/accesslog"
 	"github.com/kataras/iris/v12/middleware/recover"
+	"github.com/kataras/iris/v12/middleware/requestid"
 	"github.com/kataras/iris/v12/view"
 
 	"github.com/kataras/golog"
 	"github.com/kataras/tunnel"
+
+	"github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/css"
+	"github.com/tdewolff/minify/v2/html"
+	"github.com/tdewolff/minify/v2/js"
+	"github.com/tdewolff/minify/v2/json"
+	"github.com/tdewolff/minify/v2/svg"
+	"github.com/tdewolff/minify/v2/xml"
 )
 
-// Version is the current version number of the Iris Web Framework.
-const Version = "12.2.0"
+// Version is the current version of the Iris Web Framework.
+const Version = "12.2.0-alpha"
 
 // Byte unit helpers.
 const (
@@ -65,14 +74,28 @@ type Application struct {
 
 	// Validator is the request body validator, defaults to nil.
 	Validator context.Validator
+	// Minifier to minify responses.
+	minifier *minify.M
 
 	// view engine
 	view view.View
 	// used for build
 	builded     bool
 	defaultMode bool
+	// OnBuild is a single function which
+	// is fired on the first `Build` method call.
+	// If reports an error then the execution
+	// is stopped and the error is logged.
+	// It's nil by default except when `Switch` instead of `New` or `Default`
+	// is used to initialize the Application.
+	// Users can wrap it to accept more events.
+	OnBuild func() error
 
 	mu sync.Mutex
+	// name is the application name and the log prefix for
+	// that Application instance's Logger. See `SetName` and `String`.
+	// Defaults to IRIS_APP_NAME envrinoment variable otherwise empty.
+	name string
 	// Hosts contains a list of all servers (Host Supervisors) that this app is running on.
 	//
 	// Hosts may be empty only if application ran(`app.Run`) with `iris.Raw` option runner,
@@ -88,34 +111,99 @@ type Application struct {
 // New creates and returns a fresh empty iris *Application instance.
 func New() *Application {
 	config := DefaultConfiguration()
-
 	app := &Application{
-		config:     &config,
-		logger:     golog.Default,
-		I18n:       i18n.New(),
-		APIBuilder: router.NewAPIBuilder(),
-		Router:     router.NewRouter(),
+		config:   &config,
+		Router:   router.NewRouter(),
+		I18n:     i18n.New(),
+		minifier: newMinifier(),
 	}
 
+	logger := newLogger(app)
+	app.logger = logger
+	app.APIBuilder = router.NewAPIBuilder(logger)
 	app.ContextPool = context.New(func() interface{} {
 		return context.NewContext(app)
 	})
 
+	context.RegisterApplication(app)
 	return app
 }
 
-// Default returns a new Application instance which on build state registers
-// html view engine on "./views" and load locales from "./locales/*/*".
-// The return instance recovers on panics and logs the incoming http requests too.
+// Default returns a new Application.
+// Default with "debug" Logger Level.
+// Localization enabled on "./locales" directory
+// and HTML templates on "./views" or "./templates" directory.
+// It runs with the AccessLog on "./access.log",
+// Recovery and Request ID middleware already attached.
 func Default() *Application {
 	app := New()
-	app.Use(recover.New())
-	app.Use(requestLogger.New())
-	app.Use(Compression)
+	// Set default log level.
+	app.logger.SetLevel("debug")
+	app.logger.Debugf(`Log level set to "debug"`)
+
+	// Register the accesslog middleware.
+	logFile, err := os.OpenFile("./access.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
+	if err == nil {
+		// Close the file on shutdown.
+		app.ConfigureHost(func(su *Supervisor) {
+			su.RegisterOnShutdown(func() {
+				logFile.Close()
+			})
+		})
+
+		ac := accesslog.New(logFile)
+		ac.AddOutput(app.logger.Printer)
+		app.UseRouter(ac.Handler)
+		app.logger.Debugf("Using <%s> to log requests", logFile.Name())
+	}
+
+	// Register the requestid middleware
+	// before recover so current Context.GetID() contains the info on panic logs.
+	app.UseRouter(requestid.New())
+	app.logger.Debugf("Using <UUID4> to identify requests")
+
+	// Register the recovery, after accesslog and recover,
+	// before end-developer's middleware.
+	app.UseRouter(recover.New())
 
 	app.defaultMode = true
 
 	return app
+}
+
+func newLogger(app *Application) *golog.Logger {
+	logger := golog.Default.Child(app)
+	if name := os.Getenv("IRIS_APP_NAME"); name != "" {
+		app.name = name
+		logger.SetChildPrefix(name)
+	}
+
+	return logger
+}
+
+// SetName sets a unique name to this Iris Application.
+// It sets a child prefix for the current Application's Logger.
+// Look `String` method too.
+//
+// It returns this Application.
+func (app *Application) SetName(appName string) *Application {
+	app.mu.Lock()
+	defer app.mu.Unlock()
+
+	if app.name == "" {
+		app.logger.SetChildPrefix(appName)
+	}
+	app.name = appName
+
+	return app
+}
+
+// String completes the fmt.Stringer interface and it returns
+// the application's name.
+// If name was not set by `SetName` or `IRIS_APP_NAME` environment variable
+// then this will return an empty string.
+func (app *Application) String() string {
+	return app.name
 }
 
 // WWW creates and returns a "www." subdomain.
@@ -149,7 +237,7 @@ func (app *Application) WWW() router.Party {
 // Example: https://github.com/kataras/iris/tree/master/_examples/routing/subdomains/redirect
 func (app *Application) SubdomainRedirect(from, to router.Party) router.Party {
 	sd := router.NewSubdomainRedirectWrapper(app.ConfigurationReadOnly().GetVHost, from.GetRelPath(), to.GetRelPath())
-	app.Router.WrapRouter(sd)
+	app.Router.AddRouterWrapper(sd)
 	return to
 }
 
@@ -188,7 +276,7 @@ func (app *Application) ConfigurationReadOnly() context.ConfigurationReadOnly {
 // Defaults to "info" level.
 //
 // Callers can use the application's logger which is
-// the same `golog.Default` logger,
+// the same `golog.Default.LastChild()` logger,
 // to print custom logs too.
 // Usage:
 // app.Logger().Error/Errorf("...")
@@ -215,6 +303,14 @@ func (app *Application) ConfigurationReadOnly() context.ConfigurationReadOnly {
 // app.Logger().Logf(SuccessLevel, "a custom leveled log message")
 func (app *Application) Logger() *golog.Logger {
 	return app.logger
+}
+
+// IsDebug reports whether the application is running
+// under debug/development mode.
+// It's just a shortcut of Logger().Level >= golog.DebugLevel.
+// The same method existss as Context.IsDebug() too.
+func (app *Application) IsDebug() bool {
+	return app.logger.Level >= golog.DebugLevel
 }
 
 // I18nReadOnly returns the i18n's read-only features.
@@ -250,8 +346,50 @@ func (app *Application) Validate(v interface{}) error {
 	return nil
 }
 
-// RegisterView should be used to register view engines mapping to a root directory
-// and the template file(s) extension.
+func newMinifier() *minify.M {
+	m := minify.New()
+	m.AddFunc("text/css", css.Minify)
+	m.AddFunc("text/html", html.Minify)
+	m.AddFunc("image/svg+xml", svg.Minify)
+	m.AddFuncRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), js.Minify)
+	m.AddFuncRegexp(regexp.MustCompile("[/+]json$"), json.Minify)
+	m.AddFuncRegexp(regexp.MustCompile("[/+]xml$"), xml.Minify)
+	return m
+}
+
+// Minify is a middleware which minifies the responses
+// based on the response content type.
+// Note that minification might be slower, caching is advised.
+// Customize the minifier through `Application.Minifier()`.
+// Usage:
+// app.Use(iris.Minify)
+func Minify(ctx Context) {
+	w := ctx.Application().Minifier().ResponseWriter(ctx.ResponseWriter().Naive(), ctx.Request())
+	// Note(@kataras):
+	// We don't use defer w.Close()
+	// because this response writer holds a sync.WaitGroup under the hoods
+	// and we MUST be sure that its wg.Wait is called on request cancelation
+	// and not in the end of handlers chain execution
+	// (which if running a time-consuming task it will delay its resource release).
+	ctx.OnCloseErr(w.Close)
+	ctx.ResponseWriter().SetWriter(w)
+	ctx.Next()
+}
+
+// Minifier returns the minifier instance.
+// By default it can minifies:
+// - text/html
+// - text/css
+// - image/svg+xml
+// - application/text(javascript, ecmascript, json, xml).
+// Use that instance to add custom Minifiers before server ran.
+func (app *Application) Minifier() *minify.M {
+	return app.minifier
+}
+
+// RegisterView registers a view engine for the application.
+// Children can register their own too. If no Party view Engine is registered
+// then this one will be used to render the templates instead.
 func (app *Application) RegisterView(viewEngine view.Engine) {
 	app.view.Register(viewEngine)
 }
@@ -266,7 +404,7 @@ func (app *Application) RegisterView(viewEngine view.Engine) {
 // Use context.View to render templates to the client instead.
 // Returns an error on failure, otherwise nil.
 func (app *Application) View(writer io.Writer, filename string, layout string, bindingData interface{}) error {
-	if app.view.Len() == 0 {
+	if !app.view.Registered() {
 		err := errors.New("view engine is missing, use `RegisterView`")
 		app.logger.Error(err)
 		return err
@@ -417,6 +555,13 @@ func (app *Application) Build() error {
 	if app.builded {
 		return nil
 	}
+
+	if cb := app.OnBuild; cb != nil {
+		if err := cb(); err != nil {
+			return err
+		}
+	}
+
 	// start := time.Now()
 	app.builded = true // even if fails.
 
@@ -426,13 +571,10 @@ func (app *Application) Build() error {
 		app.logger.SetLevel(app.config.LogLevel)
 	}
 
-	rp := errgroup.New("Application Builder")
-	rp.Err(app.APIBuilder.GetReporter())
-
 	if app.defaultMode { // the app.I18n and app.View will be not available until Build.
 		if !app.I18n.Loaded() {
 			for _, s := range []string{"./locales/*/*", "./locales/*", "./translations"} {
-				if _, err := os.Stat(s); os.IsNotExist(err) {
+				if _, err := os.Stat(s); err != nil {
 					continue
 				}
 
@@ -445,9 +587,9 @@ func (app *Application) Build() error {
 			}
 		}
 
-		if app.view.Len() == 0 {
+		if !app.view.Registered() {
 			for _, s := range []string{"./views", "./templates", "./web/views"} {
-				if _, err := os.Stat(s); os.IsNotExist(err) {
+				if _, err := os.Stat(s); err != nil {
 					continue
 				}
 
@@ -460,16 +602,11 @@ func (app *Application) Build() error {
 	if app.I18n.Loaded() {
 		// {{ tr "lang" "key" arg1 arg2 }}
 		app.view.AddFunc("tr", app.I18n.Tr)
-		app.Router.WrapRouter(app.I18n.Wrapper())
+		app.Router.PrependRouterWrapper(app.I18n.Wrapper())
 	}
 
-	if n := app.view.Len(); n > 0 {
-		tr := "engines"
-		if n == 1 {
-			tr = tr[0 : len(tr)-1]
-		}
-
-		app.logger.Debugf("Application: %d registered view %s", n, tr)
+	if app.view.Registered() {
+		app.logger.Debugf("Application: view engine %q is registered", app.view.Name())
 		// view engine
 		// here is where we declare the closed-relative framework functions.
 		// Each engine has their defaults, i.e yield,render,render_r,partial, params...
@@ -477,18 +614,23 @@ func (app *Application) Build() error {
 		app.view.AddFunc("urlpath", rv.Path)
 		// app.view.AddFunc("url", rv.URL)
 		if err := app.view.Load(); err != nil {
-			rp.Group("View Builder").Err(err)
+			app.logger.Errorf("View Builder: %v", err)
+			return err
 		}
 	}
 
 	if !app.Router.Downgraded() {
 		// router
-		if _, err := injectLiveReload(app.ContextPool, app.Router); err != nil {
-			rp.Errf("LiveReload: init: failed: %v", err)
+		if _, err := injectLiveReload(app); err != nil {
+			app.logger.Errorf("LiveReload: init: failed: %v", err)
+			return err
 		}
 
 		if app.config.ForceLowercaseRouting {
-			app.Router.WrapRouter(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+			// This should always be executed first.
+			app.Router.PrependRouterWrapper(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+				r.Host = strings.ToLower(r.Host)
+				r.URL.Host = strings.ToLower(r.URL.Host)
 				r.URL.Path = strings.ToLower(r.URL.Path)
 				next(w, r)
 			})
@@ -498,7 +640,8 @@ func (app *Application) Build() error {
 		routerHandler := router.NewDefaultHandler(app.config, app.logger)
 		err := app.Router.BuildRouter(app.ContextPool, routerHandler, app.APIBuilder, false)
 		if err != nil {
-			rp.Err(err)
+			app.logger.Error(err)
+			return err
 		}
 		app.HTTPErrorHandler = routerHandler
 		// re-build of the router from outside can be done with
@@ -508,7 +651,7 @@ func (app *Application) Build() error {
 	// if end := time.Since(start); end.Seconds() > 5 {
 	// app.logger.Debugf("Application: build took %s", time.Since(start))
 
-	return errgroup.Check(rp)
+	return nil
 }
 
 // Runner is just an interface which accepts the framework instance
@@ -589,10 +732,39 @@ func Addr(addr string, hostConfigs ...host.Configurator) Runner {
 	}
 }
 
-// TLSNoRedirect is a `host.Configurator` which can be passed as last argument
-// to the `TLS` and `AutoTLS` functions. It disables the automatic
-// registration of redirection from "http://" to "https://" requests.
-var TLSNoRedirect = func(su *host.Supervisor) { su.NoRedirect() }
+var (
+	// TLSNoRedirect is a `host.Configurator` which can be passed as last argument
+	// to the `TLS` runner function. It disables the automatic
+	// registration of redirection from "http://" to "https://" requests.
+	// Applies only to the `TLS` runner.
+	// See `AutoTLSNoRedirect` to register a custom fallback server for `AutoTLS` runner.
+	TLSNoRedirect = func(su *host.Supervisor) { su.NoRedirect() }
+	// AutoTLSNoRedirect is a `host.Configurator`.
+	// It registers a fallback HTTP/1.1 server for the `AutoTLS` one.
+	// The function accepts the letsencrypt wrapper and it
+	// should return a valid instance of http.Server which its handler should be the result
+	// of the "acmeHandler" wrapper.
+	// Usage:
+	//	 getServer := func(acme func(http.Handler) http.Handler) *http.Server {
+	//	     srv := &http.Server{Handler: acme(yourCustomHandler), ...otherOptions}
+	//	     go srv.ListenAndServe()
+	//	     return srv
+	//   }
+	//   app.Run(iris.AutoTLS(":443", "example.com example2.com", "mail@example.com", getServer))
+	//
+	// Note that if Server.Handler is nil then the server is automatically ran
+	// by the framework and the handler set to automatic redirection, it's still
+	// a valid option when the caller wants just to customize the server's fields (except Addr).
+	// With this host configurator the caller can customize the server
+	// that letsencrypt relies to perform the challenge.
+	// LetsEncrypt Certification Manager relies on http://example.com/.well-known/acme-challenge/<TOKEN>.
+	AutoTLSNoRedirect = func(getFallbackServer func(acmeHandler func(fallback http.Handler) http.Handler) *http.Server) host.Configurator {
+		return func(su *host.Supervisor) {
+			su.NoRedirect()
+			su.Fallback = getFallbackServer
+		}
+	}
+)
 
 // TLS can be used as an argument for the `Run` method.
 // It will start the Application's secure server.

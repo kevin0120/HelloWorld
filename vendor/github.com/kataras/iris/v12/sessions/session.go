@@ -1,7 +1,6 @@
 package sessions
 
 import (
-	"math"
 	"reflect"
 	"strconv"
 	"sync"
@@ -22,7 +21,7 @@ type (
 		mu      sync.RWMutex // for flashes.
 		// Lifetime it contains the expiration data, use it for read-only information.
 		// See `Sessions.UpdateExpiration` too.
-		Lifetime LifeTime
+		Lifetime *LifeTime
 		// Man is the sessions manager that this session created of.
 		Man *Sessions
 
@@ -53,7 +52,7 @@ func (s *Session) ID() string {
 	return s.sid
 }
 
-// IsNew returns true if this session is
+// IsNew returns true if this session is just
 // created by the current application's process.
 func (s *Session) IsNew() bool {
 	return s.isNew
@@ -62,6 +61,11 @@ func (s *Session) IsNew() bool {
 // Get returns a value based on its "key".
 func (s *Session) Get(key string) interface{} {
 	return s.provider.db.Get(s.sid, key)
+}
+
+// Decode binds the given "outPtr" to the value associated to the provided "key".
+func (s *Session) Decode(key string, outPtr interface{}) error {
+	return s.provider.db.Decode(s.sid, key, outPtr)
 }
 
 // when running on the session manager removes any 'old' flash messages.
@@ -322,9 +326,6 @@ func (s *Session) GetUint64(key string) (uint64, error) {
 			if err != nil {
 				return 0, err
 			}
-			if val > math.MaxUint64 {
-				break
-			}
 			return uint64(val), nil
 		case uint8:
 			return uint64(vv), nil
@@ -517,11 +518,7 @@ func (s *Session) Len() int {
 }
 
 func (s *Session) set(key string, value interface{}, immutable bool) {
-	s.provider.db.Set(s.sid, s.Lifetime, key, value, immutable)
-
-	s.mu.Lock()
-	s.isNew = false
-	s.mu.Unlock()
+	s.provider.db.Set(s.sid, key, value, s.Lifetime.DurationUntilExpiration(), immutable)
 }
 
 // Set fills the session with an entry "value", based on its "key".
@@ -569,12 +566,6 @@ func (s *Session) SetFlash(key string, value interface{}) {
 // returns true if actually something was removed.
 func (s *Session) Delete(key string) bool {
 	removed := s.provider.db.Delete(s.sid, key)
-	if removed {
-		s.mu.Lock()
-		s.isNew = false
-		s.mu.Unlock()
-	}
-
 	return removed
 }
 
@@ -587,10 +578,7 @@ func (s *Session) DeleteFlash(key string) {
 
 // Clear removes all entries.
 func (s *Session) Clear() {
-	s.mu.Lock()
 	s.provider.db.Clear(s.sid)
-	s.isNew = false
-	s.mu.Unlock()
 }
 
 // ClearFlashes removes all flash messages.

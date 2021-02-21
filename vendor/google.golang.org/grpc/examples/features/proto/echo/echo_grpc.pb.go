@@ -11,7 +11,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+// Requires gRPC-Go v1.32.0 or later.
+const _ = grpc.SupportPackageIsVersion7
 
 // EchoClient is the client API for Echo service.
 //
@@ -45,7 +46,7 @@ func (c *echoClient) UnaryEcho(ctx context.Context, in *EchoRequest, opts ...grp
 }
 
 func (c *echoClient) ServerStreamingEcho(ctx context.Context, in *EchoRequest, opts ...grpc.CallOption) (Echo_ServerStreamingEchoClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Echo_serviceDesc.Streams[0], "/grpc.examples.echo.Echo/ServerStreamingEcho", opts...)
+	stream, err := c.cc.NewStream(ctx, &Echo_ServiceDesc.Streams[0], "/grpc.examples.echo.Echo/ServerStreamingEcho", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +78,7 @@ func (x *echoServerStreamingEchoClient) Recv() (*EchoResponse, error) {
 }
 
 func (c *echoClient) ClientStreamingEcho(ctx context.Context, opts ...grpc.CallOption) (Echo_ClientStreamingEchoClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Echo_serviceDesc.Streams[1], "/grpc.examples.echo.Echo/ClientStreamingEcho", opts...)
+	stream, err := c.cc.NewStream(ctx, &Echo_ServiceDesc.Streams[1], "/grpc.examples.echo.Echo/ClientStreamingEcho", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +112,7 @@ func (x *echoClientStreamingEchoClient) CloseAndRecv() (*EchoResponse, error) {
 }
 
 func (c *echoClient) BidirectionalStreamingEcho(ctx context.Context, opts ...grpc.CallOption) (Echo_BidirectionalStreamingEchoClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Echo_serviceDesc.Streams[2], "/grpc.examples.echo.Echo/BidirectionalStreamingEcho", opts...)
+	stream, err := c.cc.NewStream(ctx, &Echo_ServiceDesc.Streams[2], "/grpc.examples.echo.Echo/BidirectionalStreamingEcho", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -142,7 +143,7 @@ func (x *echoBidirectionalStreamingEchoClient) Recv() (*EchoResponse, error) {
 }
 
 // EchoServer is the server API for Echo service.
-// All implementations should embed UnimplementedEchoServer
+// All implementations must embed UnimplementedEchoServer
 // for forward compatibility
 type EchoServer interface {
 	// UnaryEcho is unary echo.
@@ -153,27 +154,36 @@ type EchoServer interface {
 	ClientStreamingEcho(Echo_ClientStreamingEchoServer) error
 	// BidirectionalStreamingEcho is bidi streaming.
 	BidirectionalStreamingEcho(Echo_BidirectionalStreamingEchoServer) error
+	mustEmbedUnimplementedEchoServer()
 }
 
-// UnimplementedEchoServer should be embedded to have forward compatible implementations.
+// UnimplementedEchoServer must be embedded to have forward compatible implementations.
 type UnimplementedEchoServer struct {
 }
 
-func (*UnimplementedEchoServer) UnaryEcho(context.Context, *EchoRequest) (*EchoResponse, error) {
+func (UnimplementedEchoServer) UnaryEcho(context.Context, *EchoRequest) (*EchoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnaryEcho not implemented")
 }
-func (*UnimplementedEchoServer) ServerStreamingEcho(*EchoRequest, Echo_ServerStreamingEchoServer) error {
+func (UnimplementedEchoServer) ServerStreamingEcho(*EchoRequest, Echo_ServerStreamingEchoServer) error {
 	return status.Errorf(codes.Unimplemented, "method ServerStreamingEcho not implemented")
 }
-func (*UnimplementedEchoServer) ClientStreamingEcho(Echo_ClientStreamingEchoServer) error {
+func (UnimplementedEchoServer) ClientStreamingEcho(Echo_ClientStreamingEchoServer) error {
 	return status.Errorf(codes.Unimplemented, "method ClientStreamingEcho not implemented")
 }
-func (*UnimplementedEchoServer) BidirectionalStreamingEcho(Echo_BidirectionalStreamingEchoServer) error {
+func (UnimplementedEchoServer) BidirectionalStreamingEcho(Echo_BidirectionalStreamingEchoServer) error {
 	return status.Errorf(codes.Unimplemented, "method BidirectionalStreamingEcho not implemented")
 }
+func (UnimplementedEchoServer) mustEmbedUnimplementedEchoServer() {}
 
-func RegisterEchoServer(s *grpc.Server, srv EchoServer) {
-	s.RegisterService(&_Echo_serviceDesc, srv)
+// UnsafeEchoServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to EchoServer will
+// result in compilation errors.
+type UnsafeEchoServer interface {
+	mustEmbedUnimplementedEchoServer()
+}
+
+func RegisterEchoServer(s grpc.ServiceRegistrar, srv EchoServer) {
+	s.RegisterService(&Echo_ServiceDesc, srv)
 }
 
 func _Echo_UnaryEcho_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -267,7 +277,10 @@ func (x *echoBidirectionalStreamingEchoServer) Recv() (*EchoRequest, error) {
 	return m, nil
 }
 
-var _Echo_serviceDesc = grpc.ServiceDesc{
+// Echo_ServiceDesc is the grpc.ServiceDesc for Echo service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Echo_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "grpc.examples.echo.Echo",
 	HandlerType: (*EchoServer)(nil),
 	Methods: []grpc.MethodDesc{

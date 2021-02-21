@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/kataras/iris/v12/context"
+	"github.com/kataras/iris/v12/core/host"
 )
 
 func init() {
@@ -50,6 +51,10 @@ func New(cfg Config) *Sessions {
 // UseDatabase adds a session database to the manager's provider,
 // a session db doesn't have write access
 func (s *Sessions) UseDatabase(db Database) {
+	db.SetLogger(s.config.Logger) // inject the logger.
+	host.RegisterOnInterrupt(func() {
+		db.Close()
+	})
 	s.provider.RegisterDatabase(db)
 }
 
@@ -124,8 +129,6 @@ func (s *Sessions) Start(ctx *context.Context, cookieOptions ...context.CookieOp
 		// 		fmt.Printf("%s=%s\n", key, value)
 		// 	})
 		// }
-		sess.isNew = s.provider.db.Len(sid) == 0
-
 		s.updateCookie(ctx, sid, s.config.Expires, cookieOptions...)
 
 		return sess

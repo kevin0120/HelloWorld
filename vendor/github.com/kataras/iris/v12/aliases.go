@@ -14,6 +14,14 @@ import (
 	"github.com/kataras/iris/v12/view"
 )
 
+// SameSite attributes.
+const (
+	SameSiteDefaultMode = http.SameSiteDefaultMode
+	SameSiteLaxMode     = http.SameSiteLaxMode
+	SameSiteStrictMode  = http.SameSiteStrictMode
+	SameSiteNoneMode    = http.SameSiteNoneMode
+)
+
 type (
 	// Context is the middle-man server's "object" for the clients.
 	//
@@ -51,7 +59,7 @@ type (
 	// If Handler panics, the server (the caller of Handler) assumes that the effect of the panic was isolated to the active request.
 	// It recovers the panic, logs a stack trace to the server error log, and hangs up the connection.
 	Handler = context.Handler
-	// Filter is just a type of func(Handler) bool which reports whether an action must be performed
+	// Filter is just a type of func(Context) bool which reports whether an action must be performed
 	// based on the incoming request.
 	//
 	// See `NewConditionalHandler` for more.
@@ -59,6 +67,12 @@ type (
 	Filter = context.Filter
 	// A Map is an alias of map[string]interface{}.
 	Map = context.Map
+	// User is a generic view of an authorized client.
+	// See `Context.User` and `SetUser` methods for more.
+	// An alias for the `context/User` type.
+	User = context.User
+	// SimpleUser is a simple implementation of the User interface.
+	SimpleUser = context.SimpleUser
 	// Problem Details for HTTP APIs.
 	// Pass a Problem value to `context.Problem` to
 	// write an "application/problem+json" response.
@@ -76,6 +90,10 @@ type (
 	//
 	// It is an alias of the `context#JSON` type.
 	JSON = context.JSON
+	// JSONP the optional settings for JSONP renderer.
+	//
+	// It is an alias of the `context#JSONP` type.
+	JSONP = context.JSONP
 	// ProtoMarshalOptions is a type alias for protojson.MarshalOptions.
 	ProtoMarshalOptions = context.ProtoMarshalOptions
 	// ProtoUnmarshalOptions is a type alias for protojson.UnmarshalOptions.
@@ -84,6 +102,11 @@ type (
 	//
 	// It is an alias of the `context#XML` type.
 	XML = context.XML
+	// Markdown the optional settings for Markdown renderer.
+	// See `Context.Markdown` for more.
+	//
+	// It is an alias of the `context#Markdown` type.
+	Markdown = context.Markdown
 	// Supervisor is a shortcut of the `host#Supervisor`.
 	// Used to add supervisor configurators on common Runners
 	// without the need of importing the `core/host` package.
@@ -147,6 +170,9 @@ type (
 	//
 	// An alias for the `context.CookieOption`.
 	CookieOption = context.CookieOption
+	// Cookie is a type alias for the standard net/http Cookie struct type.
+	// See `Context.SetCookie`.
+	Cookie = http.Cookie
 	// N is a struct which can be passed on the `Context.Negotiate` method.
 	// It contains fields which should be filled based on the `Context.Negotiation()`
 	// server side values. If no matched mime then its "Other" field will be sent,
@@ -155,6 +181,13 @@ type (
 	//
 	// An alias for the `context.N`.
 	N = context.N
+	// Locale describes the i18n locale.
+	// An alias for the `context.Locale`.
+	Locale = context.Locale
+	// ErrPrivate if provided then the error saved in context
+	// should NOT be visible to the client no matter what.
+	// An alias for the `context.ErrPrivate`.
+	ErrPrivate = context.ErrPrivate
 )
 
 // Constants for input argument at `router.RouteRegisterRule`.
@@ -221,6 +254,14 @@ var (
 
 // PrefixDir returns a new FileSystem that opens files
 // by adding the given "prefix" to the directory tree of "fs".
+//
+// Useful when having templates and static files in the same
+// bindata AssetFile method. This way you can select
+// which one to serve as static files and what for templates.
+// All view engines have a `RootDir` method for that reason too
+// but alternatively, you can wrap the given file system with this `PrefixDir`.
+//
+// Example: https://github.com/kataras/iris/blob/master/_examples/file-server/single-page-application/embedded-single-page-application/main.go
 func PrefixDir(prefix string, fs http.FileSystem) http.FileSystem {
 	return &prefixedDir{prefix, fs}
 }
@@ -238,6 +279,9 @@ func (p *prefixedDir) Open(name string) (http.File, error) {
 var (
 	// Compression is a middleware which enables
 	// writing and reading using the best offered compression.
+	// Usage:
+	// app.Use (for matched routes)
+	// app.UseRouter (for both matched and 404s or other HTTP errors).
 	Compression = func(ctx Context) {
 		ctx.CompressWriter(true)
 		ctx.CompressReader(true)
@@ -295,6 +339,9 @@ var (
 	// Examples can be found at: https://github.com/kataras/iris/tree/master/_examples/file-server
 	// A shortcut for the `router.FileServer`.
 	FileServer = router.FileServer
+	// DirList is the default `DirOptions.DirList` field.
+	// Read more at: `core/router.DirList`.
+	DirList = router.DirList
 	// DirListRich can be passed to `DirOptions.DirList` field
 	// to override the default file listing appearance.
 	// Read more at: `core/router.DirListRich`.
@@ -393,7 +440,7 @@ var (
 	// See https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00 for details.
 	//
 	// A shortcut for the `context#CookieSameSite`.
-	CookieSameSite = context.CookieHTTPOnly
+	CookieSameSite = context.CookieSameSite
 	// CookieSecure sets the cookie's Secure option if the current request's
 	// connection is using TLS. See `CookieHTTPOnly` too.
 	//
@@ -438,6 +485,13 @@ var (
 	//
 	// A shortcut for the `context#ErrEmptyForm`.
 	ErrEmptyForm = context.ErrEmptyForm
+	// ErrEmptyFormField reports whether if form value is empty.
+	// An alias of `context.ErrEmptyFormField`.
+	ErrEmptyFormField = context.ErrEmptyFormField
+	// ErrNotFound reports whether a key was not found, useful
+	// on post data, versioning feature and others.
+	// An alias of `context.ErrNotFound`.
+	ErrNotFound = context.ErrNotFound
 	// NewProblem returns a new Problem.
 	// Head over to the `Problem` type godoc for more.
 	//
@@ -463,6 +517,9 @@ var (
 	//
 	// A shortcut for the `context#ErrPushNotSupported`.
 	ErrPushNotSupported = context.ErrPushNotSupported
+	// PrivateError accepts an error and returns a wrapped private one.
+	// A shortcut for the `context#PrivateError`.
+	PrivateError = context.PrivateError
 )
 
 // HTTP Methods copied from `net/http`.

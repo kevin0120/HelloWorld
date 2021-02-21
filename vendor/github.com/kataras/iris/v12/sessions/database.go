@@ -2,10 +2,13 @@ package sessions
 
 import (
 	"errors"
+	"reflect"
 	"sync"
 	"time"
 
 	"github.com/kataras/iris/v12/core/memstore"
+
+	"github.com/kataras/golog"
 )
 
 // ErrNotImplemented is returned when a particular feature is not yet implemented yet.
@@ -22,6 +25,8 @@ var ErrNotImplemented = errors.New("not implemented yet")
 //
 // Look the `sessiondb` folder for databases implementations.
 type Database interface {
+	// SetLogger should inject a logger to this Database.
+	SetLogger(*golog.Logger)
 	// Acquire receives a session's lifetime from the database,
 	// if the return value is LifeTime{} then the session manager sets the life time based on the expiration duration lives in configuration.
 	Acquire(sid string, expires time.Duration) LifeTime
@@ -36,20 +41,24 @@ type Database interface {
 	OnUpdateExpiration(sid string, newExpires time.Duration) error
 	// Set sets a key value of a specific session.
 	// The "immutable" input argument depends on the store, it may not implement it at all.
-	Set(sid string, lifetime LifeTime, key string, value interface{}, immutable bool)
+	Set(sid string, key string, value interface{}, ttl time.Duration, immutable bool) error
 	// Get retrieves a session value based on the key.
 	Get(sid string, key string) interface{}
+	// Decode binds the "outPtr" to the value associated to the provided "key".
+	Decode(sid, key string, outPtr interface{}) error
 	// Visit loops through all session keys and values.
-	Visit(sid string, cb func(key string, value interface{}))
+	Visit(sid string, cb func(key string, value interface{})) error
 	// Len returns the length of the session's entries (keys).
 	Len(sid string) int
 	// Delete removes a session key value based on its key.
 	Delete(sid string, key string) (deleted bool)
 	// Clear removes all session key values but it keeps the session entry.
-	Clear(sid string)
+	Clear(sid string) error
 	// Release destroys the session, it clears and removes the session entry,
 	// session manager will create a new session ID on the next request after this call.
-	Release(sid string)
+	Release(sid string) error
+	// Close should terminate the database connection. It's called automatically on interrupt signals.
+	Close() error
 }
 
 type mem struct {
@@ -60,6 +69,8 @@ type mem struct {
 var _ Database = (*mem)(nil)
 
 func newMemDB() Database { return &mem{values: make(map[string]*memstore.Store)} }
+
+func (s *mem) SetLogger(*golog.Logger) {}
 
 func (s *mem) Acquire(sid string, expires time.Duration) LifeTime {
 	s.mu.Lock()
@@ -72,10 +83,12 @@ func (s *mem) Acquire(sid string, expires time.Duration) LifeTime {
 func (s *mem) OnUpdateExpiration(string, time.Duration) error { return nil }
 
 // immutable depends on the store, it may not implement it at all.
-func (s *mem) Set(sid string, lifetime LifeTime, key string, value interface{}, immutable bool) {
+func (s *mem) Set(sid string, key string, value interface{}, _ time.Duration, immutable bool) error {
 	s.mu.RLock()
 	s.values[sid].Save(key, value, immutable)
 	s.mu.RUnlock()
+
+	return nil
 }
 
 func (s *mem) Get(sid string, key string) interface{} {
@@ -86,8 +99,19 @@ func (s *mem) Get(sid string, key string) interface{} {
 	return v
 }
 
-func (s *mem) Visit(sid string, cb func(key string, value interface{})) {
+func (s *mem) Decode(sid string, key string, outPtr interface{}) error {
+	s.mu.RLock()
+	v := s.values[sid].Get(key)
+	s.mu.RUnlock()
+	if v != nil {
+		reflect.ValueOf(outPtr).Set(reflect.ValueOf(v))
+	}
+	return nil
+}
+
+func (s *mem) Visit(sid string, cb func(key string, value interface{})) error {
 	s.values[sid].Visit(cb)
+	return nil
 }
 
 func (s *mem) Len(sid string) int {
@@ -105,14 +129,20 @@ func (s *mem) Delete(sid string, key string) (deleted bool) {
 	return
 }
 
-func (s *mem) Clear(sid string) {
+func (s *mem) Clear(sid string) error {
 	s.mu.Lock()
 	s.values[sid].Reset()
 	s.mu.Unlock()
+
+	return nil
 }
 
-func (s *mem) Release(sid string) {
+func (s *mem) Release(sid string) error {
 	s.mu.Lock()
 	delete(s.values, sid)
 	s.mu.Unlock()
+
+	return nil
 }
+
+func (s *mem) Close() error { return nil }

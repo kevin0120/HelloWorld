@@ -19,7 +19,7 @@ func Param(name string) string {
 
 // WildcardParam receives a parameter name prefixed with the WildcardParamStart symbol.
 func WildcardParam(name string) string {
-	if len(name) == 0 {
+	if name == "" {
 		return ""
 	}
 	return prefix(name, WildcardParamStart)
@@ -233,6 +233,14 @@ func splitSubdomainAndPath(fullUnparsedPath string) (subdomain string, path stri
 	if slashIdx > 0 {
 		// has subdomain
 		subdomain = s[0:slashIdx]
+	}
+
+	if slashIdx == -1 {
+		// this will only happen when this function
+		// is called to Party's relative path (e.g. control.admin.),
+		// and not a route's one (the route's one always contains a slash).
+		// return all as subdomain and "/" as path.
+		return s, "/"
 	}
 
 	path = s[slashIdx:]

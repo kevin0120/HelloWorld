@@ -9,6 +9,10 @@ import (
 	"github.com/kataras/iris/context"
 )
 
+func init() {
+	context.SetHandlerName("iris/cache/client.(*Handler).ServeHTTP-fm", "iris.cache")
+}
+
 // Handler the local cache service handler contains
 // the original response, the memory cache entry and
 // the validator for each of the incoming requests and post responses
@@ -30,7 +34,7 @@ func NewHandler(expiration time.Duration) *Handler {
 	return &Handler{
 		rule:       DefaultRuleSet,
 		expiration: expiration,
-		entries:    make(map[string]*entry.Entry, 0),
+		entries:    make(map[string]*entry.Entry),
 	}
 }
 
@@ -59,21 +63,17 @@ func (h *Handler) AddRule(r rule.Rule) *Handler {
 	return h
 }
 
-var emptyHandler = func(ctx context.Context) {
-	ctx.StatusCode(500)
-	ctx.WriteString("cache: empty body handler")
-	ctx.StopExecution()
+var emptyHandler = func(ctx *context.Context) {
+	ctx.StopWithText(500, "cache: empty body handler")
 }
 
-func parseLifeChanger(ctx context.Context) entry.LifeChanger {
+func parseLifeChanger(ctx *context.Context) entry.LifeChanger {
 	return func() time.Duration {
 		return time.Duration(ctx.MaxAge()) * time.Second
 	}
 }
 
-///TODO: debug this and re-run the parallel tests on larger scale,
-// because I think we have a bug here when `core/router#StaticWeb` is used after this middleware.
-func (h *Handler) ServeHTTP(ctx context.Context) {
+func (h *Handler) ServeHTTP(ctx *context.Context) {
 	// check for pre-cache validators, if at least one of them return false
 	// for this specific request, then skip the whole cache
 	bodyHandler := ctx.NextHandler()
@@ -125,7 +125,7 @@ func (h *Handler) ServeHTTP(ctx context.Context) {
 		// if it's expired, then execute the original handler
 		// with our custom response recorder response writer
 		// because the net/http doesn't give us
-		// a built'n way to get the status code & body
+		// a builtin way to get the status code & body
 		recorder := ctx.Recorder()
 		bodyHandler(ctx)
 
@@ -170,5 +170,4 @@ func (h *Handler) ServeHTTP(ctx context.Context) {
 	// fmt.Printf("key: %s\n", key)
 	// fmt.Printf("write content type: %s\n", response.Headers()["ContentType"])
 	// fmt.Printf("write body len: %d\n", len(response.Body()))
-
 }

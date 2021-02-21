@@ -35,6 +35,7 @@
 package s2
 
 import (
+	"bytes"
 	"hash/crc32"
 )
 
@@ -101,8 +102,6 @@ const (
 
 var crcTable = crc32.MakeTable(crc32.Castagnoli)
 
-var avxAvailable bool
-
 // crc implements the checksum specified in section 3 of
 // https://github.com/google/snappy/blob/master/framing_format.txt
 func crc(b []byte) uint32 {
@@ -129,3 +128,9 @@ func literalExtraSize(n int64) int64 {
 		return 5
 	}
 }
+
+type byter interface {
+	Bytes() []byte
+}
+
+var _ byter = &bytes.Buffer{}

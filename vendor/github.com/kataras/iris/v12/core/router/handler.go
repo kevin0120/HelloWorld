@@ -48,8 +48,9 @@ type routerHandler struct {
 	trees      []*trie
 	errorTrees []*trie
 
-	hosts      bool // true if at least one route contains a Subdomain.
-	errorHosts bool // true if error handlers are registered to at least one Subdomain.
+	hosts                bool             // true if at least one route contains a Subdomain.
+	errorHosts           bool             // true if error handlers are registered to at least one Subdomain.
+	errorDefaultHandlers context.Handlers // the main handler(s) for default error code handlers, when not registered directly by the end-developer.
 }
 
 var _ RequestHandler = (*routerHandler)(nil)
@@ -118,10 +119,34 @@ func (h *routerHandler) AddRoute(r *Route) error {
 type RoutesProvider interface { // api builder
 	GetRoutes() []*Route
 	GetRoute(routeName string) *Route
+	// GetRouterFilters returns the app's router filters.
+	// Read `UseRouter` for more.
+	// The map can be altered before router built.
+	GetRouterFilters() map[Party]*Filter
+	// GetDefaultErrorMiddleware should return
+	// the default error handler middleares.
+	GetDefaultErrorMiddleware() context.Handlers
+}
+
+func defaultErrorHandler(ctx *context.Context) {
+	if ok, err := ctx.GetErrPublic(); ok {
+		// If an error is stored and it's not a private one
+		// write it to the response body.
+		ctx.WriteString(err.Error())
+		return
+	}
+	// Otherwise, write the code's text instead.
+	ctx.WriteString(context.StatusText(ctx.GetStatusCode()))
 }
 
 func (h *routerHandler) Build(provider RoutesProvider) error {
 	h.trees = h.trees[0:0] // reset, inneed when rebuilding.
+	h.errorTrees = h.errorTrees[0:0]
+
+	// set the default error code handler, will be fired on error codes
+	// that are not handled by a specific handler (On(Any)ErrorCode).
+	h.errorDefaultHandlers = append(provider.GetDefaultErrorMiddleware(), defaultErrorHandler)
+
 	rp := errgroup.New("Routes Builder")
 	registeredRoutes := provider.GetRoutes()
 
@@ -168,7 +193,13 @@ func (h *routerHandler) Build(provider RoutesProvider) error {
 		return lsub1 > lsub2
 	})
 
+	noLogCount := 0
+
 	for _, r := range registeredRoutes {
+		if r.NoLog {
+			noLogCount++
+		}
+
 		if h.config != nil && h.config.GetForceLowercaseRouting() {
 			// only in that state, keep everything else as end-developer registered.
 			r.Path = strings.ToLower(r.Path)
@@ -199,13 +230,17 @@ func (h *routerHandler) Build(provider RoutesProvider) error {
 	}
 
 	// TODO: move this and make it easier to read when all cases are, visually, tested.
-	if logger := h.logger; logger != nil && logger.Level == golog.DebugLevel {
+	if logger := h.logger; logger != nil && logger.Level == golog.DebugLevel && noLogCount < len(registeredRoutes) {
 		// group routes by method and print them without the [DBUG] and time info,
 		// the route logs are colorful.
 		// Note: don't use map, we need to keep registered order, use
 		// different slices for each method.
+
 		collect := func(method string) (methodRoutes []*Route) {
 			for _, r := range registeredRoutes {
+				if r.NoLog {
+					continue
+				}
 				if r.Method == method {
 					methodRoutes = append(methodRoutes, r)
 				}
@@ -242,7 +277,7 @@ func (h *routerHandler) Build(provider RoutesProvider) error {
 			// logger.Debugf("API: %d registered %s (", len(registeredRoutes), tr)
 			// with:
 			pio.WriteRich(logger.Printer, debugLevel.Title, debugLevel.ColorCode, debugLevel.Style...)
-			fmt.Fprintf(logger.Printer, " %s API: %d registered %s (", time.Now().Format(logger.TimeFormat), len(registeredRoutes), tr)
+			fmt.Fprintf(logger.Printer, " %s %sAPI: %d registered %s (", time.Now().Format(logger.TimeFormat), logger.Prefix, len(registeredRoutes)-noLogCount, tr)
 			//
 			logger.NewLine = bckpNewLine
 
@@ -259,7 +294,7 @@ func (h *routerHandler) Build(provider RoutesProvider) error {
 					m.method = "ERROR"
 				}
 				fmt.Fprintf(logger.Printer, "%d ", len(m.routes))
-				pio.WriteRich(logger.Printer, m.method, traceMethodColor(m.method))
+				pio.WriteRich(logger.Printer, m.method, TraceTitleColorCode(m.method))
 			}
 
 			fmt.Fprint(logger.Printer, ")\n")
@@ -267,7 +302,7 @@ func (h *routerHandler) Build(provider RoutesProvider) error {
 
 		for i, m := range methodRoutes {
 			for _, r := range m.routes {
-				r.Trace(logger.Printer)
+				r.Trace(logger.Printer, -1)
 			}
 
 			if i != len(allMethods)-1 {
@@ -279,10 +314,9 @@ func (h *routerHandler) Build(provider RoutesProvider) error {
 	return errgroup.Check(rp)
 }
 
-func bindMultiParamTypesHandler(r *Route) {
+func bindMultiParamTypesHandler(r *Route) { // like overlap feature but specifically for path parameters.
 	r.BuildHandlers()
 
-	// println("here for top: " + top.Name + " and current route: " + r.Name)
 	h := r.Handlers[1:] // remove the macro evaluator handler as we manually check below.
 	f := macroHandler.MakeFilter(r.tmpl)
 	if f == nil {
@@ -315,10 +349,10 @@ func bindMultiParamTypesHandler(r *Route) {
 		ctx.Next()
 	}
 
-	r.topLink.beginHandlers = append(context.Handlers{decisionHandler}, r.topLink.beginHandlers...)
+	r.topLink.builtinBeginHandlers = append(context.Handlers{decisionHandler}, r.topLink.builtinBeginHandlers...)
 }
 
-func (h *routerHandler) canHandleSubdomain(ctx *context.Context, subdomain string) bool {
+func canHandleSubdomain(ctx *context.Context, subdomain string) bool {
 	if subdomain == "" {
 		return true
 	}
@@ -349,7 +383,7 @@ func (h *routerHandler) canHandleSubdomain(ctx *context.Context, subdomain strin
 			return false
 		}
 		// continue to that, any subdomain is valid.
-	} else if !strings.HasPrefix(requestHost, subdomain) { // subdomain contains the dot.
+	} else if !strings.HasPrefix(requestHost, subdomain) { // subdomain contains the dot, e.g. "admin."
 		return false
 	}
 
@@ -396,7 +430,7 @@ func (h *routerHandler) HandleRequest(ctx *context.Context) {
 			continue
 		}
 
-		if h.hosts && !h.canHandleSubdomain(ctx, t.subdomain) {
+		if h.hosts && !canHandleSubdomain(ctx, t.subdomain) {
 			continue
 		}
 
@@ -499,7 +533,7 @@ func (h *routerHandler) FireErrorCode(ctx *context.Context) {
 			continue
 		}
 
-		if h.errorHosts && !h.canHandleSubdomain(ctx, t.subdomain) {
+		if h.errorHosts && !canHandleSubdomain(ctx, t.subdomain) {
 			continue
 		}
 
@@ -556,11 +590,7 @@ func (h *routerHandler) FireErrorCode(ctx *context.Context) {
 	// not error handler found,
 	// see if failed with a stored error, and if so
 	// then render it, otherwise write a default message.
-	if err := ctx.GetErr(); err != nil {
-		ctx.WriteString(err.Error())
-	} else {
-		ctx.WriteString(context.StatusText(statusCode))
-	}
+	ctx.Do(h.errorDefaultHandlers)
 }
 
 func (h *routerHandler) subdomainAndPathAndMethodExists(ctx *context.Context, t *trie, method, path string) bool {

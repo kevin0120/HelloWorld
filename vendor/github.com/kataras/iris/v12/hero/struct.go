@@ -84,13 +84,11 @@ func makeStruct(structPtr interface{}, c *Container, partyParamsCount int) *Stru
 	}
 
 	isErrHandler := isErrorHandler(typ)
-
 	newContainer := c.Clone()
+	newContainer.fillReport(typ.String(), bindings)
 	// Add the controller dependency itself as func dependency but with a known type which should be explicit binding
 	// in order to keep its maximum priority.
-	newContainer.Register(s.Acquire).
-		Explicitly().
-		DestType = typ
+	newContainer.Register(s.Acquire).Explicitly().DestType = typ
 
 	newContainer.GetErrorHandler = func(ctx *context.Context) ErrorHandler {
 		if isErrHandler {
@@ -127,9 +125,14 @@ func (s *Struct) Acquire(ctx *context.Context) (reflect.Value, error) {
 					continue
 				}
 
-				// return emptyValue, err
-				return ctrl, err
+				s.Container.GetErrorHandler(ctx).HandleError(ctx, err)
+
+				if ctx.IsStopped() {
+					// return emptyValue, err
+					return ctrl, err
+				} // #1629
 			}
+
 			elem.FieldByIndex(b.Input.StructFieldIndex).Set(input)
 		}
 	}

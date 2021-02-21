@@ -11,7 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+const _ = grpc.SupportPackageIsVersion7
 
 // ChannelzClient is the client API for Channelz service.
 //
@@ -130,30 +130,37 @@ type ChannelzServer interface {
 type UnimplementedChannelzServer struct {
 }
 
-func (*UnimplementedChannelzServer) GetTopChannels(context.Context, *GetTopChannelsRequest) (*GetTopChannelsResponse, error) {
+func (UnimplementedChannelzServer) GetTopChannels(context.Context, *GetTopChannelsRequest) (*GetTopChannelsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopChannels not implemented")
 }
-func (*UnimplementedChannelzServer) GetServers(context.Context, *GetServersRequest) (*GetServersResponse, error) {
+func (UnimplementedChannelzServer) GetServers(context.Context, *GetServersRequest) (*GetServersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServers not implemented")
 }
-func (*UnimplementedChannelzServer) GetServer(context.Context, *GetServerRequest) (*GetServerResponse, error) {
+func (UnimplementedChannelzServer) GetServer(context.Context, *GetServerRequest) (*GetServerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServer not implemented")
 }
-func (*UnimplementedChannelzServer) GetServerSockets(context.Context, *GetServerSocketsRequest) (*GetServerSocketsResponse, error) {
+func (UnimplementedChannelzServer) GetServerSockets(context.Context, *GetServerSocketsRequest) (*GetServerSocketsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServerSockets not implemented")
 }
-func (*UnimplementedChannelzServer) GetChannel(context.Context, *GetChannelRequest) (*GetChannelResponse, error) {
+func (UnimplementedChannelzServer) GetChannel(context.Context, *GetChannelRequest) (*GetChannelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetChannel not implemented")
 }
-func (*UnimplementedChannelzServer) GetSubchannel(context.Context, *GetSubchannelRequest) (*GetSubchannelResponse, error) {
+func (UnimplementedChannelzServer) GetSubchannel(context.Context, *GetSubchannelRequest) (*GetSubchannelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSubchannel not implemented")
 }
-func (*UnimplementedChannelzServer) GetSocket(context.Context, *GetSocketRequest) (*GetSocketResponse, error) {
+func (UnimplementedChannelzServer) GetSocket(context.Context, *GetSocketRequest) (*GetSocketResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSocket not implemented")
 }
 
-func RegisterChannelzServer(s *grpc.Server, srv ChannelzServer) {
-	s.RegisterService(&_Channelz_serviceDesc, srv)
+// UnsafeChannelzServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ChannelzServer will
+// result in compilation errors.
+type UnsafeChannelzServer interface {
+	mustEmbedUnimplementedChannelzServer()
+}
+
+func RegisterChannelzServer(s grpc.ServiceRegistrar, srv ChannelzServer) {
+	s.RegisterService(&Channelz_ServiceDesc, srv)
 }
 
 func _Channelz_GetTopChannels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -282,7 +289,10 @@ func _Channelz_GetSocket_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Channelz_serviceDesc = grpc.ServiceDesc{
+// Channelz_ServiceDesc is the grpc.ServiceDesc for Channelz service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Channelz_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "grpc.channelz.v1.Channelz",
 	HandlerType: (*ChannelzServer)(nil),
 	Methods: []grpc.MethodDesc{

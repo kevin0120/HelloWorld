@@ -46,7 +46,7 @@ type RouteReadOnly interface {
 	ResolvePath(args ...string) string
 	// Trace should writes debug route info to the "w".
 	// Should be called after Build.
-	Trace(w io.Writer)
+	Trace(w io.Writer, stoppedIndex int)
 
 	// Tmpl returns the path template,
 	// it contains the parsed template
@@ -61,6 +61,10 @@ type RouteReadOnly interface {
 
 	// MainHandlerIndex returns the first registered handler's index for the route.
 	MainHandlerIndex() int
+
+	// Property returns a specific property based on its "key"
+	// of this route's Party owner.
+	Property(key string) (interface{}, bool)
 
 	// Sitemap properties: https://www.sitemaps.org/protocol.html
 
