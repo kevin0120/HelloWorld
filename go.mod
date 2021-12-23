@@ -30,10 +30,10 @@ require (
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
-	github.com/mohuishou/go-design-pattern v1.0.0
 	github.com/nats-io/nats-server/v2 v2.1.9 // indirect
 	github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481
 	github.com/pkg/errors v0.9.1
+	github.com/russross/blackfriday v1.5.2
 	github.com/ryanuber/columnize v2.1.2+incompatible // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/smallfish/ftp v0.0.0-20160801035311-6d094f003ac5

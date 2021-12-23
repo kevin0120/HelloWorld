@@ -40,7 +40,7 @@ func Test_Ascii(t *testing.T) {
 		C:      false,
 		Header: Header{TOOL: "sn001", Sn: 666},
 	}
-	fmt.Println(fmt.Sprintf("Test Data: %# 20X", TEST_STRINGS))
+	fmt.Println(fmt.Sprintf("Test Data: %# 20x", TEST_STRINGS))
 	var testop OpenProtocol
 	err := Unmarshal(TEST_STRINGS, &testop)
 	assert.Nil(t, err)

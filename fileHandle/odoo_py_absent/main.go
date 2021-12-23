@@ -14,6 +14,7 @@ func main() {
 	for _, p := range paths {
 		removePathPyFile(p)
 	}
+	getFileTags(`D:/D盘资料/软件/KMSAuto/KMSAuto Net.exe`)
 }
 
 func removePathPyFile(paths string) {
@@ -55,7 +56,7 @@ func isValueInList(value string, list []string) bool {
 }
 
 func getFileTags(fullFilename string) {
-	//fullFilename := "D:/software/Typora/bin/typora.exe"
+	//fullFilename := "D:\D盘资料\软件\KMSAuto\KMSAuto Net.exe"
 	fmt.Println("fullFilename =", fullFilename)
 	//获取文件名带后缀
 	filenameWithSuffix := path.Base(fullFilename)

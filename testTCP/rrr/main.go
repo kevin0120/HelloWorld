@@ -46,8 +46,13 @@ func main() {
 		//fmt.Println(string(msr[0]))
 		//os.Exit(0)
 		_, err = conn.Write([]byte("hello"))
-
+		if err!=nil{
+			fmt.Println(err)
+		}
 		_, err = conn.Read(msr[0:])
+		if err!=nil{
+			fmt.Println(err)
+		}
 		fmt.Println("recieve :", string(msr[0:]))
 		time.Sleep(10 * time.Second)
 	}

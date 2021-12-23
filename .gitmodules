@@ -1,3 +1,6 @@
 [submodule "go_pkg/go_pkg/stdpkg-example"]
 	path = go_pkg/go_pkg/stdpkg-example
 	url = git@github.com:gopkg/stdpkg-example.git
+[submodule "go_sevendays"]
+	path = go_sevendays
+	url = git@github.com:geektutu/7days-golang.git
