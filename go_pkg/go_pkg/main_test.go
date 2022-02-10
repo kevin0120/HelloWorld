@@ -1,19 +1,9 @@
-package main
+package testing_demo
 
 import (
-	"fmt"
-	"math/rand"
+	"testing"
 )
 
-func main() {
-	sum := 0.0
-	n := 10000000
-	i := 0
-	for i < n {
-		x := rand.ExpFloat64()
-		sum += x
-		i += 1
-	}
-	expect := sum / (float64)(n)
-	fmt.Println(expect)
+func Test(t *testing.T) {
+	t.Fatalf("Fatal: %s\n", "FF")
 }

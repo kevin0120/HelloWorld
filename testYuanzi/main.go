@@ -1,5 +1,5 @@
 package main
-
+//https://cloud.tencent.com/developer/article/1489456
 import "time"
 
 type Human struct {

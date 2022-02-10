@@ -7,7 +7,7 @@ import (
 
 var race int
 
-//go build -race ./main.go
+//go build -race ./main_test.go
 
 
 func main() {

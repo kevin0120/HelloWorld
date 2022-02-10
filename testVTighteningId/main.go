@@ -9,7 +9,8 @@ import (
 func main ()  {
 	V(9999999)
 	V(113106)
-
+	V(999999)
+	V(1000000)
 }
 func V(TighteningId int64)  {
 	var b interface{}

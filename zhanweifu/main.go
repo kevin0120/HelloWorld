@@ -8,7 +8,6 @@ func main()  {
 	// string to []byte
 	b := []byte(param)
 	fmt.Println(b)
-
 	// []byte to string
 	s := string(b)
 	fmt.Println(s)

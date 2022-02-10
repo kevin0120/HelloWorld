@@ -32,7 +32,7 @@ func GenerateID3() string {
 
 
 func main() {
-	for i := 0; i < 132; i++ {
+	for i := 0; i < 1; i++ {
 		fmt.Println(i+1, ".", GenerateID())
 		fmt.Println(i+1, ".", GenerateID1())
 		fmt.Println(i+1, ".", GenerateID2())
