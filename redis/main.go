@@ -24,11 +24,14 @@ func ExampleClient() {
 		DB:       0,  // use default DB
 	})
 
-	err := client.Set("储婷玉", 122, 0).Err()
+	err := client.Set("储婷玉", 126666, 0).Err()
 	if err != nil {
 		panic(err)
 	}
-
+	err = client.Set("杨敬伟", 12656545, 0).Err()
+	if err != nil {
+		panic(err)
+	}
 	val, err := client.Get("杨敬伟").Result()
 	if err != nil {
 		panic(err)
