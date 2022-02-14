@@ -12,7 +12,6 @@ func GenerateID() string {
 	//fmt.Println(u4.String())
 	return base64.StdEncoding.EncodeToString(u4.Bytes())
 }
-
 func GenerateID1() string {
 	u4 := uuid.NewV4()
 	//fmt.Println(u4.String())
