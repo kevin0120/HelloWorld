@@ -24,7 +24,7 @@ func ExampleClient() {
 		DB:       0,  // use default DB
 	})
 
-	err := client.Set("储婷玉", 126666, 0).Err()
+	err := client.Set("储婷玉1", 126666, 0).Err()
 	if err != nil {
 		panic(err)
 	}
