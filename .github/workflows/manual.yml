@@ -5,7 +5,8 @@ name: Manual workflow
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
-  workflow_dispatch:
+  - [push]
+  - workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
       name:
@@ -15,7 +16,8 @@ on:
         default: 'World'
         # Input has to be provided for the workflow to run
         required: true
-
+env:
+  DAY_OF_WEEK: Monday
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Explore-GitHub-Actions:
@@ -62,3 +64,13 @@ jobs:
     needs: job1
     steps:
       - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+
+  greeting_job:
+    runs-on: ubuntu-latest
+    env:
+      Greeting: Hello
+    steps:
+      - name: "Say Hello Mona it's Monday"
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        env:
+          First_Name: Mona
