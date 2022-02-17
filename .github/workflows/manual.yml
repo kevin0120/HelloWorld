@@ -6,6 +6,10 @@ name: Manual workflow
 # or API.
 on:
   push:
+    branches:
+      - '**'
+      - main
+      - 'releases/**'
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
