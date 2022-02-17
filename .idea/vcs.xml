@@ -13,6 +13,7 @@
     <mapping directory="$PROJECT_DIR$/go_pkg/stdpkg-example" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_sevendays" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/goexample/code" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/goexample/go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gorilla_websocket" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/modbus" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/nats.go" vcs="Git" />
