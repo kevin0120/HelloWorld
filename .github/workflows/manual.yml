@@ -107,3 +107,38 @@ jobs:
       - run: echo "$GITHUB_HEAD_REF*****************$GITHUB_JOB*************$GITHUB_PATH"
       - run: echo "$GITHUB_REF*****************$GITHUB_REF_NAME*************$GITHUB_REPOSITORY"
       - run: echo "$RUNNER_ARCH*****************$RUNNER_NAME*************$RUNNER_TOOL_CACHE"
+
+
+  WindowsBuild:
+    name: Build
+    runs-on: [ windows-latest, ubuntu-latest ]
+    steps:
+      - name: Set up Go 1.16
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+
+      - name: Build for windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          go build -o ./build/HelloWorld.exe ./main.go
+      - name: Build for ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          go build -o ./build/HelloWorld ./main.go
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: rush_dist
+          path: "./build/**"
+          retention-days: 5
+          if-no-files-found: error
