@@ -4,7 +4,7 @@ queue的持久化是通过durable=true来实现的。
 
 消息的持久化 deliveryMode=1代表不持久化，deliveryMode=2代表持久化。https://blog.csdn.net/u013256816/article/details/60875666/
 https://www.jianshu.com/p/79ca08116d57
-
+https://www.cnblogs.com/dwlsxj/p/RabbitMQ.html
 ps: 发布消息必须要指定 交换器和路由规则  只不过 默认得交换器"" 绑定了所有本vhost下得消息队列
 发布详细是发布到交换器 三种不同得交换汽车处理转发规则是不同得 direct：必须完全满足路由规则得队列转发 一对一
 fanout：不处理路由规则 ，交换器下得所有队列都转发
