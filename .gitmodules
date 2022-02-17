@@ -4,3 +4,6 @@
 [submodule "go_sevendays"]
 	path = go_sevendays
 	url = git@github.com:geektutu/7days-golang.git
+[submodule "goexample/go"]
+	path = goexample/go
+	url = git@github.com:goinaction/code.git
