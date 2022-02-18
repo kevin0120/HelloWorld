@@ -85,82 +85,82 @@ jobs:
 #        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
 #        env:
 #          First_Name: Mona
-  Contexts_to_log:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump strategy context
-        run: echo '${{ toJSON(strategy) }}'
-      - name: Dump matrix context
-        run: echo '${{ toJSON(matrix) }}'
-      - name: Dump secrets context
-        run: echo '${{ toJSON(secrets) }}'
-
-  EnvironmentVariable:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "$CI*****************$GITHUB_ACTION*************$GITHUB_ACTION_PATH"
-      - run: echo "$GITHUB_ACTION_REPOSITORY*****************$GITHUB_ACTIONS*************$GITHUB_ACTOR"
-      - run: echo "$GITHUB_API_URL*****************$GITHUB_BASE_REF*************$GITHUB_ENV"
-      - run: echo "$GITHUB_EVENT_NAME*****************$GITHUB_EVENT_PATH*************$GITHUB_GRAPHQL_URL"
-      - run: echo "$GITHUB_HEAD_REF*****************$GITHUB_JOB*************$GITHUB_PATH"
-      - run: echo "$GITHUB_REF*****************$GITHUB_REF_NAME*************$GITHUB_REPOSITORY"
-      - run: echo "$RUNNER_ARCH*****************$RUNNER_NAME*************$RUNNER_TOOL_CACHE"
-
-
-  DockerBuild:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Workaround: https://github.com/docker/build-push-action/issues/461
-      - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
-      #Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+#  Contexts_to_log:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Dump GitHub context
+#        id: github_context_step
+#        run: echo '${{ toJSON(github) }}'
+#      - name: Dump job context
+#        run: echo '${{ toJSON(job) }}'
+#      - name: Dump steps context
+#        run: echo '${{ toJSON(steps) }}'
+#      - name: Dump runner context
+#        run: echo '${{ toJSON(runner) }}'
+#      - name: Dump strategy context
+#        run: echo '${{ toJSON(strategy) }}'
+#      - name: Dump matrix context
+#        run: echo '${{ toJSON(matrix) }}'
+#      - name: Dump secrets context
+#        run: echo '${{ toJSON(secrets) }}'
+#
+#  EnvironmentVariable:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: echo "$CI*****************$GITHUB_ACTION*************$GITHUB_ACTION_PATH"
+#      - run: echo "$GITHUB_ACTION_REPOSITORY*****************$GITHUB_ACTIONS*************$GITHUB_ACTOR"
+#      - run: echo "$GITHUB_API_URL*****************$GITHUB_BASE_REF*************$GITHUB_ENV"
+#      - run: echo "$GITHUB_EVENT_NAME*****************$GITHUB_EVENT_PATH*************$GITHUB_GRAPHQL_URL"
+#      - run: echo "$GITHUB_HEAD_REF*****************$GITHUB_JOB*************$GITHUB_PATH"
+#      - run: echo "$GITHUB_REF*****************$GITHUB_REF_NAME*************$GITHUB_REPOSITORY"
+#      - run: echo "$RUNNER_ARCH*****************$RUNNER_NAME*************$RUNNER_TOOL_CACHE"
+#
+#
+#  DockerBuild:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      packages: write
+#      # This is used to complete the identity challenge
+#      # with sigstore/fulcio when running outside of PRs.
+#      id-token: write
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+#      # Workaround: https://github.com/docker/build-push-action/issues/461
+#      - name: Setup Docker buildx
+#        uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+#      #Login against a Docker registry except on PR
+#      # https://github.com/docker/login-action
+#      - name: Log into registry ${{ env.REGISTRY }}
+#        if: github.event_name != 'pull_request'
+#        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+#        with:
+#          registry: ${{ env.REGISTRY }}
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#      # Extract metadata (tags, labels) for Docker
+#      # https://github.com/docker/metadata-action
+#      - name: Extract Docker metadata
+#        id: meta
+#        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+#        with:
+#          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+#      # Build and push Docker image with Buildx (don't push on PR)
+#      # https://github.com/docker/build-push-action
+#      - name: Build and push Docker image
+#        id: build-and-push
+#        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+#        with:
+#          context: .
+#          push: ${{ github.event_name != 'pull_request' }}
+#          tags: ${{ steps.meta.outputs.tags }}
+#          labels: ${{ steps.meta.outputs.labels }}
 
 
   WindowsBuild:
-    runs-on: [ windows-latest, ubuntu-latest ]
+    runs-on: [windows-2016, ubuntu-latest]
     steps:
       - name: Set up Go 1.16
         uses: actions/setup-go@v2
@@ -173,7 +173,7 @@ jobs:
         with:
           update: true
       - name: Build for windows
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-2016'
         run: |
           go build -o ./build/HelloWorld.exe ./main.go
       - name: Build for ubuntu
