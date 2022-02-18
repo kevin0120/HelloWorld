@@ -190,7 +190,7 @@ jobs:
 #          retention-days: 5
 #          if-no-files-found: error
 
-
+#   必须与根目录下的goreleaser.yml结合使用，否则只能使用默认参数
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
