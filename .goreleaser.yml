@@ -14,9 +14,10 @@ builds:
     goos:
       # - darwin
       - linux
+      - windows
     goarch:
       - amd64
-      - windows
+
     tags:
       - release
 
