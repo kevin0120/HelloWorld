@@ -160,7 +160,7 @@ jobs:
 
 
   WindowsBuild:
-    runs-on: [windows-2016, ubuntu-latest]
+    runs-on: windows-2016
     steps:
       - name: Set up Go 1.16
         uses: actions/setup-go@v2
@@ -176,10 +176,10 @@ jobs:
         if: matrix.os == 'windows-2016'
         run: |
           go build -o ./build/HelloWorld.exe ./main.go
-      - name: Build for ubuntu
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          go build -o ./build/HelloWorld ./main.go
+#      - name: Build for ubuntu
+#        if: matrix.os == 'ubuntu-latest'
+#        run: |
+#          go build -o ./build/HelloWorld ./main.go
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
