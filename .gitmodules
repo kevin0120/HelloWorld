@@ -1,9 +1,9 @@
-[submodule "go_pkg/go_pkg/stdpkg-example"]
-	path = go_pkg/go_pkg/stdpkg-example
-	url = git@github.com:gopkg/stdpkg-example.git
 [submodule "go_sevendays"]
 	path = go_sevendays
 	url = git@github.com:geektutu/7days-golang.git
 [submodule "goexample/go"]
 	path = goexample/go
 	url = git@github.com:goinaction/code.git
+[submodule "qcos-deploy"]
+	path = qcos-deploy
+	url = git@github.com:chasers2012/qcos-deploy.git
