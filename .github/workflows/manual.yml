@@ -162,7 +162,7 @@ jobs:
 
 
   WindowsBuild:
-    runs-on: ubuntu-20.04
+    runs-on: [windows-latest, ubuntu-latest]
     steps:
       - name: Set up Go 1.16
         uses: actions/setup-go@v2
@@ -174,10 +174,10 @@ jobs:
 #      - uses: msys2/setup-msys2@v2
 #        with:
 #          update: true
-#      - name: Build for windows
-#        if: matrix.os == 'windows-2016'
-#        run: |
-#          go build -o ./build/HelloWorld.exe ./main.go
+      - name: Build for windows
+        if: matrix.os == 'windows-2016'
+        run: |
+          go build -o ./build/HelloWorld.exe ./main.go
       - name: Build for ubuntu
         if: matrix.os == 'ubuntu-latest'
         run: |
