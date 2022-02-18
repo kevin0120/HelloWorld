@@ -7,12 +7,12 @@ name: Manual workflow
 on:
   # push操作
   push:
-    branches:
-      - '**'
-      - main
-      - 'releases/**'
-#    tags:
-#      - v*.**
+#    branches:
+#      - '**'
+#      - main
+#      - 'releases/**'
+    tags:
+      - v*.**
   #手动
   workflow_dispatch:
     # Inputs the workflow accepts.
