@@ -188,6 +188,7 @@ jobs:
 #          retention-days: 5
 #          if-no-files-found: error
 
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
