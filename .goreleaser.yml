@@ -1,4 +1,4 @@
-project_name: rush
+project_name: hello
 
 env:
   - GO111MODULE=on
@@ -10,7 +10,7 @@ builds:
     ldflags:
       - -s -w
     main: ./main.go
-    binary: hellod
+    binary: hello
     goos:
       # - darwin
       - linux
