@@ -50,22 +50,28 @@ jobs:
 #        with:
 #          update: true
       - name: Build for windows
-        if: matrix.os == 'windows-2016'
+        if: matrix.os == 'windows-latest'
         run: |
           go build -o ./build/HelloWorld.exe ./main.go
       - name: Build for ubuntu
         if: matrix.os == 'ubuntu-latest'
         run: |
           go build -o ./build/HelloWorld ./main.go
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: rush_dist
+#          path: "./build/**"
+#          retention-days: 5
+#          if-no-files-found: error
+      # step7: create release
+      - name: release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: rush_dist
-          path: "./build/**"
-          retention-days: 5
-          if-no-files-found: error
-
-
+          files: "/build/**"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
