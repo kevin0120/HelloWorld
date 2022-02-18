@@ -52,11 +52,11 @@ jobs:
       - name: Build for windows
         if: matrix.os == 'windows-latest' && startsWith(github.ref, 'refs/tags/')
         run: |
-          go build -o ./build/HelloWorld${{ github.ref_name }}.exe ./main.go
+          go build -o ./build/HelloWorld_Windows_${{ github.ref_name }}.exe ./main.go
       - name: Build for ubuntu
         if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/')
         run: |
-          go build -o ./build/HelloWorld_Linux${{ github.ref_name }} ./main.go
+          go build -o ./build/HelloWorld_Linux_${{ github.ref_name }} ./main.go
 #      - name: Upload Artifact
 #        uses: actions/upload-artifact@v2
 #        with:
