@@ -6,7 +6,7 @@ env:
 builds:
   - env:
       - CGO_ENABLED=1
-    id: rush-linux-windows
+    id: hello-linux-windows
     ldflags:
       - -s -w
     main: ./main.go
