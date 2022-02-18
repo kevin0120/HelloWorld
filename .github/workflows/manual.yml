@@ -7,10 +7,10 @@ name: Manual workflow
 on:
   # push操作
   push:
-    branches:
-      - '**'
-      - main
-      - 'releases/**'
+#    branches:
+#      - '**'
+#      - main
+#      - 'releases/**'
     tags:
       - v*.**
   #手动
