@@ -6,13 +6,13 @@ name: Manual workflow
 # or API.
 on:
   # push操作
-#  push:
+  push:
 #    branches:
 #      - '**'
 #      - main
 #      - 'releases/**'
-#    tags:
-#      - v*.**
+    tags:
+      - v*.**
   #手动
   workflow_dispatch:
     # Inputs the workflow accepts.
