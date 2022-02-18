@@ -171,9 +171,9 @@ jobs:
         id: go
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
-      - uses: msys2/setup-msys2@v2
-        with:
-          update: true
+#      - uses: msys2/setup-msys2@v2
+#        with:
+#          update: true
 #      - name: Build for windows
 #        if: matrix.os == 'windows-2016'
 #        run: |
