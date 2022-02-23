@@ -1,0 +1,3 @@
+主要利用https://github.com/gopcua/opcua进行了客户端开发
+
+ps 可能github.com/awcullen/opcua兼容客户端和服务端  有待进一步验证

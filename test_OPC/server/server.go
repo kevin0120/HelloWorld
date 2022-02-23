@@ -5,43 +5,78 @@
 package main
 
 import (
-	"context"
-	"flag"
 	"fmt"
-	"github.com/gopcua/opcua/uacp"
 	"log"
+	"os"
+
+	"github.com/awcullen/opcua/server"
+	"github.com/awcullen/opcua/ua"
 )
 
 func main() {
-	var (
-		endpoint = flag.String("endpoint", "opc.tcp://localhost:53530/OPCUA/SimulationServer", "OPC UA Endpoint URL")
+
+	// create directory with certificate and key, if not found.
+	if err := ensurePKI(); err != nil {
+		log.Println("Error creating PKI.")
+		return
+	}
+
+	// create the endpoint url from hostname and port
+	host, _ := os.Hostname()
+	port := 46010
+	endpointURL := fmt.Sprintf("opc.tcp://%s:%d", host, port)
+
+	// create server
+	srv, err := server.New(
+		ua.ApplicationDescription{
+			ApplicationURI: fmt.Sprintf("urn:%s:testserver", host),
+			ProductURI:     "http://github.com/awcullen/opcua",
+			ApplicationName: ua.LocalizedText{
+				Text:   fmt.Sprintf("testserver@%s", host),
+				Locale: "en",
+			},
+			ApplicationType:     ua.ApplicationTypeServer,
+			GatewayServerURI:    "",
+			DiscoveryProfileURI: "",
+			DiscoveryURLs:       []string{endpointURL},
+		},
+		"./pki/server.crt",
+		"./pki/server.key",
+		endpointURL,
+		server.WithBuildInfo(
+			ua.BuildInfo{
+				ProductURI:       "http://github.com/awcullen/opcua",
+				ManufacturerName: "awcullen",
+				ProductName:      "testserver",
+				SoftwareVersion:  "0.3.0",
+			}),
+		server.WithAnonymousIdentity(true),
+		server.WithSecurityPolicyNone(true),
+		server.WithInsecureSkipVerify(),
+		server.WithServerDiagnostics(true),
 	)
-	flag.Parse()
-
-	ctx := context.Background()
-
-	log.Printf("Listening on %s", *endpoint)
-	l, err := uacp.Listen(*endpoint, nil)
 	if err != nil {
-		log.Fatal(err)
+		os.Exit(1)
 	}
-	c, err := l.Accept(ctx)
-	if err != nil {
-		log.Fatal(err)
+
+	// load nodeset
+	nm := srv.NamespaceManager()
+	if err := nm.LoadNodeSetFromBuffer([]byte(nodeset)); err != nil {
+		os.Exit(2)
 	}
-	defer c.Close()
-	log.Printf("conn %d: connection from %s", c.ID(), c.RemoteAddr())
 
 	go func() {
+		// wait for signal
+		log.Println("Press Ctrl-C to exit...")
+		waitForSignal()
 
-		for {
-			b, _ := c.Receive()
-
-			fmt.Println(b)
-		}
-
+		log.Println("Stopping server...")
+		srv.Close()
 	}()
 
-	select {}
-
+	// start server
+	log.Printf("Starting server '%s' at '%s'\n", srv.LocalDescription().ApplicationName.Text, srv.EndpointURL())
+	if err := srv.ListenAndServe(); err != ua.BadServerHalted {
+		log.Println(errors.Wrap(err, "Error opening server"))
+	}
 }

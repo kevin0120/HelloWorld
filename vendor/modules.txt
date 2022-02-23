@@ -12,6 +12,9 @@ github.com/CloudyKit/jet/v5
 github.com/Shopify/goreferrer
 # github.com/andybalholm/brotli v1.0.1
 github.com/andybalholm/brotli
+# github.com/awcullen/opcua v0.5.0-beta
+github.com/awcullen/opcua/server
+github.com/awcullen/opcua/ua
 # github.com/aymerick/douceur v0.2.0
 github.com/aymerick/douceur/css
 # github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible
@@ -25,6 +28,12 @@ github.com/bep/debounce
 github.com/chris-ramon/douceur/parser
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
+# github.com/djherbis/buffer v1.2.0
+github.com/djherbis/buffer
+github.com/djherbis/buffer/limio
+github.com/djherbis/buffer/wrapio
+# github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
+github.com/eclesh/welford
 # github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385
 github.com/eknkc/amber
 github.com/eknkc/amber/parser
@@ -32,6 +41,10 @@ github.com/eknkc/amber/parser
 github.com/fatih/structs
 # github.com/flosch/pongo2/v4 v4.0.1
 github.com/flosch/pongo2/v4
+# github.com/gammazero/deque v0.1.0
+github.com/gammazero/deque
+# github.com/gammazero/workerpool v1.1.2
+github.com/gammazero/workerpool
 # github.com/go-ini/ini v1.66.4
 github.com/go-ini/ini
 # github.com/go-playground/locales v0.13.0
@@ -61,6 +74,21 @@ github.com/gobwas/pool/pbytes
 # github.com/gobwas/ws v1.0.4
 github.com/gobwas/ws
 github.com/gobwas/ws/wsutil
+# github.com/goinaction/code v0.0.0-20171020164608-49fc99e6affb
+github.com/goinaction/code/chapter10/listing06/pubsub
+github.com/goinaction/code/chapter2/sample/matchers
+github.com/goinaction/code/chapter2/sample/search
+github.com/goinaction/code/chapter3/dbdriver/postgres
+github.com/goinaction/code/chapter3/words
+github.com/goinaction/code/chapter5/listing64/counters
+github.com/goinaction/code/chapter5/listing68/counters
+github.com/goinaction/code/chapter5/listing71/entities
+github.com/goinaction/code/chapter5/listing74/entities
+github.com/goinaction/code/chapter7/patterns/pool
+github.com/goinaction/code/chapter7/patterns/runner
+github.com/goinaction/code/chapter7/patterns/search
+github.com/goinaction/code/chapter7/patterns/work
+github.com/goinaction/code/chapter9/listing17/handlers
 # github.com/golang/protobuf v1.4.3
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
@@ -72,12 +100,25 @@ github.com/golang/protobuf/ptypes/wrappers
 # github.com/google/gousb v1.1.1
 github.com/google/gousb
 github.com/google/gousb/usbid
-# github.com/google/uuid v1.2.0
+# github.com/google/uuid v1.3.0
 github.com/google/uuid
+# github.com/gopcua/opcua v0.3.1
+github.com/gopcua/opcua
+github.com/gopcua/opcua/debug
+github.com/gopcua/opcua/errors
+github.com/gopcua/opcua/id
+github.com/gopcua/opcua/monitor
+github.com/gopcua/opcua/stats
+github.com/gopcua/opcua/ua
+github.com/gopcua/opcua/uacp
+github.com/gopcua/opcua/uapolicy
+github.com/gopcua/opcua/uasc
 # github.com/gorilla/css v1.0.0
 github.com/gorilla/css/scanner
 # github.com/gorilla/websocket v1.4.2
 github.com/gorilla/websocket
+# github.com/huin/mqtt v0.0.0-20200914141616-61735481eb15
+github.com/huin/mqtt
 # github.com/iris-contrib/go.uuid v2.0.0+incompatible
 github.com/iris-contrib/go.uuid
 # github.com/iris-contrib/jade v1.1.4
@@ -88,6 +129,8 @@ github.com/iris-contrib/middleware/cors
 github.com/iris-contrib/pongo2
 # github.com/iris-contrib/schema v0.0.6
 github.com/iris-contrib/schema
+# github.com/jeffallen/mqtt v0.0.0-20180518073322-5387cfa89df0
+github.com/jeffallen/mqtt
 # github.com/jinzhu/gorm v1.9.16
 github.com/jinzhu/gorm
 github.com/jinzhu/gorm/dialects/postgres
@@ -228,8 +271,8 @@ github.com/nozzle/throttler
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
-# github.com/russross/blackfriday v1.5.2
-github.com/russross/blackfriday
+# github.com/rabbitmq/amqp091-go v1.3.0
+github.com/rabbitmq/amqp091-go
 # github.com/russross/blackfriday/v2 v2.1.0
 github.com/russross/blackfriday/v2
 # github.com/ryanuber/columnize v2.1.2+incompatible
@@ -278,8 +321,11 @@ github.com/yosssi/ace
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
 golang.org/x/crypto/argon2
+golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blake2b
+golang.org/x/crypto/blowfish
 golang.org/x/crypto/ed25519
+golang.org/x/crypto/ssh/terminal
 # golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
@@ -304,8 +350,11 @@ golang.org/x/sync/errgroup
 # golang.org/x/sys v0.0.0-20220209214540-3681064d5158
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
+# golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
+golang.org/x/term
 # golang.org/x/text v0.3.7
 golang.org/x/text/feature/plural
 golang.org/x/text/internal

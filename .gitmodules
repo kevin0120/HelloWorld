@@ -13,3 +13,6 @@
 [submodule "go_Mqtt/github"]
 	path = go_Mqtt/github
 	url = git@github.com:jeffallen/mqtt.git
+[submodule "test_OPC/awcullen"]
+	path = test_OPC/awcullen
+	url = git@github.com:awcullen/opcua.git
