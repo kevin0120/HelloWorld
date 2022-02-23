@@ -7,14 +7,14 @@ package main
 import (
 	"context"
 	"flag"
-	"log"
-
+	"github.com/gopcua/opcua/ua"
 	"github.com/gopcua/opcua/uacp"
+	"log"
 )
 
 func main() {
 	var (
-		endpoint = flag.String("endpoint", "opc.tcp://example.com/foo/bar", "OPC UA Endpoint URL")
+		endpoint = flag.String("endpoint", "opc.tcp://localhost:53530/OPCUA/SimulationServer", "OPC UA Endpoint URL")
 	)
 	flag.Parse()
 
@@ -32,7 +32,18 @@ func main() {
 	defer c.Close()
 	log.Printf("conn %d: connection from %s", c.ID(), c.RemoteAddr())
 
-	// listener, err := uacp.Listen(*endpoint, uint32(*bufsize))
+	buf := make([]byte, 1024)
+	for {
+		n, err := c.Read(buf)
+		if err != nil {
+			log.Printf("Couldn't read UASC: %s", err)
+			break
+		}
+		log.Printf("Successfully received message:%s", buf[:n])
+		buf1 := ua.NewBuffer(buf)
+		log.Printf("Successfully received message2:%s", buf1.ReadString())
+	}
+
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }

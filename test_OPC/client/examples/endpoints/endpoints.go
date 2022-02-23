@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	var endpoint = flag.String("endpoint", "opc.tcp://localhost:4840", "OPC UA Endpoint URL")
+	var endpoint = flag.String("endpoint", "opc.tcp://localhost:53530/OPCUA/SimulationServer", "OPC UA Endpoint URL")
 	flag.BoolVar(&debug.Enable, "debug", false, "enable debug logging")
 	flag.Parse()
 	log.SetFlags(0)
