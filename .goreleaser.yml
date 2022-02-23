@@ -2,7 +2,6 @@ project_name: hello
 
 env:
   - GO111MODULE=on
-
 builds:
   - env:
       - CGO_ENABLED=1
@@ -17,7 +16,6 @@ builds:
       - windows
     goarch:
       - amd64
-
     tags:
       - release
 

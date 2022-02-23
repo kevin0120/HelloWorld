@@ -7,3 +7,6 @@
 [submodule "qcos-deploy"]
 	path = qcos-deploy
 	url = git@github.com:chasers2012/qcos-deploy.git
+[submodule "test_OPC/OPX"]
+	path = test_OPC/OPX
+	url = git@github.com:gopcua/opcua.git
