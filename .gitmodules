@@ -10,3 +10,6 @@
 [submodule "test_OPC/OPX"]
 	path = test_OPC/OPX
 	url = git@github.com:gopcua/opcua.git
+[submodule "go_Mqtt/github"]
+	path = go_Mqtt/github
+	url = git@github.com:jeffallen/mqtt.git

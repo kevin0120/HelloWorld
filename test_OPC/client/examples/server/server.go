@@ -7,7 +7,6 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/gopcua/opcua/ua"
 	"github.com/gopcua/opcua/uacp"
 	"log"
 )
@@ -31,18 +30,6 @@ func main() {
 	}
 	defer c.Close()
 	log.Printf("conn %d: connection from %s", c.ID(), c.RemoteAddr())
-
-	buf := make([]byte, 1024)
-	for {
-		n, err := c.Read(buf)
-		if err != nil {
-			log.Printf("Couldn't read UASC: %s", err)
-			break
-		}
-		log.Printf("Successfully received message:%s", buf[:n])
-		buf1 := ua.NewBuffer(buf)
-		log.Printf("Successfully received message2:%s", buf1.ReadString())
-	}
 
 	// if err != nil {
 	// 	log.Fatal(err)
