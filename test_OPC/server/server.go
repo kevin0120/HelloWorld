@@ -5,78 +5,104 @@
 package main
 
 import (
+	"context"
+	"encoding/hex"
+	"flag"
 	"fmt"
+	"github.com/gopcua/opcua/uacp"
 	"log"
-	"os"
-
-	"github.com/awcullen/opcua/server"
-	"github.com/awcullen/opcua/ua"
 )
 
 func main() {
-
-	// create directory with certificate and key, if not found.
-	if err := ensurePKI(); err != nil {
-		log.Println("Error creating PKI.")
-		return
-	}
-
-	// create the endpoint url from hostname and port
-	host, _ := os.Hostname()
-	port := 46010
-	endpointURL := fmt.Sprintf("opc.tcp://%s:%d", host, port)
-
-	// create server
-	srv, err := server.New(
-		ua.ApplicationDescription{
-			ApplicationURI: fmt.Sprintf("urn:%s:testserver", host),
-			ProductURI:     "http://github.com/awcullen/opcua",
-			ApplicationName: ua.LocalizedText{
-				Text:   fmt.Sprintf("testserver@%s", host),
-				Locale: "en",
-			},
-			ApplicationType:     ua.ApplicationTypeServer,
-			GatewayServerURI:    "",
-			DiscoveryProfileURI: "",
-			DiscoveryURLs:       []string{endpointURL},
-		},
-		"./pki/server.crt",
-		"./pki/server.key",
-		endpointURL,
-		server.WithBuildInfo(
-			ua.BuildInfo{
-				ProductURI:       "http://github.com/awcullen/opcua",
-				ManufacturerName: "awcullen",
-				ProductName:      "testserver",
-				SoftwareVersion:  "0.3.0",
-			}),
-		server.WithAnonymousIdentity(true),
-		server.WithSecurityPolicyNone(true),
-		server.WithInsecureSkipVerify(),
-		server.WithServerDiagnostics(true),
+	var (
+		endpoint = flag.String("endpoint", "opc.tcp://localhost:53530/OPCUA/SimulationServer", "OPC UA Endpoint URL")
 	)
+	flag.Parse()
+
+	ctx := context.Background()
+
+	log.Printf("Listening on %s", *endpoint)
+	l, err := uacp.Listen(*endpoint, nil)
 	if err != nil {
-		os.Exit(1)
+		log.Fatal(err)
 	}
-
-	// load nodeset
-	nm := srv.NamespaceManager()
-	if err := nm.LoadNodeSetFromBuffer([]byte(nodeset)); err != nil {
-		os.Exit(2)
+	c, err := l.Accept(ctx)
+	if err != nil {
+		log.Fatal(err)
 	}
+	defer c.Close()
+	log.Printf("conn %d: connection from %s", c.ID(), c.RemoteAddr())
 
-	go func() {
-		// wait for signal
-		log.Println("Press Ctrl-C to exit...")
-		waitForSignal()
+	a,_:=c.Receive()
 
-		log.Println("Stopping server...")
-		srv.Close()
-	}()
+	resultData, _ := hex.DecodeString(string(a))
 
-	// start server
-	log.Printf("Starting server '%s' at '%s'\n", srv.LocalDescription().ApplicationName.Text, srv.EndpointURL())
-	if err := srv.ListenAndServe(); err != ua.BadServerHalted {
-		log.Println(errors.Wrap(err, "Error opening server"))
-	}
+	fmt.Println(resultData)
+
+
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// log.Printf("Started listening on %s.", listener.Endpoint())
+
+	// cfg := uasc.NewServerConfig(
+	// 	"http://opcfoundation.org/UA/SecurityPolicy#None",
+	// 	nil, nil, 1111, services.SecModeNone, 2222, 3600000,
+	// )
+	// for {
+	// 	func() {
+	// 		ctx := context.Background()
+	// 		ctx, cancel := context.WithCancel(ctx)
+	// 		defer cancel()
+
+	// 		conn, err := listener.Accept(ctx)
+	// 		if err != nil {
+	// 			log.Print(err)
+	// 			return
+	// 		}
+	// 		defer func() {
+	// 			conn.Close()
+	// 			log.Println("Successfully closed connection")
+	// 		}()
+	// 		log.Printf("Successfully established connection with %v", conn.RemoteAddr())
+
+	// 		secChan, err := uasc.ListenAndAcceptSecureChannel(ctx, conn, cfg)
+	// 		if err != nil {
+	// 			log.Fatal(err)
+	// 		}
+	// 		defer func() {
+	// 			secChan.Close()
+	// 			log.Printf("Successfully closed secure channel with %v", conn.RemoteAddr())
+	// 		}()
+	// 		log.Printf("Successfully opened secure channel with %v", conn.RemoteAddr())
+
+	// 		sessCfg := uasc.NewServerSessionConfig(secChan)
+	// 		session, err := uasc.ListenAndAcceptSession(ctx, secChan, sessCfg)
+	// 		if err != nil {
+	// 			log.Fatal(err)
+	// 		}
+	// 		defer func() {
+	// 			session.Close()
+	// 			log.Printf("Successfully closed session with %v", conn.RemoteAddr())
+	// 		}()
+	// 		log.Printf("Successfully activated session with %v", conn.RemoteAddr())
+
+	// 		buf := make([]byte, 1024)
+	// 		for {
+	// 			n, err := session.ReadService(buf)
+	// 			if err != nil {
+	// 				log.Printf("Couldn't read UASC: %s", err)
+	// 				continue
+	// 			}
+	// 			log.Printf("Successfully received message: %x\n%s", buf[:n], utils.Wireshark(0, buf[:n]))
+
+	// 			srv, err := services.Decode(buf[:n])
+	// 			if err != nil {
+	// 				log.Printf("Couldn't decode received bytes as Service: %s", err)
+	// 				continue
+	// 			}
+	// 			log.Printf("Successfully decoded as Service: %v", srv)
+	// 		}
+	// 	}()
+	// }
 }
