@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SourceCodeofMongoRedis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_Mqtt/github" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/Go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/go-algorithm" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/go-design-pattern" vcs="Git" />
@@ -20,6 +21,7 @@
     <mapping directory="$PROJECT_DIR$/qcos-deploy" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/testFTP/ftp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/test_OPC/OPX" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test_OPC/awcullen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/traefik" vcs="Git" />
   </component>
 </project>
