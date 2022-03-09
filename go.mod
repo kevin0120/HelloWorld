@@ -42,7 +42,7 @@ require (
 	github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481
 	github.com/pkg/errors v0.9.1
 	github.com/rabbitmq/amqp091-go v1.3.0
-	github.com/robinson/gos7 v0.0.0-20211020181838-a2b780484319 // indirect
+	github.com/robinson/gos7 v0.0.0-20211020181838-a2b780484319
 	github.com/ryanuber/columnize v2.1.2+incompatible // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/smallfish/ftp v0.0.0-20160801035311-6d094f003ac5
