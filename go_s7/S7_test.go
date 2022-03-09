@@ -31,12 +31,16 @@ func TestS7(t *testing.T) {
 
 	for {
 		i++
-		ClientReadIntDB(client)
-		ClientWriteIntDB(client, int16(i))
+		//读取plc的状态
 		ClientPLCGetStatus(client)
+		//读取某一数据区的数据
+		ClientReadIntDB(client)
+		//修改其中的一部分数据
+		ClientWriteIntDB(client, int16(i))
+		//读取plc的硬件bool输入
 		ClientReadIO(client)
+		//控制plc的硬件bool输出
 		ClientWriteIO(client,byte(i%256))
-		ClientWriteIntDB(client, int16(byte(i%256)))
 	}
 
 }
@@ -54,7 +58,7 @@ func ClientReadIO(client gos7.Client) {
 	var result byte
 	s7.GetValueAt(buf, 0, &result)
 
-	fmt.Printf("读到PLC I0.0-0.7的某段数据为%0b\n", result)
+	fmt.Printf("读到PLC I0.0-0.7的某段数据为%08b\n", result)
 }
 
 //ClientWriteIO client test ClientWriteIO int
@@ -76,7 +80,7 @@ func ClientWriteIO(client gos7.Client, value byte) {
 
 	// result := binary.BigEndian.Uint16(results)
 
-	fmt.Printf("输出PLC Q0.0-Q0.7的某段数据为%0b\n", value)
+	fmt.Printf("输出PLC Q0.0-Q0.7的某段数据为%08b\n", value)
 }
 
 
