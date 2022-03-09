@@ -1,0 +1,5 @@
+go releaser 时tag 必须满足一定的条件 v1.1.1 语义版本号（Semantic Versioning） 1.4.6-beta v是不强制的
+https://www.cnblogs.com/walterlv/p/10236470.html
+
+或者 goreleaser release --snapshot 不加标签
+https://goreleaser.com/customization/templates/
