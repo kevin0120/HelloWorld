@@ -1,6 +1,7 @@
 package main
 
 //https://blog.csdn.net/darlingtangli/article/details/84198859
+//安装tdm64-gcc-10.3.0-2
 
 /*
 #include <stdint.h>
