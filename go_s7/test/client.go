@@ -15,23 +15,23 @@ import (
 //ClientTestAll client test all
 func ClientTestAll(t *testing.T, client gos7.Client) {
 	//write value to 100
-	ClientTestWriteIntDB(t, client, 100)
+	//ClientTestWriteIntDB(t, client, 100)
 	//read and assert with 100
-	ClientTestReadIntDB(t, client)
-	//return 0
-	ClientTestWriteIntDB(t, client, 0)
-	//test directory
-	ClientTestDirectory(t, client)
-	//Get CPU info
-	ClientTestGetCPUInfo(t, client)
+	//ClientTestReadIntDB(t, client)
+	////return 0
+	//ClientTestWriteIntDB(t, client, 0)
+	////test directory
+	//ClientTestDirectory(t, client)
+	////Get CPU info
+	//ClientTestGetCPUInfo(t, client)
 	//Get AG Block Info
-	ClientTestGetAGBlockInfo(t, client)
+	//ClientTestGetAGBlockInfo(t, client)
 	//get PLC status
 	ClientPLCGetStatus(t, client)
-	//multi write to DB2710 -> 1, DB2810 ->2
-	ClientAGWriteMulti(t, client)
-	//multi read
-	ClientAGReadMulti(t, client)
+	////multi write to DB2710 -> 1, DB2810 ->2
+	//ClientAGWriteMulti(t, client)
+	////multi read
+	//ClientAGReadMulti(t, client)
 }
 
 //ClientTestWriteIntDB client test write int

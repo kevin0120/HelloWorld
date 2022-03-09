@@ -12,6 +12,7 @@
     <mapping directory="$PROJECT_DIR$/go_github/over-golang" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_pkg/go_pkg/stdpkg-example" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_pkg/stdpkg-example" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_s7/github" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_sevendays" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/goexample/code" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/goexample/go" vcs="Git" />
