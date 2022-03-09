@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 #https://docs.github.com/en/actions/using-workflows/triggering-a-workflow
-name: Manual workflow
+name: manual
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
