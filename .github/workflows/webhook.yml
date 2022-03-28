@@ -1,6 +1,7 @@
 name: webhook
-on: repository_dispatch
-
+on:
+  repository_dispatch:
+    types: [ "**" ]
 jobs:
 
   run:
@@ -16,8 +17,8 @@ jobs:
       - name: Hello World2
         run: |
           echo My name is P3TERX. >> ./build1/hello.txt
-          echo Hello World! >> ./build1/hello.txt
-          echo "Hello ${{ github.event}}" >> ./build1/hello.txt
+          echo Hello World! > ./build1/hello.txt
+          echo "Hello ${{ github.event}}" > ./build1/hello.txt
 
       - name: release
         uses: softprops/action-gh-release@v1
