@@ -24,5 +24,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: "./build1/**"
+          tag_name: ${{ github.event.client_payload.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
