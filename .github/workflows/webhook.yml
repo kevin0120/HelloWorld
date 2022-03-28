@@ -1,7 +1,7 @@
 name: webhook
 on:
   repository_dispatch:
-    types: [ "**" ]
+    types: [ "*event_type*" ]
 jobs:
 
   run:
@@ -11,7 +11,7 @@ jobs:
         run: |
           echo My name is P3TERX.
           echo Hello World!
-          echo "Hello ${{ github.event}}"
+          echo "Hello ${{ toJSON(github) }}"
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
       - name: Hello World2
