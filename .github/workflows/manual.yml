@@ -105,6 +105,10 @@ jobs:
         run: echo '${{ toJSON(matrix) }}'
       - name: Dump secrets context
         run: echo '${{ toJSON(secrets) }}'
+      - name: Dump env context
+        run: echo '${{ toJSON(env) }}'
+
+
 
   EnvironmentVariable:
     runs-on: ubuntu-latest
