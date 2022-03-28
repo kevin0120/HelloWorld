@@ -1,7 +1,7 @@
 name: webhook
 on:
   repository_dispatch:
-    types: [ "*event_type*" ]
+    types: [ "**" ]
 jobs:
 
   run:
