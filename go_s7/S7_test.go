@@ -31,12 +31,12 @@ func TestS7(t *testing.T) {
 
 	for {
 		i++
-		//读取plc的状态
-		ClientPLCGetStatus(client)
-		//读取某一数据区的数据
-		ClientReadIntDB(client)
-		//修改其中的一部分数据
-		ClientWriteIntDB(client, int16(i))
+		////读取plc的状态
+		//ClientPLCGetStatus(client)
+		////读取某一数据区的数据
+		//ClientReadIntDB(client)
+		////修改其中的一部分数据
+		//ClientWriteIntDB(client, int16(i))
 		//读取plc的硬件bool输入
 		ClientReadIO(client)
 		//控制plc的硬件bool输出
