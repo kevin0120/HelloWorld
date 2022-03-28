@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "58744423-db3a-4421-8d9b-a6147c4eea2a",
+		"name": "11",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://api.github.com/repos/kevin0120/HelloWorld/dispatches",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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 ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github.v3+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"event_type\": \"event_type\",\n  \"client_payload\":{\n      \"ref\":\"hellohook\"\n  }\n}\n"
+				},
+				"url": {
+					"raw": "https://api.github.com/repos/kevin0120/HelloWorld/dispatches",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"kevin0120",
+						"HelloWorld",
+						"dispatches"
+					]
+				},
+				"description": "11"
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.github.com/repos/kevin0120/HelloWorld/dispatches Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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 ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github.v3+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"event_type\": \"event_type\",\n  \"client_payload\":{\n      \"ref\":\"hellohook\"\n  }\n}\n"
+				},
+				"url": {
+					"raw": "https://api.github.com/repos/kevin0120/HelloWorld/dispatches",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"kevin0120",
+						"HelloWorld",
+						"dispatches"
+					]
+				},
+				"description": "11"
+			},
+			"response": []
+		}
+	]
+}
