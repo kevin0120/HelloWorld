@@ -116,7 +116,7 @@ jobs:
       - run: echo "$GITHUB_HEAD_REF*****************$GITHUB_JOB*************$GITHUB_PATH"
       - run: echo "$GITHUB_REF*****************$GITHUB_REF_NAME*************$GITHUB_REPOSITORY"
       - run: echo "$RUNNER_ARCH*****************$RUNNER_NAME*************$RUNNER_TOOL_CACHE"
-
+      - run: echo "${{ secrets.PAT }}"
 
   DockerBuild:
     runs-on: ubuntu-latest
