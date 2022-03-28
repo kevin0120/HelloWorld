@@ -89,6 +89,8 @@ jobs:
 #          First_Name: Mona
   Contexts_to_log:
     runs-on: ubuntu-latest
+    #          在仓库的setting中配置环境，里面有一个H3变量
+    environment: h2
     steps:
       - name: Dump GitHub context
         id: github_context_step
