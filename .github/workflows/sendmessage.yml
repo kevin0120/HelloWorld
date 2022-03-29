@@ -15,6 +15,7 @@ on:
         # Input has to be provided for the workflow to run
         required: true
 
+#163邮箱授权码
 #  ZBTILWPETIMHPGQI
 jobs:
   Email_to_others:
@@ -59,3 +60,12 @@ jobs:
           attachments: attachments.zip,git.diff,./dist/static/*.js
           # Optional priority: 'high', 'normal' (default) or 'low'
           priority: low
+
+#  你已经成功开通Server酱，SendKey如下。以后可以在顶部SendKey菜单中查看和重置
+#  SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
+      - name: Webhook
+        uses: joelwmale/webhook-action@master
+        with:
+          url: https://sc.ftqq.com/${{ secrets.SCKEY }}.send
+          headers: '{"repository": "joelwmale/webhook-action"}'
+          body: '{"event": "deployment", "repository": "joelwmale/webhook-action"}'
