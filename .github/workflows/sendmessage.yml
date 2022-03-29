@@ -62,6 +62,8 @@ jobs:
           # Optional priority: 'high', 'normal' (default) or 'low'
           priority: low
 
+
+#   https://sct:ftqq:com/
 #  你已经成功开通Server酱，SendKey如下。以后可以在顶部SendKey菜单中查看和重置
 #  SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
   Wexin_to_others:
@@ -72,4 +74,4 @@ jobs:
         with:
           url: https://sctapi.ftqq.com/${{ env.SCKEY }}.send
           method: 'POST'
-          body: '{"title": "Hello ${{ github.event.inputs.name }}"}'
+          data: '{"title": "Hello ${{ github.event.inputs.name }}"}'
