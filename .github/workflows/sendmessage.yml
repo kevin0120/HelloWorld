@@ -14,7 +14,8 @@ on:
         default: 'World'
         # Input has to be provided for the workflow to run
         required: true
-
+env:
+  SCKEY: ZBTILWPETIMHPGQI
 #163邮箱授权码
 #  ZBTILWPETIMHPGQI
 jobs:
@@ -64,8 +65,6 @@ jobs:
 #  你已经成功开通Server酱，SendKey如下。以后可以在顶部SendKey菜单中查看和重置
 #  SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
       - name: Webhook
-        env:
-          SCKEY: ZBTILWPETIMHPGQI
         uses: joelwmale/webhook-action@master
         with:
           url: https://sctapi.ftqq.com/${{ env.SCKEY }}.send
