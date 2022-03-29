@@ -74,4 +74,4 @@ jobs:
         with:
           url: https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send?title=Hello${{ github.event.inputs.name }}
           method: 'POST'
-          data: '{"title": "1 Hello ${{ github.event.inputs.name }}"}'
+          data: '{"desp": "1 Hello ${{ github.event.inputs.name }}"}'
