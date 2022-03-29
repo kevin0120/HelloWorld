@@ -15,7 +15,7 @@ on:
         # Input has to be provided for the workflow to run
         required: true
 env:
-  SCKEY: ZBTILWPETIMHPGQI
+  SCKEY: SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
 #163邮箱授权码
 #  ZBTILWPETIMHPGQI
 jobs:
@@ -67,6 +67,6 @@ jobs:
       - name: sendweixin
         uses: joelwmale/webhook-action@master
         with:
-          url: https://sctapi.ftqq.com/ZBTILWPETIMHPGQI.send
+          url: https://sctapi.ftqq.com/${{ env.SCKEY }}.send
           headers: '{"repository": "joelwmale/webhook-action"}'
-          body: '{"event": "deployment", "repository": "joelwmale/webhook-action"}'
+          body: '{"title": "Hello ${{ github.event.inputs.name }}", "repository": "joelwmale/webhook-action"}'
