@@ -72,6 +72,6 @@ jobs:
       - name: sendweixin
         uses: fjogeleit/http-request-action@v1
         with:
-          url: https://sctapi.ftqq.com/${{ env.SCKEY }}.send
+          url: https://sctapi.ftqq.com/${{ env.SCKEY }}.send?title=Hello${{ github.event.inputs.name }}
           method: 'POST'
           data: '{"title": "Hello ${{ github.event.inputs.name }}"}'
