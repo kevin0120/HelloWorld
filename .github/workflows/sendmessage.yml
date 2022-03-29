@@ -64,9 +64,9 @@ jobs:
 
 #  你已经成功开通Server酱，SendKey如下。以后可以在顶部SendKey菜单中查看和重置
 #  SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
-      - name: Webhook
+      - name: sendweixin
         uses: joelwmale/webhook-action@master
         with:
-          url: https://sctapi.ftqq.com/${{ env.SCKEY }}.send
+          url: https://sctapi.ftqq.com/ZBTILWPETIMHPGQI.send
           headers: '{"repository": "joelwmale/webhook-action"}'
           body: '{"event": "deployment", "repository": "joelwmale/webhook-action"}'
