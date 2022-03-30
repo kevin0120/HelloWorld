@@ -7,6 +7,11 @@ require (
 	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/Joker/hpp v1.0.0 // indirect
 	github.com/Shopify/goreferrer v0.0.0-20210630161223-536fa16abd6f // indirect
+	github.com/alibabacloud-go/darabonba-openapi v0.1.16
+	github.com/alibabacloud-go/dysmsapi-20170525/v2 v2.0.9
+	github.com/alibabacloud-go/tea v1.1.17
+	github.com/alibabacloud-go/tea-console v1.0.0
+	github.com/alibabacloud-go/tea-utils v1.4.4
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/awcullen/opcua v0.5.0-beta
 	github.com/bep/debounce v1.2.0
