@@ -29,7 +29,7 @@ func main() {
 	// GET: http://localhost:8080/favicon.ico
 	app.Favicon("./public/images/favicon.ico")
 
-	// Static assets
+	// MainStatic assets
 
 	// GET: http://localhost:8080/assets/css/bootstrap.min.css
 	//	    maps to ./public/assets/css/bootstrap.min.css file at system location.

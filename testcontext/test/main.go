@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func main()  {
+func main() {
 	ctx := context.WithValue(context.Background(), "asong", "test01")
 	go func() {
 		for {

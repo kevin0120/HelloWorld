@@ -7,7 +7,7 @@ import (
 
 func main() {
 	m := make(map[int32]string)
-	fmt.Println(len(m),cap([]int64{}))
+	fmt.Println(len(m), cap([]int64{}))
 	m[0] = "EDDYCJY1"
 	fmt.Println(len(m))
 	m[1] = "EDDYCJY2"

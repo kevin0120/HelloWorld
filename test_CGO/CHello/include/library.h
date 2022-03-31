@@ -1,6 +1,14 @@
-#ifndef UNTITLED_LIBRARY_H
-#define UNTITLED_LIBRARY_H
+#ifndef UNTITLED2_LIBRARY_H
+#define UNTITLED2_LIBRARY_H
 
-void hello(void);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#endif //UNTITLED_LIBRARY_H
+void hello();
+#ifdef __cplusplus
+}
+#endif
+void PrintArray(double *data,int length);
+
+#endif //UNTITLED2_LIBRARY_H

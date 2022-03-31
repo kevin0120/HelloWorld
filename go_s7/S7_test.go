@@ -40,7 +40,7 @@ func TestS7(t *testing.T) {
 		//读取plc的硬件bool输入
 		ClientReadIO(client)
 		//控制plc的硬件bool输出
-		ClientWriteIO(client,byte(i%256))
+		ClientWriteIO(client, byte(i%256))
 	}
 
 }
@@ -49,7 +49,7 @@ func TestS7(t *testing.T) {
 func ClientReadIO(client gos7.Client) {
 	time.Sleep(1 * time.Second)
 	buf := make([]byte, 255)
-	err := client.AGReadEB(0,1,buf)
+	err := client.AGReadEB(0, 1, buf)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -70,20 +70,16 @@ func ClientWriteIO(client gos7.Client, value byte) {
 	var helper gos7.Helper
 	helper.SetValueAt(buf, 0, value)
 
-
-	err := client.AGWriteAB(0,1,buf)
+	err := client.AGWriteAB(0, 1, buf)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-
 	// result := binary.BigEndian.Uint16(results)
 
 	fmt.Printf("输出PLC Q0.0-Q0.7的某段数据为%08b\n", value)
 }
-
-
 
 //ClientTestReadIntDB client test read int
 func ClientReadIntDB(client gos7.Client) {
@@ -124,7 +120,6 @@ func ClientWriteIntDB(client gos7.Client, value int16) {
 	fmt.Printf("写入DB2710中的某段数据为%v\n", value)
 }
 
-
 //ClientPLCGetStatus get PLC status
 func ClientPLCGetStatus(client gos7.Client) {
 	status, err := client.PLCGetStatus()
@@ -140,4 +135,3 @@ func ClientPLCGetStatus(client gos7.Client) {
 		fmt.Println("PLC unknown")
 	} //8=running, 4=stop, 0=unknown
 }
-

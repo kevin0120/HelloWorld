@@ -80,7 +80,7 @@ func doTimeOutStuff(ctx context.Context) {
 		time.Sleep(1 * time.Second)
 
 		if deadline, ok := ctx.Deadline(); ok { //设置了deadl
-			logg.Printf("deadline set %v",deadline)
+			logg.Printf("deadline set %v", deadline)
 			if time.Now().After(deadline) {
 				logg.Printf(ctx.Err().Error())
 				return

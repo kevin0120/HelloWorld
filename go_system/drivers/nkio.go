@@ -2,13 +2,14 @@ package drivers
 
 import (
 	"fmt"
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
 	"io/fs"
 	"io/ioutil"
 	"os"
 	"runtime"
 	"strings"
 )
+
 func PathExists(path string) bool {
 	_, err := os.Stat(path)
 	if err == nil {
@@ -22,11 +23,11 @@ func PathExists(path string) bool {
 
 func Nkio() {
 	if runtime.GOOS == "windows" {
-		//_ = packr.PackJSONBytes("../dll", "1.txt", "\"MTIzU1NTU1M=\"")
+		//_ = packr.PackJSONBytes("../cmake-build-debug", "1.txt", "\"MTIzU1NTU1M=\"")
 		// 依赖的dll libs
 		libFiles := []string{"1.txt"}
 
-		box := packr.NewBox("../dll")
+		box := packr.New("hello", "../dll")
 
 		for _, l := range libFiles {
 			if PathExists(l) {

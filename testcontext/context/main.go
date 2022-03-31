@@ -1,11 +1,9 @@
-
-
 package main
 
 import (
-"context"
-"fmt"
-"time"
+	"context"
+	"fmt"
+	"time"
 )
 
 var begin = time.Now()
@@ -101,4 +99,3 @@ func task6(ctx context.Context) {
 func main() {
 	task1(context.Background())
 }
-

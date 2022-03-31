@@ -19,7 +19,7 @@ func main() {
 		endpoint = flag.String("endpoint", "opc.tcp://localhost:53530/OPCUA/SimulationServer", "OPC UA Endpoint URL")
 		nodeID   = flag.String("node", "ns=5;s=Counter1", "NodeID to read")
 		//value    = flag.Int("value", 12, "value")
-	    value uint16=12
+		value uint16 = 12
 	)
 	flag.BoolVar(&debug.Enable, "debug", false, "enable debug logging")
 	flag.Parse()

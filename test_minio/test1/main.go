@@ -39,11 +39,10 @@ func main() {
 	contentType := "application/zip"
 
 	// 使用FPutObject上传一个zip文件。
-	n, err := minioClient.FPutObject(bucketName, objectName, filePath, minio.PutObjectOptions{ContentType:contentType})
+	n, err := minioClient.FPutObject(bucketName, objectName, filePath, minio.PutObjectOptions{ContentType: contentType})
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	log.Printf("Successfully uploaded %s of size %d\n", objectName, n)
 }
-

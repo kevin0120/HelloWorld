@@ -1,4 +1,5 @@
 package main
+
 //https://cloud.tencent.com/developer/article/1489456
 import "time"
 
@@ -7,6 +8,7 @@ type Human struct {
 	live int64
 	tag  string
 }
+
 func main() {
 	var a Human
 	var b *Human

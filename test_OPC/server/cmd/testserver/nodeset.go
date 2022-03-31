@@ -57,7 +57,7 @@ const nodeset = `
             <Reference ReferenceType="Organizes">ns=1;s=Demo.Paths</Reference>
             <Reference ReferenceType="Organizes">ns=1;s=Demo.References</Reference>
             <Reference ReferenceType="Organizes">ns=1;s=Demo.SecurityAccess</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic</Reference>
         </References>
     </UAObject>
     <UAObject NodeId="ns=1;s=Demo.Methods" BrowseName="1:Methods">
@@ -828,47 +828,47 @@ const nodeset = `
             <uax:Int16>0</uax:Int16>
         </Value>
     </UAVariable>
-    <UAObject NodeId="ns=1;s=Demo.Static" BrowseName="1:Static">
-        <DisplayName>Static</DisplayName>
+    <UAObject NodeId="ns=1;s=Demo.MainStatic" BrowseName="1:MainStatic">
+        <DisplayName>MainStatic</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
             <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
     </UAObject>
-    <UAObject NodeId="ns=1;s=Demo.Static.Arrays" BrowseName="1:Arrays">
+    <UAObject NodeId="ns=1;s=Demo.MainStatic.Arrays" BrowseName="1:Arrays">
         <DisplayName>Arrays</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Boolean</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Byte</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.ByteString</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.DateTime</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Double</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Duration</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Float</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Guid</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Int16</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Int32</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Int64</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.LocalizedText</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.QualifiedName</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.SByte</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.String</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.UInt16</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.UInt32</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.UInt64</Reference>
-            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.Variant</Reference> -->
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays.XmlElement</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Boolean</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Byte</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.ByteString</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.DateTime</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Double</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Duration</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Float</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Guid</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Int16</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Int32</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Int64</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.LocalizedText</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.QualifiedName</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.SByte</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.String</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.UInt16</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.UInt32</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.UInt64</Reference>
+            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.Variant</Reference> -->
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays.XmlElement</Reference>
         </References>
     </UAObject>
-    <UAVariable DataType="Boolean" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Boolean" ArrayDimensions="0" BrowseName="1:Boolean" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Boolean" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Boolean" ArrayDimensions="0" BrowseName="1:Boolean" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Boolean</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfBoolean>
@@ -883,11 +883,11 @@ const nodeset = `
             </uax:ListOfBoolean>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Byte" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Byte" ArrayDimensions="0" BrowseName="1:Byte" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Byte" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Byte" ArrayDimensions="0" BrowseName="1:Byte" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Byte</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfByte>
@@ -902,11 +902,11 @@ const nodeset = `
             </uax:ListOfByte>
         </Value>
     </UAVariable>
-    <UAVariable DataType="ByteString" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.ByteString" ArrayDimensions="0" BrowseName="1:ByteString" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="ByteString" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.ByteString" ArrayDimensions="0" BrowseName="1:ByteString" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>ByteString</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfByteString>
@@ -921,11 +921,11 @@ const nodeset = `
             </uax:ListOfByteString>
         </Value>
     </UAVariable>
-    <UAVariable DataType="DateTime" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.DateTime" ArrayDimensions="0" BrowseName="1:DateTime" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="DateTime" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.DateTime" ArrayDimensions="0" BrowseName="1:DateTime" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>DateTime</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfDateTime>
@@ -940,11 +940,11 @@ const nodeset = `
             </uax:ListOfDateTime>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Double" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Double" ArrayDimensions="0" BrowseName="1:Double" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Double" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Double" ArrayDimensions="0" BrowseName="1:Double" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Double</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfDouble>
@@ -959,11 +959,11 @@ const nodeset = `
             </uax:ListOfDouble>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Duration" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Duration" ArrayDimensions="0" BrowseName="1:Duration" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Duration" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Duration" ArrayDimensions="0" BrowseName="1:Duration" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Duration</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfDouble>
@@ -978,11 +978,11 @@ const nodeset = `
             </uax:ListOfDouble>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Float" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Float" ArrayDimensions="0" BrowseName="1:Float" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Float" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Float" ArrayDimensions="0" BrowseName="1:Float" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Float</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfFloat>
@@ -997,11 +997,11 @@ const nodeset = `
             </uax:ListOfFloat>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Guid" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Guid" ArrayDimensions="0" BrowseName="1:Guid" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Guid" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Guid" ArrayDimensions="0" BrowseName="1:Guid" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Guid</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfGuid>
@@ -1032,11 +1032,11 @@ const nodeset = `
             </uax:ListOfGuid>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Int16" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Int16" ArrayDimensions="0" BrowseName="1:Int16" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Int16" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Int16" ArrayDimensions="0" BrowseName="1:Int16" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Int16</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfInt16>
@@ -1051,11 +1051,11 @@ const nodeset = `
             </uax:ListOfInt16>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Int32" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Int32" ArrayDimensions="0" BrowseName="1:Int32" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Int32" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Int32" ArrayDimensions="0" BrowseName="1:Int32" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Int32</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfInt32>
@@ -1070,11 +1070,11 @@ const nodeset = `
             </uax:ListOfInt32>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Int64" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Int64" ArrayDimensions="0" BrowseName="1:Int64" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Int64" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Int64" ArrayDimensions="0" BrowseName="1:Int64" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Int64</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfInt64>
@@ -1089,11 +1089,11 @@ const nodeset = `
             </uax:ListOfInt64>
         </Value>
     </UAVariable>
-    <UAVariable DataType="LocalizedText" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.LocalizedText" ArrayDimensions="0" BrowseName="1:LocalizedText" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="LocalizedText" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.LocalizedText" ArrayDimensions="0" BrowseName="1:LocalizedText" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>LocalizedText</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfLocalizedText>
@@ -1132,11 +1132,11 @@ const nodeset = `
             </uax:ListOfLocalizedText>
         </Value>
     </UAVariable>
-    <UAVariable DataType="QualifiedName" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.QualifiedName" ArrayDimensions="0" BrowseName="1:QualifiedName" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="QualifiedName" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.QualifiedName" ArrayDimensions="0" BrowseName="1:QualifiedName" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>QualifiedName</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfQualifiedName>
@@ -1175,11 +1175,11 @@ const nodeset = `
             </uax:ListOfQualifiedName>
         </Value>
     </UAVariable>
-    <UAVariable DataType="SByte" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.SByte" ArrayDimensions="0" BrowseName="1:SByte" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="SByte" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.SByte" ArrayDimensions="0" BrowseName="1:SByte" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>SByte</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfSByte>
@@ -1194,11 +1194,11 @@ const nodeset = `
             </uax:ListOfSByte>
         </Value>
     </UAVariable>
-    <UAVariable DataType="String" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.String" ArrayDimensions="0" BrowseName="1:String" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="String" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.String" ArrayDimensions="0" BrowseName="1:String" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>String</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfString>
@@ -1213,11 +1213,11 @@ const nodeset = `
             </uax:ListOfString>
         </Value>
     </UAVariable>
-    <UAVariable DataType="UInt16" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.UInt16" ArrayDimensions="0" BrowseName="1:UInt16" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="UInt16" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.UInt16" ArrayDimensions="0" BrowseName="1:UInt16" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInt16</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfUInt16>
@@ -1232,11 +1232,11 @@ const nodeset = `
             </uax:ListOfUInt16>
         </Value>
     </UAVariable>
-    <UAVariable DataType="UInt32" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.UInt32" ArrayDimensions="0" BrowseName="1:UInt32" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="UInt32" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.UInt32" ArrayDimensions="0" BrowseName="1:UInt32" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInt32</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfUInt32>
@@ -1251,11 +1251,11 @@ const nodeset = `
             </uax:ListOfUInt32>
         </Value>
     </UAVariable>
-    <UAVariable DataType="UInt64" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.UInt64" ArrayDimensions="0" BrowseName="1:UInt64" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="UInt64" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.UInt64" ArrayDimensions="0" BrowseName="1:UInt64" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInt64</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfUInt64>
@@ -1270,11 +1270,11 @@ const nodeset = `
             </uax:ListOfUInt64>
         </Value>
     </UAVariable>
-    <!-- <UAVariable DataType="i=24" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.Variant" ArrayDimensions="0" BrowseName="1:Variant" UserAccessLevel="3" AccessLevel="3">
+    <!-- <UAVariable DataType="i=24" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.Variant" ArrayDimensions="0" BrowseName="1:Variant" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Variant</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <Value>
             <uax:ListOfVariant>
@@ -1297,11 +1297,11 @@ const nodeset = `
             </uax:ListOfVariant>
         </Value>
     </UAVariable> -->
-    <UAVariable DataType="XmlElement" ValueRank="1" NodeId="ns=1;s=Demo.Static.Arrays.XmlElement" ArrayDimensions="0" BrowseName="1:XmlElement" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="XmlElement" ValueRank="1" NodeId="ns=1;s=Demo.MainStatic.Arrays.XmlElement" ArrayDimensions="0" BrowseName="1:XmlElement" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>XmlElement</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Arrays</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Arrays</Reference>
         </References>
         <?xml version="1.0" encoding="UTF-8"?>
         <Value>
@@ -1317,123 +1317,123 @@ const nodeset = `
             </uax:ListOfXmlElement>
         </Value>
     </UAVariable>
-    <UAObject NodeId="ns=1;s=Demo.Static.Scalar" BrowseName="1:Scalar">
+    <UAObject NodeId="ns=1;s=Demo.MainStatic.Scalar" BrowseName="1:Scalar">
         <DisplayName>Scalar</DisplayName>
         <References>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Boolean</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Byte</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.ByteString</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.DateTime</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Double</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Duration</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Enumeration</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Float</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Guid</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Int16</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Int32</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Int64</Reference>
-            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Integer</Reference> -->
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.LocalizedText</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.NodeId</Reference>
-            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Number</Reference> -->
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.QualifiedName</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.SByte</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.String</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.UInt16</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.UInt32</Reference>
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.UInt64</Reference>
-            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.UInteger</Reference> -->
-            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.Variant</Reference> -->
-            <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar.XmlElement</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Boolean</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Byte</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.ByteString</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.DateTime</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Double</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Duration</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Enumeration</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Float</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Guid</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Int16</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Int32</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Int64</Reference>
+            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Integer</Reference> -->
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.LocalizedText</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.NodeId</Reference>
+            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Number</Reference> -->
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.QualifiedName</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.SByte</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.String</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.UInt16</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.UInt32</Reference>
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.UInt64</Reference>
+            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.UInteger</Reference> -->
+            <!-- <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.Variant</Reference> -->
+            <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar.XmlElement</Reference>
             <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic</Reference>
             </References>
     </UAObject>
-    <UAVariable DataType="Boolean" NodeId="ns=1;s=Demo.Static.Scalar.Boolean" BrowseName="1:Boolean" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Boolean" NodeId="ns=1;s=Demo.MainStatic.Scalar.Boolean" BrowseName="1:Boolean" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Boolean</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Boolean>false</uax:Boolean>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Byte" NodeId="ns=1;s=Demo.Static.Scalar.Byte" BrowseName="1:Byte" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Byte" NodeId="ns=1;s=Demo.MainStatic.Scalar.Byte" BrowseName="1:Byte" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Byte</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Byte>1</uax:Byte>
         </Value>
     </UAVariable>
-    <UAVariable DataType="ByteString" NodeId="ns=1;s=Demo.Static.Scalar.ByteString" BrowseName="1:ByteString" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="ByteString" NodeId="ns=1;s=Demo.MainStatic.Scalar.ByteString" BrowseName="1:ByteString" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>ByteString</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:ByteString>EjSrzQ==</uax:ByteString>
         </Value>
     </UAVariable>
-    <UAVariable DataType="DateTime" NodeId="ns=1;s=Demo.Static.Scalar.DateTime" BrowseName="1:DateTime" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="DateTime" NodeId="ns=1;s=Demo.MainStatic.Scalar.DateTime" BrowseName="1:DateTime" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>DateTime</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:DateTime>2015-05-27T14:03:25Z</uax:DateTime>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Double" NodeId="ns=1;s=Demo.Static.Scalar.Double" BrowseName="1:Double" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Double" NodeId="ns=1;s=Demo.MainStatic.Scalar.Double" BrowseName="1:Double" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Double</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Double>3.14</uax:Double>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Duration" NodeId="ns=1;s=Demo.Static.Scalar.Duration" BrowseName="1:Duration" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Duration" NodeId="ns=1;s=Demo.MainStatic.Scalar.Duration" BrowseName="1:Duration" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Duration</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Double>9.999</uax:Double>
         </Value>
     </UAVariable>
-    <UAVariable DataType="i=852" NodeId="ns=1;s=Demo.Static.Scalar.Enumeration" BrowseName="1:Enumeration" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="i=852" NodeId="ns=1;s=Demo.MainStatic.Scalar.Enumeration" BrowseName="1:Enumeration" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Enumeration</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Int32>1</uax:Int32>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Float" NodeId="ns=1;s=Demo.Static.Scalar.Float" BrowseName="1:Float" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Float" NodeId="ns=1;s=Demo.MainStatic.Scalar.Float" BrowseName="1:Float" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Float</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Float>12.34</uax:Float>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Guid" NodeId="ns=1;s=Demo.Static.Scalar.Guid" BrowseName="1:Guid" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Guid" NodeId="ns=1;s=Demo.MainStatic.Scalar.Guid" BrowseName="1:Guid" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Guid</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Guid>
@@ -1441,51 +1441,51 @@ const nodeset = `
             </uax:Guid>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Int16" NodeId="ns=1;s=Demo.Static.Scalar.Int16" BrowseName="1:Int16" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Int16" NodeId="ns=1;s=Demo.MainStatic.Scalar.Int16" BrowseName="1:Int16" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Int16</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Int16>0</uax:Int16>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Int32" NodeId="ns=1;s=Demo.Static.Scalar.Int32" BrowseName="1:Int32" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Int32" NodeId="ns=1;s=Demo.MainStatic.Scalar.Int32" BrowseName="1:Int32" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Int32</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Int32>0</uax:Int32>
         </Value>
     </UAVariable>
-    <UAVariable DataType="Int64" NodeId="ns=1;s=Demo.Static.Scalar.Int64" BrowseName="1:Int64" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="Int64" NodeId="ns=1;s=Demo.MainStatic.Scalar.Int64" BrowseName="1:Int64" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Int64</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Int64>0</uax:Int64>
         </Value>
     </UAVariable>
-    <!-- <UAVariable DataType="Integer" NodeId="ns=1;s=Demo.Static.Scalar.Integer" BrowseName="1:Integer" UserAccessLevel="3" AccessLevel="3">
+    <!-- <UAVariable DataType="Integer" NodeId="ns=1;s=Demo.MainStatic.Scalar.Integer" BrowseName="1:Integer" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Integer</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Int16>321</uax:Int16>
         </Value>
     </UAVariable> -->
-    <UAVariable DataType="LocalizedText" NodeId="ns=1;s=Demo.Static.Scalar.LocalizedText" BrowseName="1:LocalizedText" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="LocalizedText" NodeId="ns=1;s=Demo.MainStatic.Scalar.LocalizedText" BrowseName="1:LocalizedText" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>LocalizedText</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:LocalizedText>
@@ -1494,11 +1494,11 @@ const nodeset = `
             </uax:LocalizedText>
         </Value>        
     </UAVariable>
-    <UAVariable DataType="NodeId" NodeId="ns=1;s=Demo.Static.Scalar.NodeId" BrowseName="1:NodeId" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="NodeId" NodeId="ns=1;s=Demo.MainStatic.Scalar.NodeId" BrowseName="1:NodeId" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>NodeId</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:NodeId>
@@ -1506,21 +1506,21 @@ const nodeset = `
             </uax:NodeId>
         </Value> 
     </UAVariable>
-    <!-- <UAVariable DataType="Number" NodeId="ns=1;s=Demo.Static.Scalar.Number" BrowseName="1:Number" UserAccessLevel="3" AccessLevel="3">
+    <!-- <UAVariable DataType="Number" NodeId="ns=1;s=Demo.MainStatic.Scalar.Number" BrowseName="1:Number" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Number</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Float>12.34</uax:Float>
         </Value>
     </UAVariable> -->
-    <UAVariable DataType="QualifiedName" NodeId="ns=1;s=Demo.Static.Scalar.QualifiedName" BrowseName="1:QualifiedName" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="QualifiedName" NodeId="ns=1;s=Demo.MainStatic.Scalar.QualifiedName" BrowseName="1:QualifiedName" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>QualifiedName</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:QualifiedName>
@@ -1529,81 +1529,81 @@ const nodeset = `
             </uax:QualifiedName>
         </Value>
     </UAVariable>
-    <UAVariable DataType="SByte" NodeId="ns=1;s=Demo.Static.Scalar.SByte" BrowseName="1:SByte" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="SByte" NodeId="ns=1;s=Demo.MainStatic.Scalar.SByte" BrowseName="1:SByte" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>SByte</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:SByte>0</uax:SByte>
         </Value>
     </UAVariable>
-    <UAVariable DataType="String" NodeId="ns=1;s=Demo.Static.Scalar.String" BrowseName="1:String" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="String" NodeId="ns=1;s=Demo.MainStatic.Scalar.String" BrowseName="1:String" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>String</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:String>Take Care</uax:String>
         </Value>
     </UAVariable>
-    <UAVariable DataType="UInt16" NodeId="ns=1;s=Demo.Static.Scalar.UInt16" BrowseName="1:UInt16" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="UInt16" NodeId="ns=1;s=Demo.MainStatic.Scalar.UInt16" BrowseName="1:UInt16" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInt16</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:UInt16>0</uax:UInt16>
         </Value>
     </UAVariable>
-    <UAVariable DataType="UInt32" NodeId="ns=1;s=Demo.Static.Scalar.UInt32" BrowseName="1:UInt32" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="UInt32" NodeId="ns=1;s=Demo.MainStatic.Scalar.UInt32" BrowseName="1:UInt32" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInt32</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:UInt32>0</uax:UInt32>
         </Value>
     </UAVariable>
-    <UAVariable DataType="UInt64" NodeId="ns=1;s=Demo.Static.Scalar.UInt64" BrowseName="1:UInt64" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="UInt64" NodeId="ns=1;s=Demo.MainStatic.Scalar.UInt64" BrowseName="1:UInt64" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInt64</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:UInt64>0</uax:UInt64>
         </Value>
     </UAVariable>
-    <!-- <UAVariable DataType="UInteger" NodeId="ns=1;s=Demo.Static.Scalar.UInteger" BrowseName="1:UInteger" UserAccessLevel="3" AccessLevel="3">
+    <!-- <UAVariable DataType="UInteger" NodeId="ns=1;s=Demo.MainStatic.Scalar.UInteger" BrowseName="1:UInteger" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>UInteger</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:UInt32>433221</uax:UInt32>
         </Value>
     </UAVariable> -->
-    <!-- <UAVariable DataType="i=24" NodeId="ns=1;s=Demo.Static.Scalar.Variant" BrowseName="1:Variant" UserAccessLevel="3" AccessLevel="3">
+    <!-- <UAVariable DataType="i=24" NodeId="ns=1;s=Demo.MainStatic.Scalar.Variant" BrowseName="1:Variant" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>Variant</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:Int32>-4455</uax:Int32>
         </Value>
     </UAVariable> -->
-    <UAVariable DataType="XmlElement" NodeId="ns=1;s=Demo.Static.Scalar.XmlElement" BrowseName="1:XmlElement" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="XmlElement" NodeId="ns=1;s=Demo.MainStatic.Scalar.XmlElement" BrowseName="1:XmlElement" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>XmlElement</DisplayName>
         <References>
             <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.Static.Scalar</Reference>
+            <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=Demo.MainStatic.Scalar</Reference>
         </References>
         <Value>
             <uax:XmlElement><foo>bar</foo></uax:XmlElement>
@@ -1694,14 +1694,14 @@ const nodeset = `
   <UAView NodeId="ns=1;s=Demo.View1" BrowseName="1:View1" >
     <DisplayName>View1</DisplayName>
     <References>
-      <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Arrays</Reference>
+      <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Arrays</Reference>
       <Reference ReferenceType="Organizes" IsForward="false">i=87</Reference>
     </References>
   </UAView>
   <UAView NodeId="ns=1;s=Demo.View2" BrowseName="1:View2" >
     <DisplayName>View2</DisplayName>
     <References>
-      <Reference ReferenceType="Organizes">ns=1;s=Demo.Static.Scalar</Reference>
+      <Reference ReferenceType="Organizes">ns=1;s=Demo.MainStatic.Scalar</Reference>
       <Reference ReferenceType="Organizes" IsForward="false">i=87</Reference>
     </References>
   </UAView>

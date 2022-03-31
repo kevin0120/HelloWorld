@@ -14,7 +14,7 @@ const (
 	Acetaminophen = Paracetamol
 )
 
-func main()  {
+func main() {
 	fmt.Println(Placebo.String())
 	fmt.Println(Aspirin.String())
 	fmt.Println(Ibuprofen.String())

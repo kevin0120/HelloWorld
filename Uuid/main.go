@@ -28,8 +28,6 @@ func GenerateID3() string {
 	return base64.RawURLEncoding.EncodeToString(u4.Bytes())
 }
 
-
-
 func main() {
 	for i := 0; i < 1; i++ {
 		fmt.Println(i+1, ".", GenerateID())

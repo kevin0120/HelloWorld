@@ -29,7 +29,6 @@ func main() {
 
 	//testBigString(s)
 
-
 	//B:= []byte{0x4A, 0x01, 0x5D, 0x1a, 0x01, 0x01, 0x4c, 0x01, 0x50, 0xfa, 0x01, 0x01}
 	scanner := bufio.NewScanner(bytes.NewReader([]byte(s)))
 
@@ -68,25 +67,19 @@ func dropCR(data []byte) []byte {
 	return data
 }
 
-
-
-func testBigString(s string){
+func testBigString(s string) {
 	newBuf := make([]byte, 9)
 	scanner := bytes.NewReader([]byte(s))
-	for  {
+	for {
 
+		n, err := scanner.Read(newBuf)
 
-	n,err:=scanner.Read(newBuf)
+		fmt.Println(n, "@@@@@@@@@@@@@", newBuf[0:n])
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
 
-	fmt.Println(n,"@@@@@@@@@@@@@",newBuf[0:n])
-	if err!=nil{
-		fmt.Println(err)
-		break
 	}
-
-	}
-
-
 
 }
-

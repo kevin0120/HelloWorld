@@ -6,7 +6,6 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-
 func main() {
 	conn, err := amqp.Dial("amqp://admin:admin@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")

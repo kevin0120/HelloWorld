@@ -33,12 +33,11 @@ func main() {
 	defer c.Close()
 	log.Printf("conn %d: connection from %s", c.ID(), c.RemoteAddr())
 
-	a,_:=c.Receive()
+	a, _ := c.Receive()
 
 	resultData, _ := hex.DecodeString(string(a))
 
 	fmt.Println(resultData)
-
 
 	// if err != nil {
 	// 	log.Fatal(err)

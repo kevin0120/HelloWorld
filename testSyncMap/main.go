@@ -1,10 +1,10 @@
 package main
 
-
 import (
 	"fmt"
 	"sync"
 )
+
 func main() {
 	var scene sync.Map
 	// 将键值对保存到sync.Map

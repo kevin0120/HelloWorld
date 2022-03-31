@@ -30,7 +30,6 @@ import (
 //	*/
 //}
 
-
 func square(op int) int {
 	return op * op
 }
@@ -43,6 +42,5 @@ func TestSquareWithAssert(t *testing.T) {
 		assert.Equal(t, expected[i], ret)
 	}
 }
-
 
 // 利用+=连接

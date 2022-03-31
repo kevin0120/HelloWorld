@@ -19,6 +19,7 @@ const (
 	rack      = 0
 	slot      = 1
 )
+
 // slot 2 for 300/400, slot 1 for 1200/1500
 // conn.initiateConnection({port: 102, host: '192.168.0.2', localTSAP: 0x0100, remoteTSAP: 0x0200, timeout: 8000, doNotOptimize: true}, connected);
 // local and remote TSAP can also be directly specified instead. The timeout option specifies the TCP timeout.
@@ -77,7 +78,7 @@ func TestMultiTCPClient(t *testing.T) {
 	client, ok := cli.(gos7.Client)
 	if exist && ok {
 		buf := make([]byte, 255)
-		client.AGReadDB(200, 34, 4,  buf)
+		client.AGReadDB(200, 34, 4, buf)
 		var s7 gos7.Helper
 		var result float32
 		s7.GetValueAt(buf, 0, &result)

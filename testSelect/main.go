@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 )
+
 //发送者
 func sender(c chan int) {
 	for i := 0; i < 100; i++ {
@@ -15,7 +16,6 @@ func sender(c chan int) {
 		}
 	}
 }
-
 
 func main() {
 	c := make(chan int)

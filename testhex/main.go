@@ -17,4 +17,3 @@ func main() {
 	// 将 byte 转换 为字符串 输出结果
 	println(string(hexData))
 }
-
