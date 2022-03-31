@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
 project(Cmake)
+#C++测试出来的库文件cgo调用不了,且源文件后缀名要为.c  c++需要与extern "C" 结合使用
+#set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_C_STANDARD 99)
 
-set(CMAKE_CXX_STANDARD 14)
-
-set(SOURCE_FILES src/library.cpp)
+set(SOURCE_FILES src/library.c)
 
 add_library(spc_lib_obj OBJECT "")
 target_compile_options(spc_lib_obj PRIVATE -fPIC)
@@ -24,8 +25,8 @@ add_library(spc_libStatic STATIC $<TARGET_OBJECTS:spc_lib_obj>)
 set_target_properties(spc_libStatic PROPERTIES OUTPUT_NAME spc_lib)
 
 
-
-add_executable(Cmake main.cpp)
+#后缀名要对应起来 c或者cpp
+add_executable(Cmake main.c)
 target_link_directories(Cmake PRIVATE ${CMAKE_BINARY_DIR})
 
 #静态编译

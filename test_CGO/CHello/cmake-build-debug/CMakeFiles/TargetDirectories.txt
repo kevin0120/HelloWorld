@@ -1,0 +1,6 @@
+D:/Code/lianxi/CHello/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/Code/lianxi/CHello/cmake-build-debug/CMakeFiles/spc_libStatic.dir
+D:/Code/lianxi/CHello/cmake-build-debug/CMakeFiles/spc_lib_obj.dir
+D:/Code/lianxi/CHello/cmake-build-debug/CMakeFiles/spc_lib.dir
+D:/Code/lianxi/CHello/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Code/lianxi/CHello/cmake-build-debug/CMakeFiles/Cmake.dir
