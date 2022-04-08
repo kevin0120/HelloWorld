@@ -11,3 +11,7 @@ packr2 build  ./main.go --legacy 可以生成可执行文件
 
 
 go 包运行顺序  同一个package的所有import ---最末端的文件的全局变量--最末端的init---上层的init
+
+
+windows 动态链接库的路径
+https://blog.csdn.net/u013195275/article/details/106921386/
