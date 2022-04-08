@@ -1,4 +1,4 @@
-module HelloWorld
+module github.com/kevin0120/HelloWorld
 
 go 1.16
 
