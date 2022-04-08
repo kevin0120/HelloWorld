@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	excelFileName := "/home/kevin/Downloads/gopath/src/HelloWorld/testExcel/1.xls"
+	excelFileName := "./testExcel/toExcel/1.xlsx"
 	xlFile, err := xlsx.OpenFile(excelFileName)
 	if err != nil {
 		panic(err)
@@ -43,7 +43,7 @@ func main() {
 			row.AddCell().Value = "hello world!"
 		}
 	}
-	err = xlFile.Save("/home/kevin/Downloads/gopath/src/HelloWorld/testExcel/1.xls")
+	err = xlFile.Save("./testExcel/toExcel/1.xlsx")
 	if err != nil {
 		fmt.Printf(err.Error())
 	}

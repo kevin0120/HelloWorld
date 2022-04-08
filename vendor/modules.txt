@@ -59,6 +59,9 @@ github.com/aymerick/raymond/parser
 github.com/bep/debounce
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
+# github.com/davyxu/tabtoy v0.0.0-20220329142512-fede1c8f7212
+## explicit
+github.com/davyxu/tabtoy/v3/api/golang
 # github.com/djherbis/buffer v1.2.0
 github.com/djherbis/buffer
 github.com/djherbis/buffer/limio

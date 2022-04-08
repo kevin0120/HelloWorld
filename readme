@@ -3,3 +3,5 @@ https://www.cnblogs.com/walterlv/p/10236470.html
 
 或者 goreleaser release --snapshot 不加标签
 https://goreleaser.com/customization/templates/
+
+go get 出来的tag必须是 v1.1.1格式的tag才可以

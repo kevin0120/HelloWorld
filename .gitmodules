@@ -16,3 +16,6 @@
 [submodule "go_s7/github"]
 	path = go_s7/github
 	url = git@github.com:robinson/gos7.git
+[submodule "testExcel/fromExcel/tabtoy"]
+	path = testExcel/fromExcel/tabtoy
+	url = git@github.com:davyxu/tabtoy.git

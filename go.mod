@@ -10,6 +10,7 @@ require (
 	github.com/alibabacloud-go/tea-utils v1.4.4
 	github.com/awcullen/opcua v0.5.0-beta
 	github.com/bep/debounce v1.2.0
+	github.com/davyxu/tabtoy v0.0.0-20220329142512-fede1c8f7212
 	github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
 	github.com/go-ini/ini v1.66.4 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
