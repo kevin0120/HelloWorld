@@ -11,7 +11,7 @@ func Index(ctx iris.Context, session *sessions.Session) {
 	// if the entry with key 'visits' doesn't exist it will create it for you.
 	visits := session.Increment("visits", 1)
 
-	// write the current, updated visits.
+	// write-read the current, updated visits.
 	ctx.Writef("%d visit(s) from my current session", visits)
 }
 

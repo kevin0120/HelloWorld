@@ -12,7 +12,7 @@ import (
 // https://github.com/kataras/iris/blob/master/_examples/hello-world/main.go
 //
 // It seems that additional code you
-// have to write doesn't worth it
+// have to write-read doesn't worth it
 // but remember that, this example
 // does not make use of iris mvc features like
 // the Model, Persistence or the View engine neither the Session,

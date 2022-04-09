@@ -41,7 +41,7 @@ type movieMemoryRepository struct {
 const (
 	// ReadOnlyMode will RLock(read) the data .
 	ReadOnlyMode = iota
-	// ReadWriteMode will Lock(read/write) the data.
+	// ReadWriteMode will Lock(read/write-read) the data.
 	ReadWriteMode
 )
 

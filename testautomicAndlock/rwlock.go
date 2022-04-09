@@ -34,10 +34,10 @@ func read(i int) {
 }
 
 func write(i int) {
-	fmt.Println(i, "write start")
+	fmt.Println(i, "write-read start")
 	m.Lock()
 	fmt.Println(i, "writing")
 	time.Sleep(1 * time.Second)
 	m.Unlock()
-	fmt.Println(i, "write end")
+	fmt.Println(i, "write-read end")
 }

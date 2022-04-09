@@ -124,7 +124,7 @@ func writeStatusCodes(statusCodes []statusCode, filename string) {
 		log.Fatalf("Failed to generate statusCodes: %s", err)
 	}
 	if err := ioutil.WriteFile(filename, b.Bytes(), 0644); err != nil {
-		log.Fatalf("Failed to write '%s': %v", filename, err)
+		log.Fatalf("Failed to write-read '%s': %v", filename, err)
 	}
 }
 
@@ -158,7 +158,7 @@ func writeNodeIDs(nodeIDs []nodeID, filename string) {
 		log.Fatalf("Failed to generate nodeids: %s", err)
 	}
 	if err := ioutil.WriteFile(filename, b.Bytes(), 0644); err != nil {
-		log.Fatalf("Failed to write '%s': %v", filename, err)
+		log.Fatalf("Failed to write-read '%s': %v", filename, err)
 	}
 }
 
@@ -170,7 +170,7 @@ func writeEnums(enums []*enumType, filename string) {
 		log.Fatalf("Failed to generate enums: %s", err)
 	}
 	if err := ioutil.WriteFile(filename, b.Bytes(), 0644); err != nil {
-		log.Fatalf("Failed to write '%s': %v", filename, err)
+		log.Fatalf("Failed to write-read '%s': %v", filename, err)
 	}
 }
 
@@ -182,7 +182,7 @@ func writeStructs(structs []*structType, filename string) {
 		log.Fatalf("Failed to generate structs: %s", err)
 	}
 	if err := ioutil.WriteFile(filename, b.Bytes(), 0644); err != nil {
-		log.Fatalf("Failed to write '%s': %v", filename, err)
+		log.Fatalf("Failed to write-read '%s': %v", filename, err)
 	}
 }
 

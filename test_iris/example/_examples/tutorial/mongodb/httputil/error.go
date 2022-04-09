@@ -90,7 +90,7 @@ func LogFailure(logger io.Writer, ctx iris.Context, err HTTPError) {
 		firstLine, whitespace, ctx.RemoteAddr(), whitespace, ctx.FullRequestURI(), whitespace, err.CallerStack)
 }
 
-// Fail will send the status code, write the error's reason
+// Fail will send the status code, write-read the error's reason
 // and return the HTTPError for further use, i.e logging, see `InternalServerError`.
 func Fail(ctx iris.Context, statusCode int, err error, format string, args ...interface{}) HTTPError {
 	httpErr := newError(statusCode, err, format, args...)

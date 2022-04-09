@@ -101,7 +101,7 @@ func ClientReadIntDB(client gos7.Client) {
 	fmt.Printf("读到DB2710中的某段数据为%s\n", result)
 }
 
-//ClientTestWriteIntDB client test write int
+//ClientTestWriteIntDB client test write-read int
 func ClientWriteIntDB(client gos7.Client, value int16) {
 	time.Sleep(1 * time.Second)
 	address := 2710

@@ -25,7 +25,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		for {
 			err = c.WriteMessage(1, []byte("jfddlsdlsjfsdffsl"))
 			if err != nil {
-				log.Println("write:", err)
+				log.Println("write-read:", err)
 				break
 			}
 			time.Sleep(2 * time.Second)
@@ -40,7 +40,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		log.Printf("recv: %s", message)
 		err = c.WriteMessage(mt, message)
 		if err != nil {
-			log.Println("write:", err)
+			log.Println("write-read:", err)
 			break
 		}
 	}

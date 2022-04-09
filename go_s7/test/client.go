@@ -14,7 +14,7 @@ import (
 
 //ClientTestAll client test all
 func ClientTestAll(t *testing.T, client gos7.Client) {
-	//write value to 100
+	//write-read value to 100
 	//ClientTestWriteIntDB(t, client, 100)
 	//read and assert with 100
 	//ClientTestReadIntDB(t, client)
@@ -28,13 +28,13 @@ func ClientTestAll(t *testing.T, client gos7.Client) {
 	//ClientTestGetAGBlockInfo(t, client)
 	//get PLC status
 	ClientPLCGetStatus(t, client)
-	////multi write to DB2710 -> 1, DB2810 ->2
+	////multi write-read to DB2710 -> 1, DB2810 ->2
 	//ClientAGWriteMulti(t, client)
 	////multi read
 	//ClientAGReadMulti(t, client)
 }
 
-//ClientTestWriteIntDB client test write int
+//ClientTestWriteIntDB client test write-read int
 func ClientTestWriteIntDB(t *testing.T, client gos7.Client, value int16) {
 	address := 2710
 	start := 8

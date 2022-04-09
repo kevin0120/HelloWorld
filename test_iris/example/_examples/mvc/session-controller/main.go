@@ -29,7 +29,7 @@ func (c *VisitController) Get() string {
 	// it increments a "visits" value of integer by one,
 	// if the entry with key 'visits' doesn't exist it will create it for you.
 	visits := c.Session.Increment("visits", 1)
-	// write the current, updated visits.
+	// write-read the current, updated visits.
 	since := time.Now().Sub(c.StartTime).Seconds()
 	return fmt.Sprintf("%d visit(s) from my current session in %0.1f seconds of server's up-time",
 		visits, since)
