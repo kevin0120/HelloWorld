@@ -19,3 +19,7 @@
 [submodule "testExcel/fromExcel/tabtoy"]
 	path = testExcel/fromExcel/tabtoy
 	url = git@github.com:davyxu/tabtoy.git
+[submodule "testExcel/fromandtoexcel/source"]
+	path = testExcel/fromandtoexcel/source
+	url = git@github.com:qax-os/excelize.git
+	branch = v2

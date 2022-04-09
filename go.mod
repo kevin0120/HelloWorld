@@ -46,6 +46,7 @@ require (
 	github.com/stretchr/testify v1.7.1
 	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 	github.com/tealeg/xlsx v1.0.5
+	github.com/xuri/excelize/v2 v2.5.0
 	go.uber.org/atomic v1.9.0
 	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064
 	golang.org/x/net v0.0.0-20220325170049-de3da57026de

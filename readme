@@ -5,3 +5,12 @@ https://www.cnblogs.com/walterlv/p/10236470.html
 https://goreleaser.com/customization/templates/
 
 go get 出来的tag必须是 v1.1.1格式的tag才可以
+
+go get 会build根目录下的main文件，生成exe放在gopath/bin目录下
+
+go get 后面可以加分支比如github.com/xuri/excelize/v2 取最新的tag
+
+git submodule可以指定分支 ：git submodule add -b v2 git@github.com:qax-os/excelize.git testExcel/fromandtoexcel/source
+
+git lfs git 大文件处理
+https://www.jianshu.com/p/493b81544f80

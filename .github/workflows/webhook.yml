@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-#https://docs:github:com/cn/rest/reference/repos#branches:
+#https://docs.github.com/en/rest/reference/repos#create-a-repository-dispatch-event:
 #      accecpt:application/vnd:github:v3+json:
 #      post https://api:github:com/repos/kevin0120/HelloWorld/dispatches:
 #          {
