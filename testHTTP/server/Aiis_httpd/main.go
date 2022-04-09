@@ -84,7 +84,7 @@ func main() {
 	*/
 	//app := iris.New()
 	// Attach the file as logger, remember, iris' app logger is just an io.Writer.
-	// Use the following code if you need to write-read the logs to file and console at the same time.
+	// Use the following code if you need to write the logs to file and console at the same time.
 	// app.Logger().SetOutput(io.MultiWriter(f, os.Stdout))
 
 	//app.Logger().SetOutput(f)

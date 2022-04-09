@@ -12,8 +12,8 @@ func main() {
 	/*
 		// Exactly one of O_RDONLY, O_WRONLY, or O_RDWR must be specified.
 		O_RDONLY int = syscall.O_RDONLY // open the file read-only.
-		O_WRONLY int = syscall.O_WRONLY // open the file write-read-only.
-		O_RDWR   int = syscall.O_RDWR   // open the file read-write-read.
+		O_WRONLY int = syscall.O_WRONLY // open the file write-only.
+		O_RDWR   int = syscall.O_RDWR   // open the file read-write.
 		 //The remaining values may be or'ed in to control behavior.
 		O_APPEND int = syscall.O_APPEND // append data to the file when writing.
 		O_CREATE int = syscall.O_CREAT  // create a new file if none exists.

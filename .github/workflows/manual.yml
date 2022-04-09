@@ -128,10 +128,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write-read
+      packages: write
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
-      id-token: write-read
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

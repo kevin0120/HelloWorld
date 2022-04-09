@@ -90,7 +90,7 @@ func generate_cert(host string, rsaBits int, certFile, keyFile string) {
 		log.Fatalf("failed to open %s for writing: %s", certFile, err)
 	}
 	if err := pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes}); err != nil {
-		log.Fatalf("failed to write-read data to %s: %s", certFile, err)
+		log.Fatalf("failed to write data to %s: %s", certFile, err)
 	}
 	if err := certOut.Close(); err != nil {
 		log.Fatalf("error closing %s: %s", certFile, err)
@@ -103,7 +103,7 @@ func generate_cert(host string, rsaBits int, certFile, keyFile string) {
 		return
 	}
 	if err := pem.Encode(keyOut, pemBlockForKey(priv)); err != nil {
-		log.Fatalf("failed to write-read data to %s: %s", keyFile, err)
+		log.Fatalf("failed to write data to %s: %s", keyFile, err)
 	}
 	if err := keyOut.Close(); err != nil {
 		log.Fatalf("error closing %s: %s", keyFile, err)

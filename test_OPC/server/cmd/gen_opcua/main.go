@@ -124,7 +124,7 @@ func writeStatusCodes(statusCodes []statusCode, filename string) {
 		log.Fatalf("Failed to generate statusCodes: %s", err)
 	}
 	if err := ioutil.WriteFile(filename, b.Bytes(), 0644); err != nil {
-		log.Fatalf("Failed to write-read '%s': %v", filename, err)
+		log.Fatalf("Failed to write '%s': %v", filename, err)
 	}
 }
 
