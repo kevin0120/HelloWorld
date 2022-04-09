@@ -10,6 +10,9 @@ go get 会build根目录下的main文件，生成exe放在gopath/bin目录下
 
 go get 后面可以加分支比如github.com/xuri/excelize/v2 取最新的tag
 
+go get 版本管理
+https://zhuanlan.zhihu.com/p/105556877
+
 git submodule可以指定分支 ：git submodule add -b v2 git@github.com:qax-os/excelize.git testExcel/fromandtoexcel/source
 
 git lfs git 大文件处理
