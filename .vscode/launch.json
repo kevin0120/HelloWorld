@@ -12,6 +12,7 @@
             "mode": "auto",
             "remotePath": "",
             "program": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "env": {
                 "GOPATH": "C:/Users/admin/go",
                 "GOROOT": "D:/Go"
