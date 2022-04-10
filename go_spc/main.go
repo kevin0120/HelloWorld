@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/masami10/spc/v2"
 	"github.com/masami10/spc/v2/wrapper/golang/spc"
 )
 

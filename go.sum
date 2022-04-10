@@ -472,8 +472,8 @@ github.com/markbates/oncer v1.0.0 h1:E83IaVAHygyndzPimgUYJjbshhDTALZyXxvk9FOlQRY
 github.com/markbates/oncer v1.0.0/go.mod h1:Z59JA581E9GP6w96jai+TGqafHPW+cPfRxz2aSZ0mcI=
 github.com/markbates/safe v1.0.1 h1:yjZkbvRM6IzKj9tlu/zMJLS0n/V351OZWRnF3QfaUxI=
 github.com/markbates/safe v1.0.1/go.mod h1:nAqgmRi7cY2nqMc92/bSEeQA+R4OheNU2T1kNSCBdG0=
-github.com/masami10/spc/v2 v2.0.3 h1:EiNcPW9wzMoGCGSDv9EBBEVHx3GOC5w0imSd3ygUp8I=
-github.com/masami10/spc/v2 v2.0.3/go.mod h1:9ZdXFTaqBIPvdXoCn+XzemsQ9iAJKa7hHbuqi9dIh5k=
+github.com/masami10/spc/v2 v2.0.5 h1:T2BkzHAiCTIBpTKoGg4XK8Ayljb99/1LQEgcqze8z8Q=
+github.com/masami10/spc/v2 v2.0.5/go.mod h1:9ZdXFTaqBIPvdXoCn+XzemsQ9iAJKa7hHbuqi9dIh5k=
 github.com/matryer/try v0.0.0-20161228173917-9ac251b645a2/go.mod h1:0KeJpeMD6o+O4hW7qJOT7vyQPKrWmj26uf5wMc/IiIs=
 github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaOChaDxuIBZU=
 github.com/mattn/go-colorable v0.1.12/go.mod h1:u5H1YNBxpqRaxsYJYSkiCWKzEfiAb1Gb520KVy5xxl4=

@@ -331,8 +331,11 @@ github.com/markbates/errx
 github.com/markbates/oncer
 # github.com/markbates/safe v1.0.1
 github.com/markbates/safe
-# github.com/masami10/spc/v2 v2.0.3
+# github.com/masami10/spc/v2 v2.0.5
 ## explicit
+github.com/masami10/spc/v2
+github.com/masami10/spc/v2/include
+github.com/masami10/spc/v2/wrapper/golang/libs
 github.com/masami10/spc/v2/wrapper/golang/spc
 # github.com/mediocregopher/radix/v3 v3.8.0
 github.com/mediocregopher/radix/v3

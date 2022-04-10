@@ -21,6 +21,7 @@
     <mapping directory="$PROJECT_DIR$/nats.go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/qcos-deploy" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/testExcel/fromExcel/tabtoy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/testExcel/fromandtoexcel/source" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/testFTP/ftp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/test_OPC/OPX" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/test_OPC/awcullen" vcs="Git" />
