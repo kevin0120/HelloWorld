@@ -1,4 +1,5 @@
 package main
+
 import (
 	"fmt"
 	tabtoy "github.com/davyxu/tabtoy/v3/api/golang"
@@ -25,7 +26,7 @@ func LoadAllTable() {
 		return nil
 	})
 
-	err := tabtoy.LoadFromFile(Tab, "../json/table_gen.json")
+	err := tabtoy.LoadFromFile(Tab, "./testExcel/fromExcel/example/json/table_gen.json")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -37,7 +38,7 @@ func LoadAllTable() {
 // 按指定表加载
 func LoadSpecifiedTable() {
 	var TabData = NewTable()
-	err := tabtoy.LoadTableFromFile(TabData, "../jsondir/ExampleData.json")
+	err := tabtoy.LoadTableFromFile(TabData, "./testExcel/fromExcel/example/jsondir/ExampleData.json")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -55,7 +56,7 @@ func LoadSpecifiedTable() {
 
 	// 分表加载时, 不会触发pre/post Handler
 	var TabKV = NewTable()
-	err = tabtoy.LoadTableFromFile(TabKV, "../jsondir/ExampleKV.json")
+	err = tabtoy.LoadTableFromFile(TabKV, "./testExcel/fromExcel/example/jsondir/ExampleKV.json")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

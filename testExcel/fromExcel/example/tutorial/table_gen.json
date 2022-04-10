@@ -1,0 +1,14 @@
+{
+	"@Tool": "github.com/davyxu/tabtoy",
+	"@Version": "",
+	"MyData": [
+		{
+			"ID": 1,
+			"Name": "坦克"
+		},
+		{
+			"ID": 2,
+			"Name": "法师"
+		}
+	]
+}
