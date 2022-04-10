@@ -2,8 +2,8 @@
 package first
 
 import (
-	_ "HelloWorld/go_import/first/second"
 	"fmt"
+	_ "github.com/kevin0120/HelloWorld/go_import/first/second"
 	"time"
 )
 

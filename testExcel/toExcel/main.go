@@ -3,9 +3,13 @@ package main
 import (
 	"fmt"
 	"github.com/tealeg/xlsx"
+	"os"
 )
 
 func main() {
+	dir,_ := os.Getwd()
+	//D:\Code\lianxi\HelloWorld
+	fmt.Println("当前路径：",dir)
 	excelFileName := "./testExcel/toExcel/1.xlsx"
 	xlFile, err := xlsx.OpenFile(excelFileName)
 	if err != nil {

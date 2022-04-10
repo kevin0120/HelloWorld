@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "HelloWorld/go_import/first"
-	_ "HelloWorld/go_import/third"
 	"fmt"
+	_ "github.com/kevin0120/HelloWorld/go_import/first"
+	_ "github.com/kevin0120/HelloWorld/go_import/third"
 	"time"
 )
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"HelloWorld/DECODE/ascii"
 	"fmt"
+	"github.com/kevin0120/HelloWorld/DECODE/ascii"
 	"strings"
 )
 

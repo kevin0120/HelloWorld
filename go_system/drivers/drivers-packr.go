@@ -5,4 +5,4 @@
 // and any other packr generated files.
 package drivers
 
-import _ "HelloWorld/go_system/drivers/packrd"
+import _ "github.com/kevin0120/HelloWorld/go_system/drivers/packrd"

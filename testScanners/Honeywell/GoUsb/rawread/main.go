@@ -24,8 +24,8 @@ import (
 	"strconv"
 	"strings"
 
-	"HelloWorld/testScanners/Honeywell/GoUsb"
 	"github.com/google/gousb"
+	"github.com/kevin0120/HelloWorld/testScanners/Honeywell/GoUsb"
 )
 
 var (

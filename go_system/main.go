@@ -1,8 +1,8 @@
 package main
 
 import (
-	"HelloWorld/go_system/drivers"
 	"fmt"
+	"github.com/kevin0120/HelloWorld/go_system/drivers"
 	"os"
 )
 

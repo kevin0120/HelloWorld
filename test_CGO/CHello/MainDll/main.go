@@ -31,7 +31,7 @@ void hello2() {
 import "C"
 
 import (
-	_ "HelloWorld/test_CGO/CHello/MainDll/driver"
+	_ "github.com/kevin0120/HelloWorld/test_CGO/CHello/MainDll/driver"
 )
 
 func main() {

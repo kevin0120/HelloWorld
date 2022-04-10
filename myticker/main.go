@@ -1,8 +1,8 @@
 package main
 
 import (
-	"HelloWorld/myticker/testmyticker"
 	"fmt"
+	"github.com/kevin0120/HelloWorld/myticker/testmyticker"
 	"time"
 )
 

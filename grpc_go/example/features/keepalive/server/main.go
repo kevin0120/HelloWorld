@@ -27,7 +27,7 @@ import (
 	"net"
 	"time"
 
-	pb "HelloWorld/grpc_go/example/features/proto/echo"
+	pb "github.com/kevin0120/HelloWorld/grpc_go/example/features/proto/echo"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/keepalive"

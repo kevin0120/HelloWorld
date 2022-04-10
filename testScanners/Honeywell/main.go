@@ -1,10 +1,10 @@
 package main
 
 import (
-	"HelloWorld/testScanners/Honeywell/Com"
-	"HelloWorld/testScanners/Honeywell/GoUsb"
-	"HelloWorld/testScanners/Honeywell/StandardKey"
 	"fmt"
+	"github.com/kevin0120/HelloWorld/testScanners/Honeywell/Com"
+	"github.com/kevin0120/HelloWorld/testScanners/Honeywell/GoUsb"
+	"github.com/kevin0120/HelloWorld/testScanners/Honeywell/StandardKey"
 	"log"
 	"runtime"
 )
