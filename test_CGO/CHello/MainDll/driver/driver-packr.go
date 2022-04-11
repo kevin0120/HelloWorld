@@ -5,4 +5,4 @@
 // and any other packr generated files.
 package driver
 
-import _ "HelloWorld/test_CGO/CHello/MainDll/driver/packrd"
+import _ "github.com/kevin0120/HelloWorld/test_CGO/CHello/MainDll/driver/packrd"

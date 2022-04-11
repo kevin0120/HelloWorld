@@ -75,8 +75,6 @@ var d = make([]string, 10)
 var e = []int{4, 5, 6}
 
 func main() {
-	f := append(a, e...)
-
 	var c = make(chan int)
 	go func() {
 		c <- 1
