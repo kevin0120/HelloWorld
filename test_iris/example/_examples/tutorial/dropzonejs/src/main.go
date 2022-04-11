@@ -99,7 +99,7 @@ func (f *uploadedFiles) createThumbnail(uf uploadedFile) {
 			return
 		}
 
-		// write new image to file
+		// write-read new image to file
 		resized := resize.Thumbnail(180, 180, img, resize.Lanczos3)
 		jpeg.Encode(out, resized,
 			&jpeg.Options{Quality: jpeg.DefaultQuality})
@@ -110,7 +110,7 @@ func (f *uploadedFiles) createThumbnail(uf uploadedFile) {
 			return
 		}
 
-		// write new image to file
+		// write-read new image to file
 		resized := resize.Thumbnail(180, 180, img, resize.Lanczos3) // slower but better res
 		png.Encode(out, resized)
 	}

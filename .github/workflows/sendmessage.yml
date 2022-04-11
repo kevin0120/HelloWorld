@@ -1,0 +1,106 @@
+name: sendmessage
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  #手动
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+env:
+  SCKEY: SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
+  Template: ${{ github.event.inputs.name }}
+#163邮箱授权码
+#  ZBTILWPETIMHPGQI
+jobs:
+  Email_to_others:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Required mail server address:
+          server_address: smtp.163.com
+          # Required mail server port:
+          server_port: 465
+          # Optional (recommended): mail server username:
+          username: ${{secrets.MAIL_USERNAME}}
+          # Optional (recommended) mail server password:
+          password: ${{secrets.MAIL_PASSWORD}}
+          # Required mail subject:
+          subject: Hello ${{ github.event.inputs.name }}
+          # Required recipients' addresses:
+          to: jingwei.yang@leetx.com
+          # Required sender full name (address can be skipped):
+          from: Kevin # <user@example.com>
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional plain body:
+          body: Build job of ${{github.repository}} completed successfully!
+#          # Optional HTML body read from file:
+#          html_body: file://README.html
+          # Optional carbon copy recipients:
+#          cc: kyloren@example.com,leia@example.com
+#          # Optional blind carbon copy recipients:
+#          bcc: r2d2@example.com,hansolo@example.com
+#          # Optional recipient of the email response:
+#          reply_to: luke@example.com
+#          # Optional Message ID this message is replying to:
+#          in_reply_to: <random-luke@example.com>
+#          # Optional unsigned/invalid certificates allowance:
+#          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          # Optional attachments:
+          attachments: attachments.zip,git.diff,./dist/static/*.js
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          priority: low
+
+
+#   https://sct:ftqq:com/
+#  你已经成功开通Server酱，SendKey如下。以后可以在顶部SendKey菜单中查看和重置
+#  SCT134193TanZKtnrIG8n9Fg6NPrFBUGmo
+  Wexin_to_others:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sendweixin
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: https://sctapi.ftqq.com/${{ secrets.SCKEY }}.send
+          method: 'POST'
+          contentType: 'application/x-www-form-urlencoded'
+          data: 'desp=Kevin&title=Hello${{ github.event.inputs.name }}'
+
+
+#https://developer:rongcloud:cn/:   15221753062 zlzk.1579
+#AppKey: p5tvi9dspv7o4
+#App Secret: YOjMOJfcxsS0f
+
+#阿里云
+#  AccessKey ID：LTAI5tMAhS8PwCyN9CPHaxdY
+#  AccessKey Secret：X4jz25XAgNwcBBC9OaRq2MnO8Ojxvm
+
+
+  Message_to_phone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.16
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+        id: go
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+      #      - uses: msys2/setup-msys2@v2
+      #        with:
+      #          update: true
+      - name: send
+        run: |
+          go run ./goPhoneMessage/main.go

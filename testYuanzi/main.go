@@ -1,5 +1,6 @@
 package main
 
+//https://cloud.tencent.com/developer/article/1489456
 import "time"
 
 type Human struct {
@@ -11,43 +12,32 @@ type Human struct {
 func main() {
 	var a Human
 	var b *Human
-
-	go func() {
-
-	}()
-
 	for i := 0; i < 100; i++ {
-
 		go func() {
 			a = Human{
 				sex:  "man",
 				live: 80,
 				tag:  "i am a man",
 			}
-
 			b = &Human{
 				sex:  "girl",
 				live: 89,
 				tag:  "i am a girl",
 			}
 		}()
-
 		go func() {
 			a = Human{
 				sex:  "girl",
 				live: 89,
 				tag:  "i am a girl",
 			}
-
 			b = &Human{
 				sex:  "man",
 				live: 80,
 				tag:  "i am a man",
 			}
 		}()
-
 	}
-
 	for {
 		time.Sleep(1 * time.Second)
 	}

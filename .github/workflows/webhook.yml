@@ -1,0 +1,43 @@
+name: webhook
+on:
+  repository_dispatch:
+    types: [ "**" ]
+jobs:
+
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello World
+        run: |
+          echo My name is P3TERX.
+          echo Hello World!
+          echo '${{ toJSON(github) }}'
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+      - name: Hello World2
+        run: |
+          echo My name is P3TERX. > ./build1/hello.txt
+          echo Hello World! >> ./build1/hello.txt
+          echo '${{ toJSON(github.event) }}' >> ./build1/hello.txt
+
+      - name: release
+        uses: softprops/action-gh-release@v1
+##        可以用event_type来判断是不是对应的分支可以进行处理
+#        if: startsWith(${{ github.event.client_payload.ref }}, 'refs/tags/')
+        with:
+          files: "./build1/**"
+          tag_name: ${{ github.event.client_payload.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+#https://docs.github.com/en/rest/reference/repos#create-a-repository-dispatch-event:
+#      accecpt:application/vnd:github:v3+json:
+#      post https://api:github:com/repos/kevin0120/HelloWorld/dispatches:
+#          {
+#            "event_type": "event_type",
+#            "client_payload":{
+#              "ref":"hellohook"
+#            }
+#          }
+

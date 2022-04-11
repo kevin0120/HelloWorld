@@ -22,7 +22,7 @@ func main() {
 
 	// Serve our controllers.
 	mvc.New(app.Party("/hello")).Handle(new(controllers.HelloController))
-	// You can also split the code you write to configure an mvc.Application
+	// You can also split the code you write-read to configure an mvc.Application
 	// using the `mvc.Configure` method, as shown below.
 	mvc.Configure(app.Party("/movies"), movies)
 

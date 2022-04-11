@@ -24,7 +24,7 @@ type globalVisitorsController struct {
 	// does not have any dynamic struct field dependencies that depend on the iris.Context
 	// and ALL field's values are NOT zero, at this case we use uint64 which it's no zero (even if we didn't set it
 	// manually ease-of-understand reasons) because it's a value of &{0}.
-	// All the above declares a Singleton, note that you don't have to write a single line of code to do this, Iris is smart enough.
+	// All the above declares a Singleton, note that you don't have to write-read a single line of code to do this, Iris is smart enough.
 	//
 	// see `Get`.
 	visits uint64

@@ -24,7 +24,7 @@ func main() {
 				return false // close and flush
 			}
 			i++
-			return true // continue write
+			return true // continue write-read
 		})
 	})
 

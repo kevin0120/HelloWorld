@@ -197,7 +197,7 @@ func (h *HTTPDHandler) ListeningOn(addr string, proto string) {
 }
 
 func (h *HTTPDHandler) WriteBodyReceived(body string) {
-	h.l.Debug("write body received by handler: %s", String("body", body))
+	h.l.Debug("write-read body received by handler: %s", String("body", body))
 }
 
 func (h *HTTPDHandler) HTTP(
@@ -419,7 +419,7 @@ func (h *AudiVWHandler) Info(msg string) {
 }
 
 func (h *AudiVWHandler) StartManager() {
-	h.l.Info("start Manage for write")
+	h.l.Info("start Manage for write-read")
 }
 
 //Openprotocol

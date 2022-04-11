@@ -5,7 +5,6 @@ import (
 	"log"
 	"net"
 	"time"
-
 	//"time"
 )
 
@@ -27,7 +26,7 @@ func echo(conn *net.TCPConn) {
 		_, err := conn.Read(msr[0:])
 		fmt.Println("recieve:", string(msr[0:]))
 		n, err := conn.Write([]byte("world"))
-		fmt.Printf("%v send %d bytes to %s\n",time.Now(), n, conn.RemoteAddr())
+		fmt.Printf("%v send %d bytes to %s\n", time.Now(), n, conn.RemoteAddr())
 		if err != nil {
 			fmt.Println(err)
 			err = conn.Close()

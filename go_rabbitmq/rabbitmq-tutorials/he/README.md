@@ -1,0 +1,48 @@
+# Go code for RabbitMQ tutorials
+
+
+Here you can find Go code examples from [RabbitMQ tutorials](https://www.rabbitmq.com/getstarted.html).
+
+
+## Requirements
+
+These examples use the [`rabbitmq/amqp091-go`](https://github.com/rabbitmq/amqp091-go) client library.
+Get it first with
+
+    go get github.com/rabbitmq/amqp091-go
+
+## Code
+
+Code examples are executed via `go run`:
+
+[Tutorial one: "Hello World!"](https://www.rabbitmq.com/tutorials/tutorial-one-go.html):
+
+    go run send.go
+    go run receive.go
+
+[Tutorial two: Work Queues](https://www.rabbitmq.com/tutorials/tutorial-two-go.html):
+
+    go run new_task.go hello world
+    go run worker.go
+
+[Tutorial three: Publish/Subscribe](https://www.rabbitmq.com/tutorials/tutorial-three-go.html)
+
+    go run receive_logs.go
+    go run emit_log.go hello world
+
+[Tutorial four: Routing](https://www.rabbitmq.com/tutorials/tutorial-four-go.html)
+
+    go run receive_logs_direct.go info warn
+    go run emit_log_direct.go warn "a warning"
+
+[Tutorial five: Topics](https://www.rabbitmq.com/tutorials/tutorial-five-go.html)
+
+    go run receive_logs_topic.go "kern.*" "*.critical"
+    go run emit_log_topic.go kern.critical "A critical kernel error"
+
+[Tutorial six: RPC](https://www.rabbitmq.com/tutorials/tutorial-six-go.html)
+
+    go run rpc_server.go
+    go run rpc_client.go 10
+
+To learn more, see [`rabbitmq/amqp091-go`](https://github.com/rabbitmq/amqp091-go).

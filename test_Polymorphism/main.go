@@ -13,11 +13,11 @@ type Animal struct {
 }
 
 func (this *Animal) Sleep() {
-	fmt.Println("Animal need sleep",this.MaxAge)
+	fmt.Println("Animal need sleep", this.MaxAge)
 }
 
 type Dog struct {
-	 Animal
+	Animal
 }
 
 //func (this *Dog) Sleep() {

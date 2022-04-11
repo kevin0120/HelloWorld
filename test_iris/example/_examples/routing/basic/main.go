@@ -126,7 +126,7 @@ func newApp() *iris.Application {
 	})
 
 	// subdomains, easier than ever, should add localhost or 127.0.0.1 into your hosts file,
-	// etc/hosts on unix or C:/windows/system32/drivers/etc/hosts on windows.
+	// etc/hosts on unix or C:/windows/system32/driver/etc/hosts on windows.
 	v1 := app.Party("v1.")
 	{ // braces are optional, it's just type of style, to group the routes visually.
 

@@ -190,7 +190,7 @@ func main() {
 		case t := <-ticker.C:
 			err := c.WriteMessage(websocket.TextMessage, []byte(t.String()))
 			if err != nil {
-				log.Println("write:", err)
+				log.Println("write-read:", err)
 				return
 			}
 		case <-interrupt:
@@ -200,7 +200,7 @@ func main() {
 			// waiting (with timeout) for the server to close the connection.
 			err := c.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
 			if err != nil {
-				log.Println("write close:", err)
+				log.Println("write-read close:", err)
 				return
 			}
 			select {

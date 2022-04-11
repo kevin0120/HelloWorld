@@ -35,14 +35,14 @@ func main() {
 	db.Create(&Product{Code: "L1212", Price: 1000})
 
 	// Read
-	for  {
+	for {
 		fmt.Println(db.DB().Ping())
-	product :=Product{}
-	db.First(&product, 1)                   // find product with id 1
-	db.First(&product, "code = ?", "L1212")
-	fmt.Println(&product,product)
-	time.Sleep(5*time.Second)
-	// find product with code l1212
+		product := Product{}
+		db.First(&product, 1) // find product with id 1
+		db.First(&product, "code = ?", "L1212")
+		fmt.Println(&product, product)
+		time.Sleep(5 * time.Second)
+		// find product with code l1212
 	}
 	//// Update - update product's price to 2000
 	//db.Model(&product).Update("Price", 2000)

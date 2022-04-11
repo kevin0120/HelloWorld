@@ -52,7 +52,7 @@ func indexHandler(ctx iris.Context) {
 	// take the info from the "before" handler.
 	info := ctx.Values().GetString("info")
 
-	// write something to the client as a response.
+	// write-read something to the client as a response.
 	ctx.HTML("<h1>Response</h1>")
 	ctx.HTML("<br/> Info: " + info)
 
@@ -62,7 +62,7 @@ func indexHandler(ctx iris.Context) {
 func contactHandler(ctx iris.Context) {
 	println("Inside contactHandler")
 
-	// write something to the client as a response.
+	// write-read something to the client as a response.
 	ctx.HTML("<h1>Contact</h1>")
 
 	ctx.Next() // execute the "after" handler registered via `DoneGlobal`.

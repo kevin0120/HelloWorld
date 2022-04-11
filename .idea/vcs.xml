@@ -3,16 +3,28 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SourceCodeofMongoRedis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_Mqtt/github" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/Go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/go-algorithm" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/go-design-pattern" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/intermediate_go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/learning_tools" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_github/over-golang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_pkg/go_pkg/stdpkg-example" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_pkg/stdpkg-example" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_s7/github" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_sevendays" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/goexample/code" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/goexample/go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gorilla_websocket" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/modbus" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/nats.go" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/qcos-deploy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/testExcel/fromExcel/tabtoy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/testExcel/fromandtoexcel/source" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/testFTP/ftp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test_OPC/OPX" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test_OPC/awcullen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/traefik" vcs="Git" />
   </component>
 </project>

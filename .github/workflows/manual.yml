@@ -1,0 +1,208 @@
+# This is a basic workflow that is manually triggered
+#https://docs.github.com/en/actions/using-workflows/triggering-a-workflow
+name: manual
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  # push操作
+  push:
+#    branches:
+#      - '**'
+#      - main
+#      - 'releases/**'
+    tags:
+      - v*.**
+  #手动
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+env:
+  DAY_OF_WEEK: Monday
+
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+#  Explore-GitHub-Actions:
+#    runs-on: ubuntu-latest
+#    steps:
+#      # Runs a single command using the runners shell
+#      - name: Send greeting
+#        run: echo "Hello ${{ github.event.inputs.name }}"
+#      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+#      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+#      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+#      - name: Check out repository code
+#        uses: actions/checkout@v2
+#      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+#      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+#      - name: List files in the repository
+#        run: |
+#          ls ${{ github.workspace }}
+#      - run: echo "🍏 This job's status is ${{ job.status }}."
+#
+#  check-bats-version:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-node@v2
+#        with:
+#          node-version: '14'
+#      - run: npm install -g bats
+#      - run: bats -v
+#
+#  job1:
+#    runs-on: ubuntu-latest
+#    # Map a step output to a job output
+#    outputs:
+#      output1: ${{ steps.step1.outputs.test }}
+#      output2: ${{ steps.step2.outputs.test }}
+#    steps:
+#      - id: step1
+#        run: echo "::set-output name=test::hello"
+#      - id: step2
+#        run: echo "::set-output name=test::world"
+#  job2:
+#    runs-on: ubuntu-latest
+#    needs: job1
+#    steps:
+#      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+#
+#  greeting_job:
+#    runs-on: ubuntu-latest
+#    env:
+#      Greeting: Hello
+#    steps:
+#      - name: "Say Hello Mona it's Monday"
+#        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+#        env:
+#          First_Name: Mona
+  Contexts_to_log:
+    runs-on: ubuntu-latest
+    #          在仓库的setting中配置环境，里面有一个H3变量
+    environment: h2
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+      - name: Dump secrets context
+        run: echo '${{ toJSON(secrets) }}'
+      - name: Dump env context
+        run: echo '${{ toJSON(env) }}'
+
+
+
+  EnvironmentVariable:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "$CI*****************$GITHUB_ACTION*************$GITHUB_ACTION_PATH"
+      - run: echo "$GITHUB_ACTION_REPOSITORY*****************$GITHUB_ACTIONS*************$GITHUB_ACTOR"
+      - run: echo "$GITHUB_API_URL*****************$GITHUB_BASE_REF*************$GITHUB_ENV"
+      - run: echo "$GITHUB_EVENT_NAME*****************$GITHUB_EVENT_PATH*************$GITHUB_GRAPHQL_URL"
+      - run: echo "$GITHUB_HEAD_REF*****************$GITHUB_JOB*************$GITHUB_PATH"
+      - run: echo "$GITHUB_REF*****************$GITHUB_REF_NAME*************$GITHUB_REPOSITORY"
+      - run: echo "$RUNNER_ARCH*****************$RUNNER_NAME*************$RUNNER_TOOL_CACHE"
+      - run: echo "${{ secrets.PAT }}"
+
+  DockerBuild:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Workaround: https://github.com/docker/build-push-action/issues/461
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+      #Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+  WindowsBuild:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Go 1.16
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+        id: go
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+#      - uses: msys2/setup-msys2@v2
+#        with:
+#          update: true
+#      - name: Build for windows
+#        if: matrix.os == 'windows-2016'
+#        run: |
+#          go build -o ./build/HelloWorld.exe ./main.go
+#      - name: Build for ubuntu
+#        if: matrix.os == 'ubuntu-latest'
+#        run: |
+#          go build -o ./build/HelloWorld ./main.go
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: rush_dist
+#          path: "./build/**"
+#          retention-days: 5
+#          if-no-files-found: error
+
+#   必须与根目录下的goreleaser.yml结合使用，否则只能使用默认参数
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

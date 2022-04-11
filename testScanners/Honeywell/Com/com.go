@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 //　　dmesg find com,　sudo chmod 777 /dev/ttyACM0
 //修改权限为可读可写可执行，但是这种设置电脑重启后，又会出现这种问题，还要重新设置．因此查询资料，可以用下面这条指令：
 //
@@ -15,10 +14,9 @@ import (
 
 //windows下需要在官网上下载驱动
 
-
 type Com struct {
 	Name string
-	port    *serial.Port
+	port *serial.Port
 }
 
 func (s1 *Com) Connect() {

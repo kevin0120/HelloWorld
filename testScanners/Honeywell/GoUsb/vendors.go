@@ -61,7 +61,6 @@ var keymap = map[byte][]string{
 	56: {"/", "?"},
 }
 
-
 func CommonParse(buf []byte) (string, error) {
 	v := buf[IndexTarget]
 	if v == 0 || keymap[v] == nil {
@@ -75,8 +74,6 @@ func CommonParse(buf []byte) (string, error) {
 
 	return str, nil
 }
-
-
 
 func (s1 *GoUsb) ResetDebounce() {
 	if s1.init {

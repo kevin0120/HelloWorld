@@ -28,8 +28,6 @@ type Scanner struct {
 // udev device permissions
 //　　sudo usermod -aG　input kevin
 
-
-
 //linux work before
 //sudo nano /etc/udev/rules.d/51-blink1.rules
 //SUBSYSTEM=="input",GROUP="input",MODE="0666"
@@ -37,8 +35,6 @@ type Scanner struct {
 //KERNEL=="hidraw*", ATTRS{idVendor}=="0c2e",ATTRS{idProduct}=="0901",MODE="0666",GROUP="plugdev"
 
 //sudo udevadm control --reload-rules
-
-
 
 func (s1 *GoUsb) search() error {
 	ctx := gousb.NewContext()
@@ -158,7 +154,7 @@ func (s1 *GoUsb) read() {
 func (s1 *GoUsb) Read() (string, error) {
 
 	if s1.Finish == nil {
-		s1.Finish = make(chan string,1)
+		s1.Finish = make(chan string, 1)
 		go s1.read()
 	}
 	s := <-s1.Finish

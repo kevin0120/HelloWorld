@@ -1,8 +1,8 @@
 package main
 
 import (
-	"HelloWorld/test_diagnostic/diagnostic"
 	"fmt"
+	"github.com/kevin0120/HelloWorld/test_diagnostic/diagnostic"
 	"os"
 	"time"
 )

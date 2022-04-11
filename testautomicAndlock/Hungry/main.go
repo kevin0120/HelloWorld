@@ -16,7 +16,7 @@ func main() {
 			mu.Lock()
 			time.Sleep(99 * time.Millisecond)
 			gorouting1++
-			fmt.Printf("gorouting1:%d\n",gorouting1)
+			fmt.Printf("gorouting1:%d\n", gorouting1)
 			mu.Unlock()
 		}
 	}()
@@ -25,7 +25,7 @@ func main() {
 		time.Sleep(1 * time.Millisecond)
 		mu.Lock()
 		gorouting2++
-		fmt.Printf("gorouting2:%d\n",gorouting1)
+		fmt.Printf("gorouting2:%d\n", gorouting1)
 		mu.Unlock()
 		time.Sleep(99 * time.Millisecond)
 	}

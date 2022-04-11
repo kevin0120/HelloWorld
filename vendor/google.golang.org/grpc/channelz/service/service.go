@@ -43,7 +43,11 @@ func init() {
 var logger = grpclog.Component("channelz")
 
 // RegisterChannelzServiceToServer registers the channelz service to the given server.
-func RegisterChannelzServiceToServer(s *grpc.Server) {
+//
+// Note: it is preferred to use the admin API
+// (https://pkg.go.dev/google.golang.org/grpc/admin#Register) instead to
+// register Channelz and other administrative services.
+func RegisterChannelzServiceToServer(s grpc.ServiceRegistrar) {
 	channelzgrpc.RegisterChannelzServer(s, newCZServer())
 }
 
@@ -78,7 +82,7 @@ func channelTraceToProto(ct *channelz.ChannelTrace) *channelzpb.ChannelTrace {
 	if ts, err := ptypes.TimestampProto(ct.CreationTime); err == nil {
 		pbt.CreationTimestamp = ts
 	}
-	var events []*channelzpb.ChannelTraceEvent
+	events := make([]*channelzpb.ChannelTraceEvent, 0, len(ct.Events))
 	for _, e := range ct.Events {
 		cte := &channelzpb.ChannelTraceEvent{
 			Description: e.Desc,

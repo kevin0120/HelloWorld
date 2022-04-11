@@ -1,0 +1,28 @@
+project_name: hello
+
+env:
+  - GO111MODULE=on
+builds:
+  - env:
+      - CGO_ENABLED=1
+    id: hello-linux-windows
+    ldflags:
+      - -s -w
+    main: ./main.go
+    binary: hello
+    goos:
+      # - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+    tags:
+      - release
+
+archives:
+  -
+    name_template: "{{.Os}}-{{.Arch}}{{if .Arm}}v{{.Arm}}{{end}}-{{ .ProjectName }}"
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip

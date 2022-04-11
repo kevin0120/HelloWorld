@@ -61,7 +61,7 @@ func mainHandler(ctx iris.Context) {
 	// take the info from the "before" handler.
 	info := ctx.Values().GetString("info")
 
-	// write something to the client as a response.
+	// write-read something to the client as a response.
 	ctx.HTML("<h1>Response</h1>")
 	ctx.HTML("<br/> Info: " + info)
 

@@ -55,7 +55,7 @@ func main() {
 	app.Get("/cookie", func(ctx iris.Context) {
 
 		fmt.Println(ctx.GetCookie("mycookie"))
-		ctx.SetCookieKV("mycookie","hello world!")
+		ctx.SetCookieKV("mycookie", "hello world!")
 		ctx.Writef("Hello")
 	})
 
