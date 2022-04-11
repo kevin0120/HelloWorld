@@ -29,8 +29,9 @@ func echo(conn *net.TCPConn) {
 		n, err := conn.Write([]byte("world"))
 		fmt.Printf("%v send %d bytes to %s\n",time.Now(), n, conn.RemoteAddr())
 		if err != nil {
-			err = conn.Close()
 			fmt.Println(err)
+			err = conn.Close()
+
 			//break
 			return
 		}
