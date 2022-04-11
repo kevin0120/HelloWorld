@@ -28,21 +28,22 @@ require (
 	github.com/iris-contrib/middleware/cors v0.0.0-20220301201128-27fa0f6a7d7e
 	github.com/jeffallen/mqtt v0.0.0-20180518073322-5387cfa89df0
 	github.com/jinzhu/gorm v1.9.16
+	github.com/jlaffaye/ftp v0.0.0-20220310202011-d2c44e311e78
 	github.com/jonboulle/clockwork v0.2.3 // indirect
 	github.com/kataras/iris v0.0.2
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
-	github.com/lestrrat-go/strftime v1.0.5 // indirect
 	github.com/lib/pq v1.10.4
+	github.com/masami10/rush v1.6.3
 	github.com/masami10/spc/v2 v2.0.5
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481
 	github.com/pkg/errors v0.9.1
+	github.com/pkg/sftp v1.13.2
 	github.com/rabbitmq/amqp091-go v1.3.2
 	github.com/robinson/gos7 v0.0.0-20211020181838-a2b780484319
-	github.com/satori/go.uuid v1.2.0
+	github.com/satori/go.uuid v1.2.1-0.20181028125025-b2ce2384e17b
 	github.com/simonvetter/modbus v1.5.0
-	github.com/smallfish/ftp v0.0.0-20160801035311-6d094f003ac5
 	github.com/stretchr/testify v1.7.1
 	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 	github.com/tealeg/xlsx v1.0.5
@@ -56,6 +57,5 @@ require (
 	google.golang.org/grpc v1.45.0
 	google.golang.org/grpc/examples v0.0.0-20220330220137-99aae3442dbe
 	google.golang.org/protobuf v1.28.0
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/resty.v1 v1.12.0
 )
