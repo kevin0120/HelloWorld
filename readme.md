@@ -46,9 +46,26 @@ go get github.com/foo@master
 #git submodule
 ```bash
 git submodule可以指定分支 ：git submodule add -b v2 git@github.com:qax-os/excelize.git testExcel/fromandtoexcel/source
+git rm  --cached path_to_submodule
+git submodule update --init --recursive
+
+git submodule init
+# Submodule 'xxx/xxx' (http://xxxx/xxx/xxx.git) registered for path 'xxx/xxx'
+git submodule sync
+# Synchronizing submodule url for 'xxx/xxx'
+git submodule update
+#Cloning into '/Users/xxx/xxx/xxx'...
+#Submodule path 'xxx/xxx': checked out '39cabde3d5c8aeba5623424asd7f5948e7f515f9f28db'
 ```
 #git lfs
 ```bash
 git lfs git 大文件处理
 https://www.jianshu.com/p/493b81544f80
+```
+
+#to do
+```bash
+ftp
+nats
+modbus
 ```

@@ -30,7 +30,7 @@ func echo(conn *net.TCPConn) {
 		if err != nil {
 			fmt.Println(err)
 			err = conn.Close()
-			fmt.Println(err)
+
 			//break
 			return
 		}
