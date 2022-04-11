@@ -32,3 +32,9 @@
 [submodule "go_submodule/go-example"]
 	path = go_submodule/go-example
 	url = git@github.com:goinaction/code.git
+[submodule "go_submodule/websocket"]
+	path = go_submodule/websocket
+	url = git@github.com:fasthttp/websocket.git
+[submodule "go_submodule/ftp"]
+	path = go_submodule/ftp
+	url = git@github.com:smallfish/ftp
