@@ -6,21 +6,22 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"strings"
 )
 
 type FTP struct {
-	host    string
-	port    int
-	user    string
-	passwd  string
-	pasv    int
-	cmd     string
-	Code    int
-	Message string
-	Debug   bool
-	stream  []byte
-	conn    net.Conn
-	Error   error
+	host      string
+	port      int
+	user      string
+	passwd    string
+	pasv      int
+	cmd       string
+	Code      int
+	Message   string
+	Debug     bool
+	stream    []byte
+	conn      net.Conn
+	Error     error
 }
 
 func (ftp *FTP) debugInfo(s string) {
@@ -63,12 +64,15 @@ func (ftp *FTP) Request(cmd string) {
 	ftp.cmd = cmd
 	ftp.Code, ftp.Message = ftp.Response()
 	if cmd == "EPSV" {
-		//start, end := strings.Index(ftp.Message, "("), strings.Index(ftp.Message, ")")
-		//s := strings.Split(ftp.Message[start:end], ",")
-		//l1, _ := strconv.Atoi(s[len(s)-2])
-		//l2, _ := strconv.Atoi(s[len(s)-1])
-		//ftp.pasv = l1*256 + l2
-		fmt.Printf("@@@@@@@@@@@@@@@@@@\n%s\n%d@@@@@@@@@@@@@@\n",ftp.Message,ftp.pasv)
+		start, end := strings.Index(ftp.Message, "(|||"), strings.Index(ftp.Message, "|)")
+		if start < 0 {
+			ftp.pasv =0
+			return
+		}
+		s := strings.Split(ftp.Message[start+4:end], ",")
+		l1, _ := strconv.Atoi(s[0])
+		ftp.pasv = l1
+		fmt.Printf("@@@@@@@@@@@@@@@@@@\n%s\n%d@@@@@@@@@@@@@@\n", ftp.Message, ftp.pasv)
 	}
 	if (cmd != "EPSV") && (ftp.pasv > 0) {
 		ftp.Message = newRequest(ftp.host, ftp.pasv, ftp.stream)

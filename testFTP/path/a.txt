@@ -1,0 +1,81 @@
+ CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
+
+// 在linux上编译windows版本
+// 1. 安装mingw-w64： apt-get install mingw-w64
+// 2. 添加编译参数：---从windows上copy一个库文件
+//3.配置go 编译参数CC=x86_64-w64-mingw32-gcc;CGO_LDFLAGS=-L/home/kevin/Downloads -lusb-1.0;GOOS=windows;CGO_ENABLED=1
+
+ windows编译c代码.exe
+ 1安装gcc编译器
+ 2讲动态dll文件或者静态链接库加载到相应目录下
+ 3编译
+
+
+ linux 编译c代码 ubuntu执行文件
+ 1.系统自带c编译器
+ 2.apt-get 相应的库会自动加载
+ 3.在调用前加 #cgo LDFLAGS: -lusb-1.0   或者 配置go 编译参数CC=x86_64-w64-mingw32-gcc;CGO_LDFLAGS=-L/home/kevin/Downloads -lusb-1.0;CGO_ENABLE=1
+
+
+ go 包管理工具
+ 1.godep    安装 go get -u -v github.com/tools/godep
+ 通过如上的命令安装，成功安装后，在$GOPATH的bin目录下会有一个godep可执行的二进制文件，
+ 后面执行的命令都是用这个，建议这个目录加入到全局环境变量中
+
+
+
+ 2 go mode
+
+
+ 一、设置
+
+ export GO111MODULE=on
+
+ 二、初始化
+
+ 在项目目录下使用
+
+ go mod init
+
+ 创建一个空的go.mod文件
+
+ *************************************************
+ 下载依赖module到本地cache
+
+ go mod download        download modules to local cache
+ *************************************************
+    编辑go.mod文件
+
+ go mod edit                  edit go.mod from tools or scripts
+ *************************************************
+    打印模块依赖图
+
+
+go mod graph               print module requirement graph
+ *************************************************
+    增加丢失的module, 移除未使用的module
+
+
+go mod tidy                  add missing and remove unused modules
+ *************************************************
+    校验依赖
+
+
+go mod verify              verify dependencies have expected content
+ *************************************************
+    升级
+
+
+
+go get
+go get -u : 升级到最新的次要版本或者修订版本(x.y.z,z是修订版本号，y是次要版本号)
+go get -u=patch : 升级到最新的修订版本
+go get package@version : 升级到指定的版本号version
+ *************************************************
+    更新vendor
+
+go mod vendor
+
+
+
+
