@@ -63,6 +63,11 @@ func (ftp *FTP) Request(cmd string) {
 	ftp.conn.Write([]byte(cmd + "\r\n"))
 	ftp.cmd = cmd
 	ftp.Code, ftp.Message = ftp.Response()
+	//此处是因为 如果这个命令错误 比如说Mkd命令错误 它会发两条回复
+	if ftp.Code ==0{
+		ftp.Code, ftp.Message = ftp.Response()
+	}
+
 	if cmd == "EPSV" {
 		start, end := strings.Index(ftp.Message, "(|||"), strings.Index(ftp.Message, "|)")
 		if start < 0 {
