@@ -35,3 +35,6 @@
 [submodule "go_submodule/websocket"]
 	path = go_submodule/websocket
 	url = git@github.com:fasthttp/websocket.git
+[submodule "go_submodule/ftp"]
+	path = go_submodule/ftp
+	url = git@github.com:smallfish/ftp.git

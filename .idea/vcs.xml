@@ -14,6 +14,13 @@
     <mapping directory="$PROJECT_DIR$/go_pkg/stdpkg-example" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_s7/github" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/go_sevendays" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/SourceCodeofMongoRedis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/ftp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/go-design-pattern" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/go-example" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/over-golang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/qoos-deploy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/go_submodule/websocket" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/goexample/code" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/goexample/go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gorilla_websocket" vcs="Git" />

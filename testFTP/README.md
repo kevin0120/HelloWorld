@@ -1,10 +1,20 @@
+FTP client for Go(lang)
+==================================
+
+install 
+========
+go get github.com/smallfish/ftp
+
+example 
+========
+```bash
 package main
 
 import (
-"fmt"
-"github.com/smallfish/ftp"
-"io/ioutil"
-"os"
+	"fmt"
+	"github.com/smallfish/ftp"
+	"io/ioutil"
+	"os"
 )
 
 func main() {
@@ -34,3 +44,13 @@ func main() {
 
 	ftp.Quit()
 }
+```
+
+
+ftp主动模式被动模式 
+```bash
+https://www.cnblogs.com/trfizeng/p/4354832.html
+
+ftp 服务器搭建
+https://blog.csdn.net/weixin_44961081/article/details/118683045
+```
