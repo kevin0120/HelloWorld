@@ -1,9 +1,3 @@
-[submodule "goexample/go"]
-	path = goexample/go
-	url = git@github.com:goinaction/code.git
-[submodule "qcos-deploy"]
-	path = qcos-deploy
-	url = git@github.com:chasers2012/qcos-deploy.git
 [submodule "test_OPC/OPX"]
 	path = test_OPC/OPX
 	url = git@github.com:gopcua/opcua.git
@@ -23,3 +17,18 @@
 	path = testExcel/fromandtoexcel/source
 	url = git@github.com:qax-os/excelize.git
 	branch = v2
+[submodule "go_submodule/over-golang"]
+	path = go_submodule/over-golang
+	url = git@github.com:overnote/over-golang.git
+[submodule "go_submodule/go-design-pattern"]
+	path = go_submodule/go-design-pattern
+	url = git@github.com:senghoo/golang-design-pattern.git
+[submodule "go_submodule/SourceCodeofMongoRedis"]
+	path = go_submodule/SourceCodeofMongoRedis
+	url = git@github.com:kingname/SourceCodeofMongoRedis.git
+[submodule "go_submodule/qoos-deploy"]
+	path = go_submodule/qoos-deploy
+	url = git@github.com:chasers2012/qcos-deploy.git
+[submodule "go_submodule/go-example"]
+	path = go_submodule/go-example
+	url = git@github.com:goinaction/code.git
