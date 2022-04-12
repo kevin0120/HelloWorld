@@ -88,9 +88,6 @@ func NewSheet3(f *excelize.File) {
 	}
 }
 
-
-
-
 func ReadCellValue() {
 	f, err := excelize.OpenFile("./testExcel/fromandtoexcel/write-read/Book1.xlsx")
 	if err != nil {
@@ -124,29 +121,26 @@ func ReadCellValue() {
 	}
 }
 
-
-
 func ReadPicture() {
 	f, err := excelize.OpenFile("./testExcel/fromandtoexcel/write-read/Book1.xlsx")
-	   if err != nil {
-	       fmt.Println(err)
-	       return
-	   }
-	   defer func() {
-	       if err := f.Close(); err != nil {
-	           fmt.Println(err)
-	       }
-	   }()
-	   file, raw, err := f.GetPicture("Sheet3", "D2")
-	   if err != nil {
-	       fmt.Println(err)
-	       return
-	   }
-	   if err := ioutil.WriteFile("./testExcel/fromandtoexcel/write-read/"+file, raw, 0644); err != nil {
-	       fmt.Println(err)
-	   }
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer func() {
+		if err := f.Close(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+	file, raw, err := f.GetPicture("Sheet3", "D2")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := ioutil.WriteFile("./testExcel/fromandtoexcel/write-read/"+file, raw, 0644); err != nil {
+		fmt.Println(err)
+	}
 }
-
 
 func main() {
 	f := excelize.NewFile()

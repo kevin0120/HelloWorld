@@ -10,15 +10,37 @@ const (
 	OpenFilePerm = os.FileMode(0644)
 )
 
-var items = map[string]string{"1": "hello ftp", "2": "kevin"}
+type Plugin struct {
+	Type     string            `yaml:"type"`
+	Url      string            `yaml:"url"`
+	Path     string            `yaml:"path"`
+	Format   string            `yaml:"format"`
+	User     string            `yaml:"user"`
+	PassWord string            `yaml:"password"`
+	Method   string            `yaml:"method"`
+	Headers  map[string]string `yaml:"headers"`
+}
+
+var config = &Plugin{
+	Type:     "file",
+	Url:      "",
+	Path:     "./testFTP/rush/localfile",
+	Format:   "",
+	User:     "",
+	PassWord: "",
+	Method:   "",
+	Headers:  map[string]string{},
+}
+
+var items = map[string]string{"1": "hello local file", "2": "kevin"}
 
 type File struct {
 	Path string
 }
 
-func NewFileProvider() *File {
+func NewFileProvider(config *Plugin) *File {
 	return &File{
-		Path: "./testFTP/rush/localfile",
+		Path: config.Path,
 	}
 }
 
@@ -55,8 +77,8 @@ func (f *File) Close() error {
 	return nil
 }
 
-func (f *File) Write() error {
-	for k, item := range items {
+func (f *File) Write(data map[string]string) error {
+	for k, item := range data {
 		fPath := path.Join(f.Path, k)
 		writer, err := openFile(fPath)
 		if err != nil {
@@ -74,7 +96,7 @@ func (f *File) Write() error {
 }
 func (f *File) Read() ([]byte, error) {
 	var message []byte
-	var m []byte
+	var m = make([]byte, 1000)
 	for k, _ := range items {
 		fPath := path.Join(f.Path, k)
 		reader, err := openFile(fPath)
@@ -95,7 +117,7 @@ func (f *File) Read() ([]byte, error) {
 }
 
 func main() {
-	f := NewFileProvider()
+	f := NewFileProvider(config)
 	_ = f.Connect()
 
 	B, _ := f.Read()

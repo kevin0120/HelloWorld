@@ -1,4 +1,5 @@
 package main
+
 // #cgo pkg-config: libhello
 // #include < stdlib.h >
 // #include < hello_world.h >
@@ -6,6 +7,7 @@ import "C"
 import (
 	"unsafe"
 )
+
 func main() {
 	msg := "Hello, world!"
 	cmsg := C.CString(msg)

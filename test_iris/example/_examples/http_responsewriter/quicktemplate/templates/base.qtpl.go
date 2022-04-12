@@ -32,7 +32,7 @@ type Partial interface {
 	StreamBody(qw422016 *qt422016.Writer)
 	//line base.qtpl:4
 	WriteBody(qq422016 qtio422016.Writer)
-//line base.qtpl:4
+	//line base.qtpl:4
 
 }
 
@@ -66,7 +66,7 @@ func StreamTemplate(qw422016 *qt422016.Writer, p Partial) {
 	</footer>
 </html>
 `)
-//line base.qtpl:30
+	//line base.qtpl:30
 
 }
 
@@ -79,7 +79,7 @@ func WriteTemplate(qq422016 qtio422016.Writer, p Partial) {
 	StreamTemplate(qw422016, p)
 	//line base.qtpl:30
 	qt422016.ReleaseWriter(qw422016)
-//line base.qtpl:30
+	//line base.qtpl:30
 
 }
 
@@ -96,7 +96,7 @@ func Template(p Partial) string {
 	qt422016.ReleaseByteBuffer(qb422016)
 	//line base.qtpl:30
 	return qs422016
-//line base.qtpl:30
+	//line base.qtpl:30
 
 }
 
@@ -110,7 +110,7 @@ type Base struct{}
 //line base.qtpl:36
 
 func (b *Base) StreamBody(qw422016 *qt422016.Writer) {
-//line base.qtpl:36
+	//line base.qtpl:36
 
 	qw422016.N().S(`This is the base body`)
 }
@@ -125,7 +125,7 @@ func (b *Base) WriteBody(qq422016 qtio422016.Writer) {
 	b.StreamBody(qw422016)
 	//line base.qtpl:36
 	qt422016.ReleaseWriter(qw422016)
-//line base.qtpl:36
+	//line base.qtpl:36
 
 }
 
@@ -142,6 +142,6 @@ func (b *Base) Body() string {
 	qt422016.ReleaseByteBuffer(qb422016)
 	//line base.qtpl:36
 	return qs422016
-//line base.qtpl:36
+	//line base.qtpl:36
 
 }

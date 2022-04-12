@@ -1,5 +1,5 @@
 <!-- the message's input -->
-<input id="input" type="text" />
+<input id="input" type="text"/>
 
 <!-- when clicked then a websocket event will be sent to the server, at this example we registered the 'chat' -->
 <button id="sendBtn" disabled>Send</button>
@@ -29,6 +29,7 @@
     }
 
     var outputTxt = document.getElementById("output");
+
     function addMessage(msg) {
         outputTxt.innerHTML += msg + "\n";
     }
@@ -72,7 +73,7 @@
                         addMessage(msg.Body);
                     }
                 }
-            },{
+            }, {
                 headers: {
                     "X-Username": username,
                 }

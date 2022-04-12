@@ -7,10 +7,10 @@ name: manual
 on:
   # push操作
   push:
-#    branches:
-#      - '**'
-#      - main
-#      - 'releases/**'
+    #    branches:
+    #      - '**'
+    #      - main
+    #      - 'releases/**'
     tags:
       - v*.**
   #手动
@@ -33,60 +33,60 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-#  Explore-GitHub-Actions:
-#    runs-on: ubuntu-latest
-#    steps:
-#      # Runs a single command using the runners shell
-#      - name: Send greeting
-#        run: echo "Hello ${{ github.event.inputs.name }}"
-#      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-#      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-#      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-#      - name: Check out repository code
-#        uses: actions/checkout@v2
-#      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-#      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-#      - name: List files in the repository
-#        run: |
-#          ls ${{ github.workspace }}
-#      - run: echo "🍏 This job's status is ${{ job.status }}."
-#
-#  check-bats-version:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: '14'
-#      - run: npm install -g bats
-#      - run: bats -v
-#
-#  job1:
-#    runs-on: ubuntu-latest
-#    # Map a step output to a job output
-#    outputs:
-#      output1: ${{ steps.step1.outputs.test }}
-#      output2: ${{ steps.step2.outputs.test }}
-#    steps:
-#      - id: step1
-#        run: echo "::set-output name=test::hello"
-#      - id: step2
-#        run: echo "::set-output name=test::world"
-#  job2:
-#    runs-on: ubuntu-latest
-#    needs: job1
-#    steps:
-#      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
-#
-#  greeting_job:
-#    runs-on: ubuntu-latest
-#    env:
-#      Greeting: Hello
-#    steps:
-#      - name: "Say Hello Mona it's Monday"
-#        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
-#        env:
-#          First_Name: Mona
+  #  Explore-GitHub-Actions:
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      # Runs a single command using the runners shell
+  #      - name: Send greeting
+  #        run: echo "Hello ${{ github.event.inputs.name }}"
+  #      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  #      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+  #      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  #      - name: Check out repository code
+  #        uses: actions/checkout@v2
+  #      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+  #      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+  #      - name: List files in the repository
+  #        run: |
+  #          ls ${{ github.workspace }}
+  #      - run: echo "🍏 This job's status is ${{ job.status }}."
+  #
+  #  check-bats-version:
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - uses: actions/setup-node@v2
+  #        with:
+  #          node-version: '14'
+  #      - run: npm install -g bats
+  #      - run: bats -v
+  #
+  #  job1:
+  #    runs-on: ubuntu-latest
+  #    # Map a step output to a job output
+  #    outputs:
+  #      output1: ${{ steps.step1.outputs.test }}
+  #      output2: ${{ steps.step2.outputs.test }}
+  #    steps:
+  #      - id: step1
+  #        run: echo "::set-output name=test::hello"
+  #      - id: step2
+  #        run: echo "::set-output name=test::world"
+  #  job2:
+  #    runs-on: ubuntu-latest
+  #    needs: job1
+  #    steps:
+  #      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+  #
+  #  greeting_job:
+  #    runs-on: ubuntu-latest
+  #    env:
+  #      Greeting: Hello
+  #    steps:
+  #      - name: "Say Hello Mona it's Monday"
+  #        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+  #        env:
+  #          First_Name: Mona
   Contexts_to_log:
     runs-on: ubuntu-latest
     #          在仓库的setting中配置环境，里面有一个H3变量
@@ -177,26 +177,26 @@ jobs:
         id: go
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
-#      - uses: msys2/setup-msys2@v2
-#        with:
-#          update: true
-#      - name: Build for windows
-#        if: matrix.os == 'windows-2016'
-#        run: |
-#          go build -o ./build/HelloWorld.exe ./main.go
-#      - name: Build for ubuntu
-#        if: matrix.os == 'ubuntu-latest'
-#        run: |
-#          go build -o ./build/HelloWorld ./main.go
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: rush_dist
-#          path: "./build/**"
-#          retention-days: 5
-#          if-no-files-found: error
+      #      - uses: msys2/setup-msys2@v2
+      #        with:
+      #          update: true
+      #      - name: Build for windows
+      #        if: matrix.os == 'windows-2016'
+      #        run: |
+      #          go build -o ./build/HelloWorld.exe ./main.go
+      #      - name: Build for ubuntu
+      #        if: matrix.os == 'ubuntu-latest'
+      #        run: |
+      #          go build -o ./build/HelloWorld ./main.go
+      #      - name: Upload Artifact
+      #        uses: actions/upload-artifact@v2
+      #        with:
+      #          name: rush_dist
+      #          path: "./build/**"
+      #          retention-days: 5
+      #          if-no-files-found: error
 
-#   必须与根目录下的goreleaser.yml结合使用，否则只能使用默认参数
+      #   必须与根目录下的goreleaser.yml结合使用，否则只能使用默认参数
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:

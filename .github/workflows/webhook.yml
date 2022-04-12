@@ -22,8 +22,8 @@ jobs:
 
       - name: release
         uses: softprops/action-gh-release@v1
-##        可以用event_type来判断是不是对应的分支可以进行处理
-#        if: startsWith(${{ github.event.client_payload.ref }}, 'refs/tags/')
+        ##        可以用event_type来判断是不是对应的分支可以进行处理
+        #        if: startsWith(${{ github.event.client_payload.ref }}, 'refs/tags/')
         with:
           files: "./build1/**"
           tag_name: ${{ github.event.client_payload.ref }}

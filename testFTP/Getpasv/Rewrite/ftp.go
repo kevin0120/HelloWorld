@@ -10,18 +10,18 @@ import (
 )
 
 type FTP struct {
-	host      string
-	port      int
-	user      string
-	passwd    string
-	pasv      int
-	cmd       string
-	Code      int
-	Message   string
-	Debug     bool
-	stream    []byte
-	conn      net.Conn
-	Error     error
+	host    string
+	port    int
+	user    string
+	passwd  string
+	pasv    int
+	cmd     string
+	Code    int
+	Message string
+	Debug   bool
+	stream  []byte
+	conn    net.Conn
+	Error   error
 }
 
 func (ftp *FTP) debugInfo(s string) {
@@ -64,14 +64,14 @@ func (ftp *FTP) Request(cmd string) {
 	ftp.cmd = cmd
 	ftp.Code, ftp.Message = ftp.Response()
 	//此处是因为 如果这个命令错误 比如说Mkd命令错误 它会发两条回复
-	if ftp.Code ==0{
+	if ftp.Code == 0 {
 		ftp.Code, ftp.Message = ftp.Response()
 	}
 
 	if cmd == "EPSV" {
 		start, end := strings.Index(ftp.Message, "(|||"), strings.Index(ftp.Message, "|)")
 		if start < 0 {
-			ftp.pasv =0
+			ftp.pasv = 0
 			return
 		}
 		s := strings.Split(ftp.Message[start+4:end], ",")

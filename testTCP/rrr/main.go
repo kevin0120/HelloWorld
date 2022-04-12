@@ -49,23 +49,22 @@ func main() {
 	//
 	go func() {
 		var msr [512]byte
-		for  {
-				n, err := conn.Read(msr[0:])
-				if err != nil {
-					fmt.Printf("%v read error :%s \n", time.Now(), err)
-					conn.Close()
-					break
-				} else {
-					fmt.Printf("%v recieve :%s \n", time.Now(), string(msr[0:n]))
-				}
+		for {
+			n, err := conn.Read(msr[0:])
+			if err != nil {
+				fmt.Printf("%v read error :%s \n", time.Now(), err)
+				conn.Close()
+				break
+			} else {
+				fmt.Printf("%v recieve :%s \n", time.Now(), string(msr[0:n]))
+			}
 		}
 	}()
 
 	//time.Sleep(5 * time.Second)
 	//conn.Close()
 
-
-i:=0
+	i := 0
 	for {
 		//var msr [512]byte
 		//////
@@ -88,8 +87,8 @@ i:=0
 		//
 		//
 		//_, err = conn.Write([]byte("hello"))
-		_, err = conn.Write([]byte(fmt.Sprintf("hello%5d",i)))
-i++
+		_, err = conn.Write([]byte(fmt.Sprintf("hello%5d", i)))
+		i++
 		if err != nil {
 			fmt.Printf("%v write error :%s \n", time.Now(), err)
 			conn.Close()

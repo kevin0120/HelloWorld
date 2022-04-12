@@ -11,11 +11,13 @@ require (
 	github.com/awcullen/opcua v0.5.0-beta
 	github.com/bep/debounce v1.2.0
 	github.com/davyxu/tabtoy v0.0.0-20220329142512-fede1c8f7212
+	github.com/denisenkom/go-mssqldb v0.0.0-20200428022330-06a60b6afbbc
 	github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
 	github.com/go-ini/ini v1.66.4 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-xorm/xorm v0.7.9
 	github.com/gobuffalo/packr/v2 v2.8.3
 	github.com/goinaction/code v0.0.0-20171020164608-49fc99e6affb
@@ -26,6 +28,7 @@ require (
 	github.com/huin/gobinarytest v0.0.0-20170803182140-bc6c19e91749 // indirect
 	github.com/huin/mqtt v0.0.0-20200914141616-61735481eb15
 	github.com/iris-contrib/middleware/cors v0.0.0-20220301201128-27fa0f6a7d7e
+	github.com/jackc/pgx/v4 v4.14.0
 	github.com/jeffallen/mqtt v0.0.0-20180518073322-5387cfa89df0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jlaffaye/ftp v0.0.0-20220310202011-d2c44e311e78
@@ -34,8 +37,9 @@ require (
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/lib/pq v1.10.4
-	github.com/masami10/rush v1.6.3 // indirect
+	github.com/masami10/rush v1.6.3
 	github.com/masami10/spc/v2 v2.0.5
+	github.com/mattn/go-sqlite3 v1.14.9
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481
 	github.com/pkg/errors v0.9.1
@@ -43,6 +47,7 @@ require (
 	github.com/rabbitmq/amqp091-go v1.3.2
 	github.com/robinson/gos7 v0.0.0-20211020181838-a2b780484319
 	github.com/satori/go.uuid v1.2.1-0.20181028125025-b2ce2384e17b
+	github.com/sijms/go-ora/v2 v2.1.27
 	github.com/simonvetter/modbus v1.5.0
 	github.com/stretchr/testify v1.7.1
 	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07

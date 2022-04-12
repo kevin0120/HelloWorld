@@ -11,6 +11,28 @@ const (
 	FtpDialWithTimeout = 5 * time.Second
 )
 
+type Plugin struct {
+	Type     string            `yaml:"type"`
+	Url      string            `yaml:"url"`
+	Path     string            `yaml:"path"`
+	Format   string            `yaml:"format"`
+	User     string            `yaml:"user"`
+	PassWord string            `yaml:"password"`
+	Method   string            `yaml:"method"`
+	Headers  map[string]string `yaml:"headers"`
+}
+
+var config = &Plugin{
+	Type:     "ftp",
+	Url:      "127.0.0.1:21",
+	Path:     "rush/ftp",
+	Format:   "",
+	User:     "admin",
+	PassWord: "admin",
+	Method:   "",
+	Headers:  map[string]string{},
+}
+
 var items = map[string]string{"1": "hello ftp", "2": "kevin"}
 
 type Ftp struct {
@@ -22,12 +44,12 @@ type Ftp struct {
 	ftpClient *ftp.ServerConn
 }
 
-func NewFtpProvider() *Ftp {
+func NewFtpProvider(config *Plugin) *Ftp {
 	return &Ftp{
-		Url:      "127.0.0.1:21",
-		Path:     "rush/ftp",
-		username: "admin",
-		password: "admin",
+		Url:      config.Url,
+		Path:     config.Path,
+		username: config.User,
+		password: config.PassWord,
 	}
 }
 
@@ -65,9 +87,9 @@ func (f *Ftp) Connect() error {
 	return nil
 }
 
-func (f *Ftp) Write() error {
+func (f *Ftp) Write(data map[string]string) error {
 
-	for k, item := range items {
+	for k, item := range data {
 		data := bytes.NewBuffer([]byte(item))
 		err := f.ftpClient.Stor(k, data)
 		if err != nil {
@@ -85,7 +107,7 @@ func (f *Ftp) Close() error {
 }
 
 func main() {
-	f := NewFtpProvider()
+	f := NewFtpProvider(config)
 	_ = f.Connect()
 
 	_ = f.Write()

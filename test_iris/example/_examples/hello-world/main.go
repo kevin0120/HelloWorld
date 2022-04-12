@@ -29,7 +29,7 @@ func main() {
 	app.Get("/ping", func(ctx iris.Context) {
 		fmt.Println(ctx.GetCookie("session_id"))
 		fmt.Println(ctx.GetCookie("mycookie"))
-		ctx.SetCookieKV("mycookie","hello world")
+		ctx.SetCookieKV("mycookie", "hello world")
 		ctx.WriteString("pong")
 	})
 

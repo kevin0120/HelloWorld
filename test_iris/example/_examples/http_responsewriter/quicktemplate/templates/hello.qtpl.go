@@ -47,7 +47,7 @@ func (h *Hello) StreamBody(qw422016 *qt422016.Writer) {
 	qw422016.N().S(`!</b>
 	</div>
 `)
-//line hello.qtpl:14
+	//line hello.qtpl:14
 
 }
 
@@ -60,7 +60,7 @@ func (h *Hello) WriteBody(qq422016 qtio422016.Writer) {
 	h.StreamBody(qw422016)
 	//line hello.qtpl:14
 	qt422016.ReleaseWriter(qw422016)
-//line hello.qtpl:14
+	//line hello.qtpl:14
 
 }
 
@@ -77,6 +77,6 @@ func (h *Hello) Body() string {
 	qt422016.ReleaseByteBuffer(qb422016)
 	//line hello.qtpl:14
 	return qs422016
-//line hello.qtpl:14
+	//line hello.qtpl:14
 
 }

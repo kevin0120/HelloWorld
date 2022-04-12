@@ -10,7 +10,7 @@ func main() {
 	app := iris.New()
 
 	tmpl := iris.Pug("./templates", ".pug")
-	tmpl.Reload(true)                                            // reload templates on each request (development mode)
+	tmpl.Reload(true) // reload templates on each request (development mode)
 	tmpl.AddFunc("bold", func(s string) (template.HTML, error) { // add your template func here.
 		return template.HTML("<b>" + s + "</b>"), nil
 	})

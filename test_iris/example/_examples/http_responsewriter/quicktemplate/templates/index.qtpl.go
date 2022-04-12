@@ -37,7 +37,7 @@ func (i *Index) StreamBody(qw422016 *qt422016.Writer) {
 		This is our index page's body.
 	</div>
 `)
-//line index.qtpl:12
+	//line index.qtpl:12
 
 }
 
@@ -50,7 +50,7 @@ func (i *Index) WriteBody(qq422016 qtio422016.Writer) {
 	i.StreamBody(qw422016)
 	//line index.qtpl:12
 	qt422016.ReleaseWriter(qw422016)
-//line index.qtpl:12
+	//line index.qtpl:12
 
 }
 
@@ -67,6 +67,6 @@ func (i *Index) Body() string {
 	qt422016.ReleaseByteBuffer(qb422016)
 	//line index.qtpl:12
 	return qs422016
-//line index.qtpl:12
+	//line index.qtpl:12
 
 }

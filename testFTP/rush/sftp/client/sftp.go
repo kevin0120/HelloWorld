@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"fmt"
 	"github.com/pkg/sftp"
@@ -23,12 +22,34 @@ type Sftp struct {
 	sftpClient *sftp.Client
 }
 
-func NewSftpProvider() *Sftp {
+type Plugin struct {
+	Type     string            `yaml:"type"`
+	Url      string            `yaml:"url"`
+	Path     string            `yaml:"path"`
+	Format   string            `yaml:"format"`
+	User     string            `yaml:"user"`
+	PassWord string            `yaml:"password"`
+	Method   string            `yaml:"method"`
+	Headers  map[string]string `yaml:"headers"`
+}
+
+var config = &Plugin{
+	Type:     "sftp",
+	Url:      "192.168.1.7:22",
+	Path:     "./",
+	Format:   "",
+	User:     "kevin",
+	PassWord: "123456",
+	Method:   "",
+	Headers:  map[string]string{},
+}
+
+func NewSftpProvider(config *Plugin) *Sftp {
 	return &Sftp{
-		Url:      "192.168.1.7:22",
-		Path:     "./",
-		username: "kevin",
-		password: "123456",
+		Url:      config.Url,
+		Path:     config.Path,
+		username: config.User,
+		password: config.PassWord,
 	}
 }
 
@@ -95,7 +116,7 @@ func (s *Sftp) Connect() error {
 	return nil
 }
 
-func (s *Sftp) Read()  ([]byte, error) {
+func (s *Sftp) Read() ([]byte, error) {
 	fp, err := s.sftpClient.Open("1.html")
 	if err != nil {
 		fmt.Printf("open remote file :%s, err:%+v failed.\n", "1.html", err)
@@ -106,8 +127,8 @@ func (s *Sftp) Read()  ([]byte, error) {
 	return bytes, err
 }
 
-func (s *Sftp) Write() error {
-	for k, item := range items {
+func (s *Sftp) Write(data map[string]string) error {
+	for k, item := range data {
 		fPath := path.Join(s.Path, k)
 		writer, err := s.sftpClient.OpenFile(fPath, os.O_RDWR|os.O_CREATE)
 		if err != nil {
@@ -123,7 +144,6 @@ func (s *Sftp) Write() error {
 	return nil
 }
 
-
 func (s *Sftp) Close() error {
 	err := s.sftpClient.Close()
 	if err != nil {
@@ -132,11 +152,11 @@ func (s *Sftp) Close() error {
 	return nil
 }
 
-func main()  {
-	f := NewSftpProvider()
+func main() {
+	f := NewSftpProvider(config)
 	_ = f.Connect()
 
-	B,_:=f.Read()
+	B, _ := f.Read()
 	fmt.Println(string(B))
 	_ = f.Write()
 	_ = f.Close()
