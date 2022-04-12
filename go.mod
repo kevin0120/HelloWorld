@@ -34,7 +34,7 @@ require (
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/lib/pq v1.10.4
-	github.com/masami10/rush v1.6.3
+	github.com/masami10/rush v1.6.3 // indirect
 	github.com/masami10/spc/v2 v2.0.5
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/nozzle/throttler v0.0.0-20180817012639-2ea982251481
