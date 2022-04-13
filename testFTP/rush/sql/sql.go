@@ -24,13 +24,24 @@ type Plugin struct {
 	Headers  map[string]string `yaml:"headers"`
 }
 
+//var config = &Plugin{
+//	Type:     "postgres",
+//	Url:      "127.0.0.1:5432",
+//	Path:     "rush_ts030",
+//	Format:   "",
+//	User:     "admin",
+//	PassWord: "admin",
+//	Method:   "",
+//	Headers:  map[string]string{},
+//}
+
 var config = &Plugin{
-	Type:     "postgres",
-	Url:      "127.0.0.1:5432",
-	Path:     "rush_ts030",
+	Type:     "sqlite",
+	Url:      "",
+	Path:     "./testFTP/rush/sql/mydb.db",
 	Format:   "",
-	User:     "admin",
-	PassWord: "admin",
+	User:     "",
+	PassWord: "",
 	Method:   "",
 	Headers:  map[string]string{},
 }
@@ -73,7 +84,7 @@ var (
 		"postgres":  "pgx",
 		"sqlserver": "mssql",
 		"mysql":     "mysql",
-		"sqlite":    "sqlite",
+		"sqlite":    "sqlite3",
 	}
 )
 
@@ -195,4 +206,5 @@ func main() {
 
 	_ = f.Write(items)
 	_ = f.Close()
+
 }

@@ -7,5 +7,31 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:D:\Code\HelloWorld\go_sevendays\gee-orm\day7-migrate\gee.db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="my" uuid="51272d3c-7a9d-45c0-b0fd-5e0e03e2ffee">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Code\lianxi\HelloWorld\my.db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="SQLite - identifier.sqlite" uuid="6c12384f-cc95-4082-9246-fd95bbd64f29">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:identifier.sqlite</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="mydb" uuid="ba9799b6-6b7c-45c5-91bd-a15b12099d68">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Code\lianxi\HelloWorld\testFTP\rush\sql\mydb.db</jdbc-url>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/sqlite-jdbc-3.31.1.jar</url>
+        </library>
+      </libraries>
+    </data-source>
   </component>
 </project>
