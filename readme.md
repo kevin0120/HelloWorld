@@ -56,6 +56,10 @@ git submodule sync
 git submodule update
 #Cloning into '/Users/xxx/xxx/xxx'...
 #Submodule path 'xxx/xxx': checked out '39cabde3d5c8aeba5623424asd7f5948e7f515f9f28db'
+
+每个submodule 都运行
+git submodule foreach git checkout .
+
 ```
 #git lfs
 ```bash
