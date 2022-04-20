@@ -38,3 +38,9 @@
 [submodule "go_submodule/ftp"]
 	path = go_submodule/ftp
 	url = git@github.com:smallfish/ftp.git
+[submodule "go_submodule/7days-golangs"]
+	path = go_submodule/7days-golangs
+	url = git@github.com:geektutu/7days-golang.git
+[submodule "go_submodule/reading-notes"]
+	path = go_submodule/reading-notes
+	url = git@github.com:zhangkekf/reading-notes.git

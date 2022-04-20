@@ -72,6 +72,9 @@ github.com/denisenkom/go-mssqldb/internal/querytext
 github.com/djherbis/buffer
 github.com/djherbis/buffer/limio
 github.com/djherbis/buffer/wrapio
+# github.com/ebfe/scard v0.0.0-20190212122703-c3d1b1916a95
+## explicit
+github.com/ebfe/scard
 # github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
 ## explicit
 github.com/eclesh/welford

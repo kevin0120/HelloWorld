@@ -12,6 +12,7 @@ require (
 	github.com/bep/debounce v1.2.0
 	github.com/davyxu/tabtoy v0.0.0-20220329142512-fede1c8f7212
 	github.com/denisenkom/go-mssqldb v0.0.0-20200428022330-06a60b6afbbc
+	github.com/ebfe/scard v0.0.0-20190212122703-c3d1b1916a95
 	github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
 	github.com/go-ini/ini v1.66.4 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
