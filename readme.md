@@ -78,7 +78,7 @@ clone 时 使用'git clone' 或 git lfs clone均可
 
 #to do
 ```bash
-ftp
+fsnotify
 nats
 modbus
 ```

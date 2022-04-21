@@ -44,3 +44,6 @@
 [submodule "go_submodule/reading-notes"]
 	path = go_submodule/reading-notes
 	url = git@github.com:zhangkekf/reading-notes.git
+[submodule "go_submodule/kratos"]
+	path = go_submodule/kratos
+	url = git@github.com:go-kratos/kratos.git
