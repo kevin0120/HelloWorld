@@ -15,6 +15,7 @@ require (
 	github.com/ebfe/scard v0.0.0-20190212122703-c3d1b1916a95
 	github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
 	github.com/go-ini/ini v1.66.4 // indirect
+	github.com/go-ole/go-ole v1.2.6
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis v6.15.9+incompatible
@@ -42,6 +43,7 @@ require (
 	github.com/lestrrat-go/strftime v1.0.5 // indirect
 	github.com/lib/pq v1.10.4
 	github.com/masami10/spc/v2 v2.0.5
+	github.com/mattn/go-adodb v0.0.1
 	github.com/mattn/go-sqlite3 v1.14.9
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
