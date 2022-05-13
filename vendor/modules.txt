@@ -520,6 +520,10 @@ github.com/vmihailenco/msgpack/v5/msgpcode
 github.com/vmihailenco/tagparser/v2
 github.com/vmihailenco/tagparser/v2/internal
 github.com/vmihailenco/tagparser/v2/internal/parser
+# github.com/weigj/go-odbc v0.0.0-20120414035027-f09eefba7e19
+## explicit
+github.com/weigj/go-odbc
+github.com/weigj/go-odbc/driver
 # github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
 ## explicit
 # github.com/xuri/efp v0.0.0-20210322160811-ab561f5b45e3

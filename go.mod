@@ -59,6 +59,7 @@ require (
 	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 	github.com/tealeg/xlsx v1.0.5
 	github.com/therecipe/qt v0.0.0-20200904063919-c0c124a5770d
+	github.com/weigj/go-odbc v0.0.0-20120414035027-f09eefba7e19
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xuri/excelize/v2 v2.5.0
 	go.uber.org/atomic v1.9.0
