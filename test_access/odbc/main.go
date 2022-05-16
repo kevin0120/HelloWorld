@@ -3,40 +3,44 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/weigj/go-odbc"
 	_ "github.com/weigj/go-odbc/driver"
-
 )
 
 func main() {
-	//fmt.Printf("%s\n", "创建数据库链接")
+	fmt.Printf("%s\n", "创建数据库链接")
 	//conn, _ := odbc.Connect("DSN=hvb")
-	//stmt, _ := conn.Prepare("select top 10 * from 123")
-	//stmt.Execute()
-	//rows, err := stmt.FetchAll()
-	//if err != nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	//for i, row := range rows {
-	//	println(i, row)
-	//}
-	//stmt.Close()
-	//conn.Close()
-	//return
+	conn, _ := odbc.Connect("driver={Microsoft Access Driver (*.mdb,*.accdb)};dbq=./data1.mdb")
+	stmt, _ := conn.Prepare("select top 10 * from data")
+	_ = stmt.Execute()
+	rows, err := stmt.FetchAll()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for i, row := range rows {
+		println(i, row)
+	}
+	stmt.Close()
+	conn.Close()
+	return
 
-	access()
+	//access()
 }
 
-func access(){
+func access() {
 
-	conn, err := sql.Open("odbc", "driver={Microsoft Access Driver (*.mdb)};dbq=./data1.mdb")
+	conn, err := sql.Open("odbc", "driver={Microsoft Access Driver (*.mdb,*.accdb)};dbq=./data1.mdb")
 	if err != nil {
 		fmt.Println("Connecting Error")
 		return
 	}
 	fmt.Println(conn)
 	defer conn.Close()
-	stmt, err := conn.Prepare("select * from data11") //ALTER TABLE tb ALTER COLUMN aa Long
+	a, b := conn.Exec("select * from data")
+
+	println(a,b)
+	stmt, err := conn.Prepare("select * from data") //ALTER TABLE tb ALTER COLUMN aa Long
 	if err != nil {
 		fmt.Println("Query Error1")
 		return
