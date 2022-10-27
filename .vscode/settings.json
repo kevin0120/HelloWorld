@@ -1,9 +1,0 @@
-{
-  "editor.formatOnSave": true,
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
-  "go.testFlags": [
-    "-v"
-  ],
-  "sql-formatter.uppercase": true
-}

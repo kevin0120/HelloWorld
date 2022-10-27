@@ -77,7 +77,6 @@ github.com/djherbis/buffer/wrapio
 github.com/ebfe/scard
 # github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0
 ## explicit
-github.com/eclesh/welford
 # github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385
 github.com/eknkc/amber
 github.com/eknkc/amber/parser
@@ -160,20 +159,6 @@ github.com/goccy/go-json/internal/errors
 github.com/goccy/go-json/internal/runtime
 # github.com/goinaction/code v0.0.0-20171020164608-49fc99e6affb
 ## explicit
-github.com/goinaction/code/chapter10/listing06/pubsub
-github.com/goinaction/code/chapter2/sample/matchers
-github.com/goinaction/code/chapter2/sample/search
-github.com/goinaction/code/chapter3/dbdriver/postgres
-github.com/goinaction/code/chapter3/words
-github.com/goinaction/code/chapter5/listing64/counters
-github.com/goinaction/code/chapter5/listing68/counters
-github.com/goinaction/code/chapter5/listing71/entities
-github.com/goinaction/code/chapter5/listing74/entities
-github.com/goinaction/code/chapter7/patterns/pool
-github.com/goinaction/code/chapter7/patterns/runner
-github.com/goinaction/code/chapter7/patterns/search
-github.com/goinaction/code/chapter7/patterns/work
-github.com/goinaction/code/chapter9/listing17/handlers
 # github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe
 github.com/golang-sql/civil
 # github.com/golang/protobuf v1.5.2
@@ -219,7 +204,6 @@ github.com/hashicorp/go-multierror
 ## explicit
 # github.com/huin/mqtt v0.0.0-20200914141616-61735481eb15
 ## explicit
-github.com/huin/mqtt
 # github.com/iris-contrib/go.uuid v2.0.0+incompatible
 github.com/iris-contrib/go.uuid
 # github.com/iris-contrib/jade v1.1.4
@@ -254,7 +238,6 @@ github.com/jackc/pgx/v4/internal/sanitize
 github.com/jackc/pgx/v4/stdlib
 # github.com/jeffallen/mqtt v0.0.0-20180518073322-5387cfa89df0
 ## explicit
-github.com/jeffallen/mqtt
 # github.com/jinzhu/gorm v1.9.16
 ## explicit
 github.com/jinzhu/gorm
