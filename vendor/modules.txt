@@ -11,6 +11,9 @@ github.com/CloudyKit/jet/v4
 github.com/CloudyKit/jet/v6
 # github.com/Shopify/goreferrer v0.0.0-20210630161223-536fa16abd6f
 github.com/Shopify/goreferrer
+# github.com/StackExchange/wmi v1.2.1
+## explicit
+github.com/StackExchange/wmi
 # github.com/alibabacloud-go/alibabacloud-gateway-spi v0.0.4
 github.com/alibabacloud-go/alibabacloud-gateway-spi/client
 # github.com/alibabacloud-go/darabonba-openapi v0.1.16

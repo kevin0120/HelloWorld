@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="mydb">
   <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.32">
+<<<<<<< HEAD
     <root id="1"/>
+=======
+<<<<<<< HEAD
+    <root id="1"/>
+=======
+    <root id="1">
+      <ServerVersion>3.31.1</ServerVersion>
+    </root>
+>>>>>>> 11916ad4c6d24aeeab921c29d279f36fc2adc83c
+>>>>>>> 1163d7b16aa6f508d39eb6427538c403580e80ec
     <collation id="2" parent="1" name="BINARY"/>
     <collation id="3" parent="1" name="NOCASE"/>
     <collation id="4" parent="1" name="RTRIM"/>
