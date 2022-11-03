@@ -24,6 +24,14 @@ func echo(conn *net.TCPConn) {
 		//}
 		var msr [512]byte
 		_, err := conn.Read(msr[0:])
+		if err != nil {
+			fmt.Println(err)
+			//err = conn.Close()
+
+			//break
+			return
+		}
+
 		fmt.Println("recieve:", string(msr[0:]))
 		n, err := conn.Write([]byte("world"))
 		fmt.Printf("%v send %d bytes to %s\n", time.Now(), n, conn.RemoteAddr())
@@ -55,8 +63,30 @@ func main() {
 		}
 
 		fmt.Println("远程地址:", conn.RemoteAddr())
-		go echo(conn)
-
+		//go echo(conn)
+		go testConnectServer(conn)
 	}
 
+}
+
+func testConnectServer(conn *net.TCPConn) {
+	err := conn.SetKeepAlive(false)
+	if err != nil {
+		return
+	}
+	//err := conn.SetKeepAlivePeriod(10 * time.Second)
+	//if err != nil {
+	//	return
+	//}
+	for {
+		var msr [512]byte
+		n, err := conn.Read(msr[0:])
+		if err != nil {
+			fmt.Println(err)
+			err = conn.Close()
+			return
+		} else {
+			fmt.Println(msr[0:n])
+		}
+	}
 }
