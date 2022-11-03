@@ -8,8 +8,8 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"errors"
-	"github.com/weigj/go-odbc"
 	"io"
+	"odbc"
 )
 
 func init() {
