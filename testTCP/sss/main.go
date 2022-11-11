@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"syscall"
 	"time"
 	//"time"
 )
@@ -50,7 +51,7 @@ func main() {
 	address := net.TCPAddr{
 		IP: net.ParseIP(":"),
 		//等价与0.0.0.0
-		Port: 8000,
+		Port: 8011,
 	}
 	listener, err := net.ListenTCP("tcp4", &address)
 	if err != nil {
@@ -62,6 +63,8 @@ func main() {
 			log.Fatal(err)
 		}
 
+		//ya ce  quanlianjie  duilie
+		time.Sleep(3 * time.Millisecond)
 		fmt.Println("远程地址:", conn.RemoteAddr())
 		//go echo(conn)
 		go testConnectServer(conn)
@@ -78,15 +81,36 @@ func testConnectServer(conn *net.TCPConn) {
 	//if err != nil {
 	//	return
 	//}
+	sockFile, sockErr := conn.File()
+	if sockErr == nil {
+		// got socket file handle. Getting descriptor.
+		fd := int(sockFile.Fd())
+		// Ping amount
+		err := syscall.SetsockoptInt(fd, syscall.IPPROTO_TCP, syscall.TCP_KEEPCNT, 3)
+		if err != nil {
+			fmt.Println("on setting keepalive probe count", err.Error())
+		}
+		// Retry interval
+		err = syscall.SetsockoptInt(fd, syscall.IPPROTO_TCP, syscall.TCP_KEEPINTVL, 5)
+		if err != nil {
+			fmt.Println("on setting keepalive retry interval", err.Error())
+		}
+		// don't forget to close the file. No worries, it will *not* cause the connection to close.
+		sockFile.Close()
+	}
+
 	for {
 		var msr [512]byte
 		n, err := conn.Read(msr[0:])
 		if err != nil {
-			fmt.Println(err)
+			fmt.Printf("%v read error :%s \n", time.Now(), err)
 			err = conn.Close()
 			return
 		} else {
-			fmt.Println(msr[0:n])
+			fmt.Printf("%v read  :%s \n", time.Now(), msr[0:n])
+			conn.Write([]byte("hello world!!"))
+			conn.Close()
+			return
 		}
 	}
 }
