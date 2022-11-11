@@ -8,27 +8,21 @@ import (
 )
 
 func main() {
+	localAddr := net.TCPAddr{
+		IP: net.ParseIP(":"),
+		//等价与0.0.0.0
+		Port: 8001,
+	}
 
-	fmt.Println(time.Now())
-	/*
-		if len(os.Args)!=2{
-			fmt.Fprintf(os.Stderr,"用法:%s ip地址\n",os.Args[0])
-			os.Exit(1)
-		}
-		fmt.Println(len(os.Args))
-		name:=os.Args[1]
-		addr:=net.ParseIP(name)
-		if addr==nil{
-			fmt.Println("wuxiao")
-		}else {
-			fmt.Println("IP:",addr.String())
-		}
-	*/
-	//if len(os.Args) != 2 {
-	//	fmt.Fprintf(os.Stderr, "用法:%s ip地址\n", os.Args[0])
-	//	os.Exit(1)
-	//}
-	service := "192.168.60.157:8000"
+	serverAddr := net.TCPAddr{
+		IP: net.ParseIP("192.168.60.157"),
+		//等价与0.0.0.0
+		Port: 8000,
+	}
+
+	fmt.Println("netAddr:", localAddr, serverAddr)
+
+	service := "192.168.60.40:8000"
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err)
@@ -36,7 +30,9 @@ func main() {
 	fmt.Println(tcpAddr)
 
 	// fmt.Println("远程地址:")
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+
+	//localAddr为nil的话则随机本地ip+端口
+	conn, err := net.DialTCP("tcp", &localAddr, &serverAddr)
 	checkError(err)
 	_, err = conn.Write([]byte("GGGGGGGGGGGGGG"))
 	testConnectClient(conn)
@@ -123,11 +119,45 @@ func checkError(err error) {
 }
 
 func testConnectClient(conn *net.TCPConn) {
-	err1 := conn.SetKeepAlive(false)
-	if err1 != nil {
-		return
-	}
-	time.Sleep(700 * time.Second)
+	//err1 := conn.SetKeepAlive(true)
+	//if err1 != nil {
+	//	return
+	//}
+	//err2 := conn.SetKeepAlivePeriod(5 * time.Second)
+	//if err2 != nil {
+	//	return
+	//}
+	go func() {
+		for {
+			fmt.Println("111111111111")
+			var msr [512]byte
+			_, err := conn.Read(msr[0:])
+			if err != nil {
+				fmt.Printf("%v read error :%s \n", time.Now(), err)
+				conn.Close()
+
+				break
+
+			} else {
+				fmt.Printf("%v recieve :%s \n", time.Now(), string(msr[0:]))
+			}
+		}
+	}()
+	go func() {
+		for {
+			fmt.Println("222222222222")
+			time.Sleep(30 * time.Second)
+			_, err := conn.Write([]byte("fffffffffffffffff"))
+			if err != nil {
+				fmt.Printf("%v write error :%s \n", time.Now(), err)
+				conn.Close()
+
+				break
+
+			}
+		}
+	}()
+	time.Sleep(70000 * time.Second)
 	err := conn.Close()
 	if err != nil {
 		return

@@ -73,10 +73,10 @@ func main() {
 }
 
 func testConnectServer(conn *net.TCPConn) {
-	err := conn.SetKeepAlive(false)
-	if err != nil {
-		return
-	}
+	//err := conn.SetKeepAlive(false)
+	//if err != nil {
+	//	return
+	//}
 	//err := conn.SetKeepAlivePeriod(10 * time.Second)
 	//if err != nil {
 	//	return
