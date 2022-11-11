@@ -8,26 +8,20 @@ import (
 )
 
 func main() {
+	localAddr := net.TCPAddr{
+		IP: net.ParseIP(":"),
+		//等价与0.0.0.0
+		Port: 8001,
+	}
 
-	fmt.Println(time.Now())
-	/*
-		if len(os.Args)!=2{
-			fmt.Fprintf(os.Stderr,"用法:%s ip地址\n",os.Args[0])
-			os.Exit(1)
-		}
-		fmt.Println(len(os.Args))
-		name:=os.Args[1]
-		addr:=net.ParseIP(name)
-		if addr==nil{
-			fmt.Println("wuxiao")
-		}else {
-			fmt.Println("IP:",addr.String())
-		}
-	*/
-	//if len(os.Args) != 2 {
-	//	fmt.Fprintf(os.Stderr, "用法:%s ip地址\n", os.Args[0])
-	//	os.Exit(1)
-	//}
+	serverAddr := net.TCPAddr{
+		IP: net.ParseIP("192.168.60.157"),
+		//等价与0.0.0.0
+		Port: 8000,
+	}
+
+	fmt.Println("netAddr:", localAddr, serverAddr)
+
 	service := "192.168.60.40:8000"
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
@@ -36,7 +30,9 @@ func main() {
 	fmt.Println(tcpAddr)
 
 	// fmt.Println("远程地址:")
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+
+	//localAddr为nil的话则随机本地ip+端口
+	conn, err := net.DialTCP("tcp", &localAddr, &serverAddr)
 	checkError(err)
 	_, err = conn.Write([]byte("GGGGGGGGGGGGGG"))
 	testConnectClient(conn)
