@@ -11,11 +11,11 @@ func main() {
 	localAddr := net.TCPAddr{
 		IP: net.ParseIP(":"),
 		//等价与0.0.0.0
-		Port: 8001,
+		Port: 8888,
 	}
 
 	serverAddr := net.TCPAddr{
-		IP: net.ParseIP("192.168.60.157"),
+		IP: net.ParseIP("192.168.60.40"),
 		//等价与0.0.0.0
 		Port: 8000,
 	}
@@ -143,20 +143,20 @@ func testConnectClient(conn *net.TCPConn) {
 			}
 		}
 	}()
-	go func() {
-		for {
-			fmt.Println("222222222222")
-			time.Sleep(30 * time.Second)
-			_, err := conn.Write([]byte("fffffffffffffffff"))
-			if err != nil {
-				fmt.Printf("%v write error :%s \n", time.Now(), err)
-				conn.Close()
-
-				break
-
-			}
-		}
-	}()
+	//go func() {
+	//	for {
+	//		fmt.Println("222222222222")
+	//		time.Sleep(30 * time.Second)
+	//		_, err := conn.Write([]byte("fffffffffffffffff"))
+	//		if err != nil {
+	//			fmt.Printf("%v write error :%s \n", time.Now(), err)
+	//			conn.Close()
+	//
+	//			break
+	//
+	//		}
+	//	}
+	//}()
 	time.Sleep(70000 * time.Second)
 	err := conn.Close()
 	if err != nil {
