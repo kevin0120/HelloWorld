@@ -1,0 +1,634 @@
+<!--<!DOCTYPE html>-->
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!--    <link rel="stylesheet" type="text/css" href="/css/product.css">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" name="曲线分析系统软件">
+    <title>{{ . }}用户测试报告</title>
+    <link rel="icon" href="/static/leetx-title.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/leetx-title.jpg" type="image/x-icon">
+</head>
+<body>
+<div>
+    <h1 align="center"><img src="/static/leetx.jpg"/></h1>
+    <h1 align="center">{{ . }}用户测试报告</h1>
+
+    <hr>
+    <h2 align="left"><em>一.曲线分析结果展示</em></h2>
+    <div class="Products">
+        <div>
+
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    <p>
+                        当前螺栓{{ . }}的软件测试结果如下所示：
+                    </p>
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+        <div>
+            <table align="center" width="66%" heigh="480">
+                <caption>数据汇总</caption>
+                <tr height="48" bgcolor="#1e90ff">
+                    <th>工位号</th>
+                    <th>螺栓号</th>
+                    <th>曲线数量</th>
+                    <th>比例(训练:测试)</th>
+                    <th>准确率</th>
+                    <th>召回率</th>
+                <tr align="center">
+                    <td>W001</td>
+                    <td>{{ . }}</td>
+                    <td>123454</td>
+                    <td>(60:40)</td>
+                    <td>99.96%</td>
+                    <td>98.33%</td>
+                <tr align="center">
+                    <th colspan="6">
+                        <img alt="Test" src="/{{ . }}/confusion_matrix.png">
+                    </th>
+
+            </table>
+        </div>
+
+        <div>
+
+            <div class="custom_font_example">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">螺栓号</span>：是指采集曲线的螺栓编号<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span
+                        class="custom_font_example_special">曲线数量</span>：表示拟合当前螺栓模型使用的曲线的数量<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span
+                        class="custom_font_example_special">训练集</span>：表示用来训练并生成算法模型的数据集合<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span
+                        class="custom_font_example_special">测试集</span>：表示用来检验算法模型准确性的数据集合<br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Precision(精准度)</span>：发现的问题是否准确.精准度侧重点在于算法模型判定为NOK的数据
+                    中有多少数据是实际发生问题的，也就是算法的准确率。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Recall(召回率)</span>：问题发现的是否全面.召回率的侧重点在于实际发生问题的数据
+                    中有多少数据是算法模型判定为NOK的，同样是一种算法的准确性指标。<br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Confusion Matrix(混淆矩阵)</span>：算法模型预测测试集数据得到的匹配结果.其横轴为当前数据
+                    中算法模型预测为OK或者NOK的数据量，其纵轴表示实际上（人为判定的）数据为OK或者NOK的数据量。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">混淆矩阵解释</span>： <img alt="Test"
+                                                                                                            src="/{{ . }}/混淆矩阵定义.png"><br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">True Positive (TP)</span>：把OK的曲线成功预测为OK的数量；<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">True Negative (TN)</span>：把NOK的曲线成功预测为NOK的数量；<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">False Positive (FP)</span>：把NOK的曲线错误地预测为OK的数量；<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">False Negative (FN)</span>：把OK的曲线错误的预测为NOK的数量；<br>
+
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <br>
+    <hr/>
+
+
+    <h2 align="left"><em>二.曲线分析过程简介</em></h2>
+
+    <div class="Products">
+
+        <div>
+
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    <p>
+                        曲线分析模型报告出具步骤：
+                    </p>
+                    <ol>
+                        <li><span class="custom_font_special">采集曲线并过滤有异常的曲线</span>，通过简单随机抽样的方式对多个螺栓抽取一定数量（具体为数据集描述中曲线数量）的曲线数据，并按照测试集的比例将数据集分成训练集和测试集。
+                        </li>
+                        <li>选择合适的特征值,并根据模型训练的结果<span class="custom_font_special">修正并确定特征值</span></li>
+                        <li>使用特征提取算法<span class="custom_font_special">提取特征</span>，得到特征向量。</li>
+                        <li>使用训练集的数据<span class="custom_font_special">训练算法模型</span>。</li>
+                        <li>使用测试集的数据对算法模型进行<span class="custom_font_special">验证</span>，得到准确性、学习曲线、特征排序等<span
+                                class="custom_font_special">评价模型</span>的数据表格。
+                        </li>
+                        <li><span class="custom_font_special">生成报告</span>对算法模型的拟合程度进行可视化说明。</li>
+                    </ol>
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+        <div style="
+            width:100%;
+            height: auto;
+            vertical-align: middle;
+            text-align: center;">
+            <img alt="Test" src="/{{ . }}/流程图.png">
+        </div>
+    </div>
+
+    <br>
+    <hr/>
+
+
+    <h2 align="left"><em>三.曲线分析的关键--特征值的选择和提取</em></h2>
+
+    <div class="Products">
+        <div>
+
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    <p>
+                        1.选取特征：
+                    </p>
+
+                    <span class="custom_font_special">特征：</span>特征是拧紧曲线的<span class="custom_font_special">可观测</span>属性或者特点，且这种属性或者特点<span
+                        class="custom_font_special">可以进行量化</span>。<br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;为什么需要提取特征？<br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                    &nbsp;在机器学习分类或者预测问题中，区分事物往往不需要事物的全部属性。且特征提取的优劣直接关系到<span class="custom_font_special">模型预测的准确性</span>，<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;如果提取特征后得到的特征具备比较好的可分性，可以明确的区分样本，则可以得到比较高的<span
+                        class="custom_font_special">模型预测准确率</span>。并且特征的数量对模型训练时的计算量也会造成影响，<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;因此对于一个优秀的算法模型而言，特征的提取是最重要的一步，<span
+                        class="custom_font_special">直接影响了最终的结果。</span><br>
+                    <br>
+                    <span class="custom_font_special">当前算法模型拟合使用特征描述如下图所示：</span>
+                    <br>
+
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+        <div>
+            <table border="1" style="width: 90%; margin:auto;">
+                <tr>
+                    <th rowspan="2" width="20%" style="word-wrap:break-word;">控制器拧紧结果中返回的最终的扭矩
+                    </th>
+                    <th colspan="2">测量扭矩</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-测量扭矩.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-测量扭矩.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧程序设定的拧紧工艺分成了几段
+                    </th>
+                    <th colspan="2">分段拧紧数量</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-分段拧紧数量.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-分段拧紧数量.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的拧紧曲线中的最大扭矩值
+                    </th>
+                    <th colspan="2">最大扭矩</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-最大扭矩.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-最大扭矩.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)的起始扭矩值
+                    </th>
+                    <th colspan="2">贴合点扭矩</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-贴合点扭矩.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-贴合点扭矩.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)过程中的斜率与理论斜率的差异(均方误差)
+                    </th>
+                    <th colspan="2">终拧紧段扭矩角度序列均方差</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩角度序列均方差.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩角度序列均方差.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的快速下旋过程中的平均扭矩值
+                    </th>
+                    <th colspan="2">下旋阶段平均扭矩</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-下旋阶段平均扭矩.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段平均扭矩.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的快速下旋过程中的方差值(离散程度)
+                    </th>
+                    <th colspan="2">下旋阶段扭矩方差</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-下旋阶段扭矩方差.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段扭矩方差.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的快速下旋过程中的波峰数量
+                    </th>
+                    <th colspan="2">下旋阶段扭矩波峰数量</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-下旋阶段扭矩波峰数量.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段扭矩波峰数量.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的快速下旋过程中的波谷数量
+                    </th>
+                    <th colspan="2">下旋阶段扭矩波谷数量</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-下旋阶段扭矩波谷数量.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段扭矩波谷数量.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)过程中的波峰数量
+                    </th>
+                    <th colspan="2">终拧紧段扭矩波峰数量</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩波峰数量.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩波峰数量.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)过程中的波峰数量
+                    </th>
+                    <th colspan="2">终拧紧段扭矩波谷数量</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩波谷数量.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩波谷数量.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的快速下旋过程中的波峰波谷的角度周期(如有)
+                    </th>
+                    <th colspan="2">下旋阶段波峰波谷周期</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-下旋阶段波峰波谷周期.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段波峰波谷周期.png">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)过程中的波峰波谷的角度周期(如有)
+                    </th>
+                    <th colspan="2">终拧紧阶段波峰波谷周期</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-终拧紧阶段波峰波谷周期.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧阶段波峰波谷周期.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)过程中的波峰波谷的最大值(峰峰值)
+                    </th>
+                    <th colspan="2">终拧紧段扭矩峰峰值</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩峰峰值.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩峰峰值.png">
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th rowspan="2" width="20%">拧紧过程中采集到的弹性形变(施加夹紧力)过程中的扭矩/角度斜率
+                    </th>
+                    <th colspan="2">终拧紧段扭矩峰峰值</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩角度斜率.png">
+                    </td>
+                    <td width="40%">
+                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩角度斜率.png">
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="Products">
+        <div
+                style="width:100%;
+                 height: auto;">
+
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    <p>
+                        2.特征值的评价标准--拟合优度
+                    </p>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">拟合优度</span>可以理解为对算法模型的评分，范围从0到1。从这个分数入手可以对特征的<span
+                        class="custom_font_special">贡献</span>进行评价。
+
+                    <br>
+                    <br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">下图为通过机器学习方法验证后特征的重要性排序:</span><br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;纵轴是特征名称的TOP排序。横轴代表此特征对拟合优度的贡献值，可以为正也可以为负，可以理解为对模型产生的贡献。<br>
+
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+
+        <div style="
+            width:100%;
+            height: auto;
+            vertical-align: middle;
+            text-align: center;
+            /*background-color: #E4393C;*/
+            /*菜单左浮动*/
+            /*float:left;">
+            <img alt="Test" src="/{{ . }}/feature_importance.png">
+        </div>
+
+        <div
+                style="width:100%;
+                 height: auto;">
+
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    <p>
+                        2.特征值的评价标准--SHAP蜂图
+                    </p>
+                    <p>
+                        &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">SHAP蜂图</span>是一种全局的、可以评估特征选取造成影响的图表。可以从大量的记录整体考虑，每一个特征如何影响模型的预测。<br>
+
+                        &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">SHAP值</span>：可以理解为特征对于算法模型模型预测得到结果的贡献值。
+                        为了大致了解哪些特征对模型最重要，可以绘制<span class="custom_font_special">每个样本的每个特征</span>的SHAP值。<br>
+                        <br>
+                        <span class="custom_font_special">下图按所有样本的SHAP 值大小之和对特征进行排序</span>:<br>
+                        使用 SHAP 值显示每个特征对模型输出的影响分布。颜色代表特征值（红色高，蓝色低）。<br>
+                        对于分类算法而言在坐标轴的左侧，红色表示此特征会减小预测为NOK的概率，而在坐标轴右侧，红色表示此特征会增大预测为NOK的概率。
+                    </p>
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+        <div style="
+            width:100%;
+            height: auto;
+            vertical-align: middle;
+            text-align: center;
+            /*background-color: #E4393C;*/
+            /*菜单左浮动*/
+            /*float:left;">
+            <img alt="Test" src="/{{ . }}/feature_beeswarm.png" style="width: 50%">
+        </div>
+
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr/>
+    <h2 align="left"><em>四.曲线分析机器学习--算法模型的衡量指标</em></h2>
+    <div class="Products"
+         style="width:100%;
+            height:auto;
+            ">
+        <div>
+
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+
+
+                    <p>
+                        1.ROC/AUC：
+                    </p>
+                    <p>
+                        &nbsp; &nbsp;&nbsp; &nbsp;ROC曲线：信号检测理论中用来选择最佳的信号侦测模型、舍弃次佳的模型的一种坐标图式的分析工具。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;它的横坐标是算法模型的伪阳性率，
+                        也就是算法模型误报的概率。它的纵坐标是真阳性率，也就是算法模型成功预测的概率。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;它的点代表在某一个阈值下，算法模型的真阳性率与伪阳性率。<span
+                            class="custom_font_special">通过改变阈值得到不同的点，可以绘制如下曲线</span>:<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;因为当准确率较高时，误报率也就越低。所以这些点越接近左上角说明准确率越高，算法模型越好：<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;TPR(<span class="custom_font_special">真阳性率</span>)：在所有实际为NOK曲线的样本中，被正确地判断为NOK之比率。TPR=(TP)/(TP+FN)<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;FPR(<span class="custom_font_special">伪阳性率</span>)：在所有实际为NOK曲线的样本中，被错误地判断为OK之比率。FPR=(FP)/(FP+TN)<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;AUC:可以发现ROC曲线的侧重点与Precision（精准度）/Recall（召回率）不同，它主要关注算法模型的预测性能，通过ROC曲线可以直观的对模型的预测能力以进行打分，也就是AUC。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;AUC是ROC曲线下方的面积，因为是在1x1的方格里求面积，AUC必在0~1之间。假设阈值以上是NOK，以下是OK；若随机抽取一个NOK样本和一个OK样本，算法模型计算NOK样本的值高于OK样本值的概率。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;简单说：AUC值越大的分类器，正确率越高。<br>
+
+                    </p>
+
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+        <div style="
+            width:100%;
+            height: auto;
+            vertical-align: middle;
+            text-align: center;
+            /*background-color: #E4393C;*/
+            /*菜单左浮动*/
+            /*float:left;">
+            <img alt="Test" src="/{{ . }}/roc_auc.png">
+        </div>
+
+
+        <div>
+
+            <div class="custom_font_example">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span
+                        class="custom_font_example_special">下图是ROC的例子，以及怎样的ROC/AUC曲线才是更优秀的</span>：<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;一个常规的ROC-AUC曲线应该如下图所示，其中<span class="custom_font_example_special">橘黄色的曲线越贴近左上方坐标轴，则表示模型的准确性越好</span>，<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;误报率越低，完美情况下左上角没有缝隙且ROC下的面积为1，表示模型预测的准确率为100%。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;因此对于一个算法模型而言，如果它的AUC非常接近1，那么它误报的可能性几乎为0，也就是算法模型是值得信任的。不会因为误报了NOK导致发生停线等生产问题。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">蓝色的虚线表示模型没有起作用，如果ROC曲线接近这条虚线，说明算法的准确率与随机猜测等同</span>。
+                    <br>
+                    <br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">ROC-AUC曲线实例</span>： <img
+                        alt="Test" src="/{{ . }}/ROC-example.png" height="200px"><br>
+
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="custom_font">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+                    <p>
+                        2.Learning Curve（学习曲线）：
+                    </p>
+                    <p>
+                        &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">学习曲线</span>是机器学习中评价模型的常用手段，它可<span class="custom_font_special">反映算法模型的泛化能力以及模型的拟合程度</span>，是否足可以应对不同的业务场景，是否数据量有待提升。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;其分为两条曲线：红色曲线代表<span class="custom_font_special">随着训练样本数的增加算法模型对训练集预测的准确率</span>。绿色曲线代表<span class="custom_font_special">随着训练样本数的增加算法模型对测试集预测的准确率</span>。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;对于一个算法模型而言，随着样本数的增加其预测能力逐渐稳定，因此无论是算法模型对训练集还是测试集的预测结果都将趋于一个稳定而相近的值。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;这个值接近于算法最终的性能指标，同时可以设定期望值并对其进行比较，由此可以得到算法是否已经具备足够的准确性。<br>
+                    </p>
+
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+        <div style="
+            width:100%;
+            height: auto;
+            vertical-align: middle;
+            text-align: center;
+            /*background-color: #E4393C;*/
+            /*菜单左浮动*/
+            /*float:left;">
+            <img alt="Test" src="/{{ . }}/learning_curve.png">
+        </div>
+
+
+        <div>
+
+            <div class="custom_font_example">
+                <div class="custom_font_left">
+                </div>
+                <div class="custom_font_center">
+
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;学习曲线中主要关注两个指标：<span class="custom_font_example_special">方差、偏差。上图蓝色虚线为算法模型的期望值，红色与蓝色的实线为实际算法模型的学习曲线</span>。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">方差和偏差如何理解可以看下图</span>：<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">学习曲线解释</span>：<img alt="Test"
+                                                                                                           src="/{{ . }}/学习曲线解释.jpg" height="400px"><br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">下图是学习曲线的示例，可以对照上图进行分析</span><br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;图1 是一个正常拟合的算法模型的的学习曲线，它的分数达到了期望值，且<span
+                        class="custom_font_example_special">拟合程度较高。</span><br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;图2 中训练集和交叉验证集的准确率远低于预期值，说明<span
+                        class="custom_font_example_special">模型偏差较大(也就是模型并不具备足够的泛化能力)</span>，通常的原因是特征选取出现了问题，无论数据量如何提升也无法提高其准确性。
+                    <br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;图3 中训练集和交叉验证集的<span
+                        class="custom_font_example_special">拟合程度不高</span>，出现了高方差的现象。通常是因为<span
+                        class="custom_font_example_special">数据量不够导致准确率不足</span>。需要增加训练集的数据量来进行优化。<br>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">学习曲线实例</span>：<img alt="Test"
+                                                                                                           src="/{{ . }}/LearnCurveExample.png"
+                                                                                                           height="400px"><br>
+                    <br>
+                    <br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">也就是说，曲线的形态越接近图1 得到的模型也就越好，它的泛化能力和数据量都是合格的。</span>。
+                    <br>
+                    <br>
+                </div>
+                <div class="custom_font_right">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <br>
+    <hr/>
+
+
+</div>
+</body>
+</html>

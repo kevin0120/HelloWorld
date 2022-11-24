@@ -1,5 +1,92 @@
-body
-{
-    background-color: black;
+body {
+    background-color: white;
+}
+
+h1 {
+    align: center;
+    color: blue;
+}
+
+h2 {
+    color: blue;
+}
+
+div {
+    table-layout: fixed;
+    word-wrap: break-word;
+    margin-top: 10px;
+}
+.Products{
+    display: flex;
+    flex-direction: column;
+}
+
+.Products img{
+    max-width: 100%;
+    /*max-height: 100%;*/
+}
+
+div.custom_font {
+    display: flex;
+    margin: 10px;
+    font-family: "Arial Black";
+    font-size: 16px;
+    font-weight: normal;
+    font-style: italic;
+    color: black;
+    background:  lightblue;
+    /*background:lightgray;*/
+    border: #2b542c solid 1px;
+    border-radius:10px;
+}
+
+.custom_font_example {
+    display: flex;
+    margin: 10px;
+    font-family: "Arial Black";
+    font-size: 10px;
+    font-weight: normal;
+    font-style: italic;
+    color: black;
+    background:lightgray;
+    border: #2b542c dashed 1px;
+    border-radius:10px;
+}
+
+
+.custom_font_left{
+    margin-top: 0px;
+    width: 20px;
+    background: lightseagreen;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+}
+.custom_font_center{
+    width: 100%;
+}
+.custom_font_right{
+    margin-top: 0px;
+    width: 20px;
+    flex-direction: row-reverse;
+    background: #333333;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.custom_font_special{
+    /*font-family: "Arial Black";*/
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
     color: red;
+}
+
+.custom_font_example_special{
+    /*font-family: "Arial Black";*/
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    color: green;
 }
