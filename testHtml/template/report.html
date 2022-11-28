@@ -4,14 +4,15 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <!--    <link rel="stylesheet" type="text/css" href="/css/product.css">-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" name="曲线分析系统软件">
-    <title>{{ . }}用户测试报告</title>
+    <title>{{ .Name }}用户测试报告</title>
     <link rel="icon" href="/static/leetx-title.jpg" type="image/x-icon">
     <link rel="shortcut icon" href="/static/leetx-title.jpg" type="image/x-icon">
+    <script src="/js/echarts.js"></script>
 </head>
 <body>
 <div>
     <h1 align="center"><img src="/static/leetx.jpg"/></h1>
-    <h1 align="center">{{ . }}用户测试报告</h1>
+    <h1 align="center">{{ .Name }}用户测试报告</h1>
 
     <hr>
     <h2 align="left"><em>一.曲线分析结果展示</em></h2>
@@ -23,35 +24,129 @@
                 </div>
                 <div class="custom_font_center">
                     <p>
-                        当前螺栓{{ . }}的软件测试结果如下所示：
+                        当前螺栓{{ .Name }}的软件测试结果：<span class="custom_font_special">准确率召回率</span>等各项指标<span
+                            class="custom_font_special">合格</span>,详情如下所示：
                     </p>
                 </div>
                 <div class="custom_font_right">
                 </div>
             </div>
         </div>
+
+
         <div>
-            <table align="center" width="66%" heigh="480">
-                <caption>数据汇总</caption>
+            <table align="center" valign="center"  border="1">
+                <caption>数据汇总展示</caption>
                 <tr height="48" bgcolor="#1e90ff">
                     <th>工位号</th>
                     <th>螺栓号</th>
                     <th>曲线数量</th>
-                    <th>比例(训练:测试)</th>
-                    <th>准确率</th>
-                    <th>召回率</th>
-                <tr align="center">
-                    <td>W001</td>
-                    <td>{{ . }}</td>
-                    <td>123454</td>
-                    <td>(60:40)</td>
-                    <td>99.96%</td>
-                    <td>98.33%</td>
-                <tr align="center">
-                    <th colspan="6">
-                        <img alt="Test" src="/{{ . }}/confusion_matrix.png">
+                    <th width="">比例(训练:测试)</th>
+                    <th>准确率<sup>详见下方注释1</sup></th>
+                    <th>召回率<sup>详见下方注释2</sup></th>
+                <tr align="center" height="48">
+                    <td width="15%">W001</td>
+                    <td width="15%">{{ .Name }}</td>
+                    <td width="15%">{{ .Number }}</td>
+                    <td width="15%">(60:40)</td>
+                    <td width="20%">{{ .Precision }}%</td>
+                    <td width="20%">{{ .Recall }}%</td>
+                <tr align="center" valign="center">
+                    <th colspan="3">
+                        <img alt="Test" src="/{{ .Name }}/confusion_matrix.png" style="display: block">
                     </th>
+                    <th colspan="1">
+                        <span style="font-size: 40px;text-shadow:13px 13px 13px #5bc0de ;color: green; font-style: italic">测<br>试<br>通<br>过</span>
+                    </th>
+                    <th colspan="2">
+                            <div id='main'  style="width: 300px;height: 300px; display: block">
+                            </div>
+                        <script type="text/javascript">
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('main'));
+                            // 指定图表的配置项和数据
+                            var option = {
+                                color:['red','green'],
+                                title: {
+                                    text: '分析结果统计(绿色区域代表超出最低标准)',
+                                    textStyle:{
+                                        color:'#11d72b',
+                                        fontSize:16
+                                    },
+                                    x: 'center'
+                                },
+                                legend: {
+                                    orient: 'horizontal',
+                                    x: 'left',
+                                    y: 'bottom',
+                                    data: ['业内标准','测试结果']
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    data: ['准确率', '召回率']
+                                },
+                                yAxis: {
+                                    name:'百分比%',
+                                    nameLocation : 'end',
+                                    type: 'value',
+                                    min:60
+                                },
+                                series:[
 
+                                    {
+                                        data: [80, 80],
+                                        type: 'line',
+                                        // stack:"11",
+                                        itemStyle : {
+                                            normal : {
+                                                lineStyle:{
+                                                    color:'#ef0505',
+
+                                                }
+                                            }
+                                        },
+                                        label: {
+                                            show: true,
+                                            position: 'bottom',
+                                            textStyle: {
+                                                fontSize: 10
+                                            }},
+                                        areaStyle: {
+                                            color:'#732c2c',
+                                            opacity:0.6
+                                        },
+                                        name:'业内标准'
+                                    },
+                                    {
+                                        data: ['{{ .Precision }}', '{{ .Recall }}'],
+                                        type: 'line',
+                                        // stack:"11",
+                                        itemStyle : {
+                                            normal : {
+                                                lineStyle:{
+                                                    color:'#00FF00'
+                                                }
+                                            }
+                                        },
+                                        label: {
+                                            show: true,
+                                            position: 'top',
+                                            textStyle: {
+                                                fontSize: 10,
+                                            }},
+                                        areaStyle: {
+                                            color:'#11d72b',
+                                            opacity:0.2
+                                        },
+                                        name:'测试结果'
+                                    },
+                                ]
+                            };
+
+                            // 使用刚指定的配置项和数据显示图表。
+                            myChart.setOption(option);
+                        </script>
+                    </th>
             </table>
         </div>
 
@@ -69,15 +164,14 @@
                     &nbsp; &nbsp;&nbsp; &nbsp;<span
                         class="custom_font_example_special">测试集</span>：表示用来检验算法模型准确性的数据集合<br>
 
-                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Precision(精准度)</span>：发现的问题是否准确.精准度侧重点在于算法模型判定为NOK的数据
-                    中有多少数据是实际发生问题的，也就是算法的准确率。<br>
-                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Recall(召回率)</span>：问题发现的是否全面.召回率的侧重点在于实际发生问题的数据
-                    中有多少数据是算法模型判定为NOK的，同样是一种算法的准确性指标。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Precision(精准度)<sup>注1</sup></span>：发现的问题是否准确.<span class="custom_font_example_special">即预测为NOK的螺栓拧紧曲线中，
+                    最终确定确实有问题的曲线占比</span>，也就是算法的准确率。<span class="custom_font_example_special">公式：TN/(TN+FN)</span><br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Recall(召回率)<sup>注2</sup></span>：问题发现的是否全面.<span class="custom_font_example_special">即样本中确实为NOK的螺栓曲线中，
+                    被分析出来的曲线占比</span>，同样是一种算法的衡量指标。<span class="custom_font_example_special">公式：TN/(TN+FP)</span><br>
 
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">Confusion Matrix(混淆矩阵)</span>：算法模型预测测试集数据得到的匹配结果.其横轴为当前数据
                     中算法模型预测为OK或者NOK的数据量，其纵轴表示实际上（人为判定的）数据为OK或者NOK的数据量。<br>
-                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">混淆矩阵解释</span>： <img alt="Test"
-                                                                                                            src="/{{ . }}/混淆矩阵定义.png"><br>
+                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">混淆矩阵解释</span>： <img alt="Test" src="/{{ .Name }}/混淆矩阵定义.png"><br>
 
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">True Positive (TP)</span>：把OK的曲线成功预测为OK的数量；<br>
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">True Negative (TN)</span>：把NOK的曲线成功预测为NOK的数量；<br>
@@ -132,7 +226,7 @@
             height: auto;
             vertical-align: middle;
             text-align: center;">
-            <img alt="Test" src="/{{ . }}/流程图.png">
+            <img alt="Test" src="/{{ .Name }}/流程图.png">
         </div>
     </div>
 
@@ -153,9 +247,11 @@
                         1.选取特征：
                     </p>
 
-                    <span class="custom_font_special">特征：</span>特征是拧紧曲线的<span class="custom_font_special">可观测</span>属性或者特点，且这种属性或者特点<span
+                    <span class="custom_font_special">特  征：</span>特征是拧紧曲线的<span class="custom_font_special">可观测</span>属性或者特点，且这种属性或者特点<span
                         class="custom_font_special">可以进行量化</span>。<br>
-
+                    <span class="custom_font_special">归一化(分位转换):</span> ：通过坐标系的变化，使特征值都能分布在中心为0附近，分布范围大致相当的区域，这一步的目的是<span class="custom_font_special">为了解决特征与特征之间因为单位和分布范围不同导致的不合理的权重差异。</span><br>
+                    <span class="custom_font_special">skew值：</span>我们的机器学习的模型是基于特征值符合<span class="custom_font_special">正态分布</span>这个前提的，但是绝大多数情况下，特征值是符合<span class="custom_font_special">偏态分布</span>的。skew值大于0代表向右偏，小于0代表向左偏。<br>
+                    &nbsp; &nbsp;&nbsp; &nbsp; 所以<span class="custom_font_special">skew的绝对值越小代表约接近正态分布，分析的效果也自然越好</span>。<br>
                     &nbsp; &nbsp;&nbsp; &nbsp;为什么需要提取特征？<br>
 
                     &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
@@ -182,10 +278,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-测量扭矩.png">
+                        <img alt="Test" src="/images/{{ .Name }}-测量扭矩.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-测量扭矩.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-测量扭矩.png">
                     </td>
                 </tr>
 
@@ -196,10 +292,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-分段拧紧数量.png">
+                        <img alt="Test" src="/images/{{ .Name }}-分段拧紧数量.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-分段拧紧数量.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-分段拧紧数量.png">
                     </td>
                 </tr>
 
@@ -211,10 +307,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-最大扭矩.png">
+                        <img alt="Test" src="/images/{{ .Name }}-最大扭矩.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-最大扭矩.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-最大扭矩.png">
                     </td>
                 </tr>
 
@@ -226,10 +322,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-贴合点扭矩.png">
+                        <img alt="Test" src="/images/{{ .Name }}-贴合点扭矩.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-贴合点扭矩.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-贴合点扭矩.png">
                     </td>
                 </tr>
 
@@ -241,10 +337,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩角度序列均方差.png">
+                        <img alt="Test" src="/images/{{ .Name }}-终拧紧段扭矩角度序列均方差.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩角度序列均方差.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-终拧紧段扭矩角度序列均方差.png">
                     </td>
                 </tr>
 
@@ -255,10 +351,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-下旋阶段平均扭矩.png">
+                        <img alt="Test" src="/images/{{ .Name }}-下旋阶段平均扭矩.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段平均扭矩.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-下旋阶段平均扭矩.png">
                     </td>
                 </tr>
 
@@ -269,10 +365,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-下旋阶段扭矩方差.png">
+                        <img alt="Test" src="/images/{{ .Name }}-下旋阶段扭矩方差.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段扭矩方差.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-下旋阶段扭矩方差.png">
                     </td>
                 </tr>
 
@@ -284,10 +380,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-下旋阶段扭矩波峰数量.png">
+                        <img alt="Test" src="/images/{{ .Name }}-下旋阶段扭矩波峰数量.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段扭矩波峰数量.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-下旋阶段扭矩波峰数量.png">
                     </td>
                 </tr>
 
@@ -298,10 +394,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-下旋阶段扭矩波谷数量.png">
+                        <img alt="Test" src="/images/{{ .Name }}-下旋阶段扭矩波谷数量.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段扭矩波谷数量.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-下旋阶段扭矩波谷数量.png">
                     </td>
                 </tr>
 
@@ -313,10 +409,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩波峰数量.png">
+                        <img alt="Test" src="/images/{{ .Name }}-终拧紧段扭矩波峰数量.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩波峰数量.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-终拧紧段扭矩波峰数量.png">
                     </td>
                 </tr>
 
@@ -327,10 +423,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩波谷数量.png">
+                        <img alt="Test" src="/images/{{ .Name }}-终拧紧段扭矩波谷数量.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩波谷数量.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-终拧紧段扭矩波谷数量.png">
                     </td>
                 </tr>
 
@@ -341,10 +437,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-下旋阶段波峰波谷周期.png">
+                        <img alt="Test" src="/images/{{ .Name }}-下旋阶段波峰波谷周期.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-下旋阶段波峰波谷周期.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-下旋阶段波峰波谷周期.png">
                     </td>
                 </tr>
 
@@ -355,10 +451,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-终拧紧阶段波峰波谷周期.png">
+                        <img alt="Test" src="/images/{{ .Name }}-终拧紧阶段波峰波谷周期.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧阶段波峰波谷周期.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-终拧紧阶段波峰波谷周期.png">
                     </td>
                 </tr>
 
@@ -370,10 +466,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩峰峰值.png">
+                        <img alt="Test" src="/images/{{ .Name }}-终拧紧段扭矩峰峰值.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩峰峰值.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-终拧紧段扭矩峰峰值.png">
                     </td>
                 </tr>
 
@@ -385,10 +481,10 @@
                 </tr>
                 <tr>
                     <td width="40%">
-                        <img alt="Test" src="/images/{{ . }}-终拧紧段扭矩角度斜率.png">
+                        <img alt="Test" src="/images/{{ .Name }}-终拧紧段扭矩角度斜率.png">
                     </td>
                     <td width="40%">
-                        <img alt="Test" src="/images/分位转换后-{{ . }}-终拧紧段扭矩角度斜率.png">
+                        <img alt="Test" src="/images/分位转换后-{{ .Name }}-终拧紧段扭矩角度斜率.png">
                     </td>
                 </tr>
 
@@ -407,8 +503,9 @@
                     <p>
                         2.特征值的评价标准--拟合优度
                     </p>
-                    &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">拟合优度</span>可以理解为对算法模型的评分，范围从0到1。从这个分数入手可以对特征的<span
-                        class="custom_font_special">贡献</span>进行评价。
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="custom_font_special">拟合优度</span>可以理解为对算法模型的评分，范围从0到1。从这个分数入手可以对特征的<span
+                        class="custom_font_special">贡献</span>进行评价。<span class="custom_font_special">通俗的讲,就是将某一特征值的顺序打乱,并观察模型预测结果正确率的变化,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;以此来表现该特征值的贡献。一般是多次打乱顺序求均值得出.</span>
 
                     <br>
                     <br>
@@ -430,7 +527,7 @@
             /*background-color: #E4393C;*/
             /*菜单左浮动*/
             /*float:left;">
-            <img alt="Test" src="/{{ . }}/feature_importance.png">
+            <img alt="Test" src="/{{ .Name }}/feature_importance.png">
         </div>
 
         <div
@@ -449,6 +546,7 @@
 
                         &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">SHAP值</span>：可以理解为特征对于算法模型模型预测得到结果的贡献值。
                         为了大致了解哪些特征对模型最重要，可以绘制<span class="custom_font_special">每个样本的每个特征</span>的SHAP值。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">通俗的讲,shap值代表的是每一条拧紧曲线，提取某一特征进行分析和不提取某一特征进行分析得出的分析结果的差异。</span>
                         <br>
                         <span class="custom_font_special">下图按所有样本的SHAP 值大小之和对特征进行排序</span>:<br>
                         使用 SHAP 值显示每个特征对模型输出的影响分布。颜色代表特征值（红色高，蓝色低）。<br>
@@ -467,7 +565,7 @@
             /*background-color: #E4393C;*/
             /*菜单左浮动*/
             /*float:left;">
-            <img alt="Test" src="/{{ . }}/feature_beeswarm.png" style="width: 50%">
+            <img alt="Test" src="/{{ .Name }}/feature_beeswarm.png" style="width: 50%">
         </div>
 
     </div>
@@ -495,6 +593,7 @@
                         1.ROC/AUC：
                     </p>
                     <p>
+                        &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">ROC曲线右下方的AUC值可以体现机器学习算法模型的性能，值越大代表性能越好！</span><br>
                         &nbsp; &nbsp;&nbsp; &nbsp;ROC曲线：信号检测理论中用来选择最佳的信号侦测模型、舍弃次佳的模型的一种坐标图式的分析工具。<br>
                         &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;它的横坐标是算法模型的伪阳性率，
                         也就是算法模型误报的概率。它的纵坐标是真阳性率，也就是算法模型成功预测的概率。<br>
@@ -523,7 +622,7 @@
             /*background-color: #E4393C;*/
             /*菜单左浮动*/
             /*float:left;">
-            <img alt="Test" src="/{{ . }}/roc_auc.png">
+            <img alt="Test" src="/{{ .Name }}/roc_auc.png">
         </div>
 
 
@@ -543,7 +642,7 @@
                     <br>
                     <br>
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">ROC-AUC曲线实例</span>： <img
-                        alt="Test" src="/{{ . }}/ROC-example.png" height="200px"><br>
+                        alt="Test" src="/{{ .Name }}/ROC-example.png" height="200px"><br>
 
                 </div>
                 <div class="custom_font_right">
@@ -560,8 +659,10 @@
                         2.Learning Curve（学习曲线）：
                     </p>
                     <p>
-                        &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">学习曲线</span>是机器学习中评价模型的常用手段，它可<span class="custom_font_special">反映算法模型的泛化能力以及模型的拟合程度</span>，是否足可以应对不同的业务场景，是否数据量有待提升。<br>
-                        &nbsp; &nbsp;&nbsp; &nbsp;其分为两条曲线：红色曲线代表<span class="custom_font_special">随着训练样本数的增加算法模型对训练集预测的准确率</span>。绿色曲线代表<span class="custom_font_special">随着训练样本数的增加算法模型对测试集预测的准确率</span>。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_special">学习曲线</span>是机器学习中评价模型的常用手段，它可<span
+                            class="custom_font_special">反映算法模型的泛化能力以及模型的拟合程度</span>，是否足可以应对不同的业务场景，是否数据量有待提升。<br>
+                        &nbsp; &nbsp;&nbsp; &nbsp;其分为两条曲线：红色曲线代表<span class="custom_font_special">随着训练样本数的增加算法模型对训练集预测的准确率</span>。绿色曲线代表<span
+                            class="custom_font_special">随着训练样本数的增加算法模型对测试集预测的准确率</span>。<br>
                         &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;对于一个算法模型而言，随着样本数的增加其预测能力逐渐稳定，因此无论是算法模型对训练集还是测试集的预测结果都将趋于一个稳定而相近的值。<br>
                         &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;这个值接近于算法最终的性能指标，同时可以设定期望值并对其进行比较，由此可以得到算法是否已经具备足够的准确性。<br>
                     </p>
@@ -580,7 +681,7 @@
             /*background-color: #E4393C;*/
             /*菜单左浮动*/
             /*float:left;">
-            <img alt="Test" src="/{{ . }}/learning_curve.png">
+            <img alt="Test" src="/{{ .Name }}/learning_curve.png">
         </div>
 
 
@@ -595,7 +696,8 @@
                     &nbsp; &nbsp;&nbsp; &nbsp;学习曲线中主要关注两个指标：<span class="custom_font_example_special">方差、偏差。上图蓝色虚线为算法模型的期望值，红色与蓝色的实线为实际算法模型的学习曲线</span>。<br>
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">方差和偏差如何理解可以看下图</span>：<br>
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">学习曲线解释</span>：<img alt="Test"
-                                                                                                           src="/{{ . }}/学习曲线解释.jpg" height="400px"><br>
+                                                                                                           src="/{{ .Name }}/学习曲线解释.jpg"
+                                                                                                           height="400px"><br>
 
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">下图是学习曲线的示例，可以对照上图进行分析</span><br>
 
@@ -609,7 +711,7 @@
                         class="custom_font_example_special">数据量不够导致准确率不足</span>。需要增加训练集的数据量来进行优化。<br>
 
                     &nbsp; &nbsp;&nbsp; &nbsp;<span class="custom_font_example_special">学习曲线实例</span>：<img alt="Test"
-                                                                                                           src="/{{ . }}/LearnCurveExample.png"
+                                                                                                           src="/{{ .Name }}/LearnCurveExample.png"
                                                                                                            height="400px"><br>
                     <br>
                     <br>
