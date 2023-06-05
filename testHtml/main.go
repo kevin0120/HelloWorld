@@ -21,14 +21,14 @@ var Bolts = map[string]Bolt{
 	"OP1000-0-0": {
 		Name:      "OP1000-0-0",
 		Precision: 100.00,
-		Recall:    83.33,
+		Recall:    99.68,
 		Number:    403,
 	},
 
 	"H170-0-0": {
 		Name:      "H170-0-0",
 		Precision: 92.31,
-		Recall:    92.31,
+		Recall:    99.46,
 		Number:    746,
 	},
 }
@@ -60,7 +60,7 @@ func report(w http.ResponseWriter, r *http.Request) {
 	expiration = expiration.AddDate(1, 0, 0)
 	cookie := http.Cookie{
 		Name:    "username",
-		Value:   "nill",
+		Value:   "hello cookie",
 		Expires: expiration,
 	}
 	http.SetCookie(w, &cookie)
