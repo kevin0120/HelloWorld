@@ -14,7 +14,6 @@ require (
 	github.com/davyxu/tabtoy v0.0.0-20220329142512-fede1c8f7212
 	github.com/denisenkom/go-mssqldb v0.0.0-20200428022330-06a60b6afbbc
 	github.com/ebfe/scard v0.0.0-20190212122703-c3d1b1916a95
-	github.com/eclesh/welford v0.0.0-20150116075914-eec62615b1f0 // indirect
 	github.com/go-ini/ini v1.66.4 // indirect
 	github.com/go-ole/go-ole v1.2.6
 	github.com/go-playground/universal-translator v0.18.0 // indirect
@@ -24,16 +23,12 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-xorm/xorm v0.7.9
 	github.com/gobuffalo/packr/v2 v2.8.3
-	github.com/goinaction/code v0.0.0-20171020164608-49fc99e6affb // indirect
 	github.com/golang/protobuf v1.5.2
 	github.com/google/gousb v1.1.2
 	github.com/gopcua/opcua v0.3.2
 	github.com/gorilla/websocket v1.5.0
-	github.com/huin/gobinarytest v0.0.0-20170803182140-bc6c19e91749 // indirect
-	github.com/huin/mqtt v0.0.0-20200914141616-61735481eb15 // indirect
 	github.com/iris-contrib/middleware/cors v0.0.0-20220301201128-27fa0f6a7d7e
 	github.com/jackc/pgx/v4 v4.14.0
-	github.com/jeffallen/mqtt v0.0.0-20180518073322-5387cfa89df0 // indirect
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jinzhu/now v1.1.3 // indirect
 	github.com/jlaffaye/ftp v0.0.0-20220310202011-d2c44e311e78
@@ -65,9 +60,9 @@ require (
 	github.com/xuri/excelize/v2 v2.5.0
 	go.uber.org/atomic v1.9.0
 	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064
-	golang.org/x/net v0.0.0-20220407224826-aac1ed45d8e3
+	golang.org/x/net v0.7.0
 	golang.org/x/oauth2 v0.0.0-20220309155454-6242fa91716a
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4
 	google.golang.org/genproto v0.0.0-20220329172620-7be39ac1afc7
 	google.golang.org/grpc v1.45.0
 	google.golang.org/grpc/examples v0.0.0-20220330220137-99aae3442dbe
